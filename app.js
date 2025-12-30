@@ -252,51 +252,67 @@ function startAutoRefresh(){
 setBasics();
 startAutoRefresh();
 
-// ===== 導覽切頁控制 =====
-const navLinks = document.querySelectorAll("[data-target]");
-const pageSections = document.querySelectorAll(".page-section");
+// ===== 分頁顯示控制（最終穩定版）=====
 
-// 顯示指定頁
-function openPage(id) {
-  // 隱藏所有導覽頁
-  pageSections.forEach(sec => sec.classList.remove("active"));
+// 首頁會顯示的區塊
+const HOME_SECTIONS = ["about", "calendar", "album"];
 
-  // 隱藏首頁區塊
-  document.getElementById("about").style.display = "none";
-  document.getElementById("calendar").style.display = "none";
-  document.getElementById("album").style.display = "none";
+// 導覽分頁區塊
+const PAGE_SECTIONS = ["jobs", "life", "industry", "crime", "apply"];
 
-  // 顯示指定區塊
-  const target = document.getElementById(id);
-  if (target) {
-    target.classList.add("active");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+// 進入首頁模式
+function showHome() {
+  // 顯示首頁區塊
+  HOME_SECTIONS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "block";
+  });
+
+  // 隱藏分頁區塊
+  PAGE_SECTIONS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  });
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// 回首頁
-function backHome() {
-  // 隱藏導覽頁
-  pageSections.forEach(sec => sec.classList.remove("active"));
+// 顯示指定分頁
+function showPage(id) {
+  // 隱藏首頁區塊
+  HOME_SECTIONS.forEach(sec => {
+    const el = document.getElementById(sec);
+    if (el) el.style.display = "none";
+  });
 
-  // 顯示首頁區塊
-  document.getElementById("about").style.display = "";
-  document.getElementById("calendar").style.display = "";
-  document.getElementById("album").style.display = "";
+  // 隱藏其他分頁
+  PAGE_SECTIONS.forEach(sec => {
+    const el = document.getElementById(sec);
+    if (el) el.style.display = "none";
+  });
+
+  // 顯示目標分頁
+  const target = document.getElementById(id);
+  if (target) target.style.display = "block";
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 // 導覽點擊
-navLinks.forEach(link => {
+document.querySelectorAll("[data-target]").forEach(link => {
   link.addEventListener("click", e => {
     e.preventDefault();
-    openPage(link.dataset.target);
+    showPage(link.dataset.target);
   });
 });
 
 // 點 Logo 回首頁
 document.querySelector(".brand")?.addEventListener("click", e => {
   e.preventDefault();
-  backHome();
+  showHome();
+});
+
+// ⭐ 關鍵：頁面載入完成後，強制進首頁模式
+document.addEventListener("DOMContentLoaded", () => {
+  showHome();
 });
