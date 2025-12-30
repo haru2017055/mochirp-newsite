@@ -462,38 +462,59 @@ body{
   display: block;
 }
 
-/* ===== 職業申請區塊修正 ===== */
 
-/* 讓申請區塊左右不要硬拉一樣高 */
-#apply .grid-2 {
-  align-items: flex-start;
+/* ===== 全站柔霧降亮度（不破壞可愛感） ===== */
+
+/* 背景整體降亮 */
+body {
+  background: linear-gradient(
+    180deg,
+    #fff4f7 0%,
+    #fff6fb 40%,
+    #fff1f6 100%
+  );
 }
 
-/* 左邊職業 pill 區塊置中 */
-#apply .pill-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px 12px;
-  padding: 12px 8px;
+/* 背景粒子/裝飾再淡一點 */
+.bg-sparkles {
+  opacity: 0.35;
+  filter: blur(1px);
 }
 
-/* 讓 pill 看起來像「可選項目」 */
-#apply .pill {
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: #fff;
-  border: 1px solid rgba(255, 120, 170, 0.25);
-  font-weight: 600;
-  cursor: default;
+/* 卡片從純白改成暖白 */
+.card,
+.stat,
+.mini-card {
+  background: #fffafa;
 }
 
-/* 右邊條件清單不要貼太邊 */
-#apply .checklist {
-  padding-left: 18px;
+/* 卡片陰影變柔 */
+.card,
+.stat,
+.mini-card {
+  box-shadow:
+    0 10px 30px rgba(255, 160, 190, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-#apply .checklist li {
-  margin-bottom: 8px;
-  line-height: 1.6;
+/* 大標題粉色降亮度 */
+.hero-title-soft {
+  color: #ff7fa8;
 }
+
+/* 副標與說明文字降低對比 */
+.hero-desc,
+.muted {
+  color: #6f5b63;
+}
+
+/* 按鈕亮度微降 */
+.btn-primary {
+  background: linear-gradient(135deg, #ff7fb0, #ff9fc4);
+}
+
+/* 圓角白區塊（像職業申請）也一起柔化 */
+#apply .card {
+  background: #fffafa;
+}
+
