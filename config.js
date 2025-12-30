@@ -1,7 +1,7 @@
 window.MOCHI_CONFIG = {
   siteName: "MochiRP",
-  tagline: "麻糬陪你慢慢進城",
-  heroTitle2: "可愛溫柔的生活工業城",
+  tagline: "麻糬會一直陪伴著你",
+  heroTitle2: "可愛溫柔的生活工業城市",
   heroDesc:
     "想慢慢生活也可以，想努力賺錢也可以，想走城市的另一面也可以，麻糬會在你需要的時候陪著你",
 
