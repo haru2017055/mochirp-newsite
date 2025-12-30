@@ -335,7 +335,7 @@ startAutoRefresh();
 const HOME_SECTIONS = ["about", "calendar", "video", "album"];
 
 // 導覽分頁區塊
-const PAGE_SECTIONS = ["jobs", "life", "industry", "crime", "apply"];
+const PAGE_SECTIONS = ["jobs", "life", "industry", "crime", "features"];
 
 // 進入首頁模式
 function showHome() {
