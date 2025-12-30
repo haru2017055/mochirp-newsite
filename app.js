@@ -152,6 +152,7 @@ function setBasics(){
   safeText($("heroTitle2"), cfg.heroTitle2);
   safeText($("heroDesc"), cfg.heroDesc);
   safeText($("crimeNote"), cfg.crimeNote);
+  
 
   renderCards("aboutCards", cfg.aboutCards);
   renderCards("jobCards", cfg.jobs);
@@ -178,6 +179,7 @@ function setBasics(){
   setButtonLink($("btnDiscord"), dc);
   setButtonLink($("btnDiscord2"), dc);
   setButtonLink($("btnApplyDiscord"), cfg.links?.applyDiscordChannel || dc);
+  setButtonLink($("btnSponsor"), cfg.links?.sponsorPage);
 
   setButtonLink($("btnApplyForm"), cfg.links?.applyForm);
   $("btnScrollFAQ")?.addEventListener("click", () => scrollToId("#about"));

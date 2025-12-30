@@ -14,6 +14,8 @@ window.MOCHI_CONFIG = {
     // ✅ 一鍵進城用這個
     connectAddress: "162.222.17.19:30120",
 
+    sponsorPage: "https://discord.gg/mochirp",
+
     // 如果之後要顯示 Discord 線上人數再補
     discordGuildId: "1389808693213921311"
   },
