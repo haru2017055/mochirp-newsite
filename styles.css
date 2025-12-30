@@ -402,11 +402,16 @@ body{
 }
 .small{ font-size: 12px; }
 
-.checklist{
-  margin: 10px 0 0;
-  padding-left: 18px;
-  color: rgba(59,47,56,.78);
-  line-height:1.8;
+/* 右邊申請條件列表修正：避免貼邊 */
+
+#apply .checklist {
+  padding-left: 32px;      /* 拉開圓點與卡片邊緣 */
+  padding-right: 12px;
+}
+
+#apply .checklist li {
+  margin-bottom: 10px;
+  line-height: 1.7;
 }
 .mini-cards{
   margin-top: 10px;
