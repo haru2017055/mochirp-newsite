@@ -582,3 +582,10 @@ body {
   height: 100%;
   border: 0;
 }
+
+.card.feature .meta{
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(59,47,56,.55);
+  line-height: 1.4;
+}
