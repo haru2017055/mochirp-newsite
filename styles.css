@@ -461,3 +461,39 @@ body{
 .page-section.active {
   display: block;
 }
+
+/* ===== 職業申請區塊修正 ===== */
+
+/* 讓申請區塊左右不要硬拉一樣高 */
+#apply .grid-2 {
+  align-items: flex-start;
+}
+
+/* 左邊職業 pill 區塊置中 */
+#apply .pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 12px;
+  padding: 12px 8px;
+}
+
+/* 讓 pill 看起來像「可選項目」 */
+#apply .pill {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid rgba(255, 120, 170, 0.25);
+  font-weight: 600;
+  cursor: default;
+}
+
+/* 右邊條件清單不要貼太邊 */
+#apply .checklist {
+  padding-left: 18px;
+}
+
+#apply .checklist li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
