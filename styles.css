@@ -453,3 +453,11 @@ body{
   .album-grid{ grid-template-columns: repeat(2, 1fr); }
   .nav{ display:none; }
 }
+
+.page-section {
+  display: none;
+}
+
+.page-section.active {
+  display: block;
+}

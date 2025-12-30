@@ -251,3 +251,52 @@ function startAutoRefresh(){
 
 setBasics();
 startAutoRefresh();
+
+// ===== 導覽切頁控制 =====
+const navLinks = document.querySelectorAll("[data-target]");
+const pageSections = document.querySelectorAll(".page-section");
+
+// 顯示指定頁
+function openPage(id) {
+  // 隱藏所有導覽頁
+  pageSections.forEach(sec => sec.classList.remove("active"));
+
+  // 隱藏首頁區塊
+  document.getElementById("about").style.display = "none";
+  document.getElementById("calendar").style.display = "none";
+  document.getElementById("album").style.display = "none";
+
+  // 顯示指定區塊
+  const target = document.getElementById(id);
+  if (target) {
+    target.classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+// 回首頁
+function backHome() {
+  // 隱藏導覽頁
+  pageSections.forEach(sec => sec.classList.remove("active"));
+
+  // 顯示首頁區塊
+  document.getElementById("about").style.display = "";
+  document.getElementById("calendar").style.display = "";
+  document.getElementById("album").style.display = "";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// 導覽點擊
+navLinks.forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    openPage(link.dataset.target);
+  });
+});
+
+// 點 Logo 回首頁
+document.querySelector(".brand")?.addEventListener("click", e => {
+  e.preventDefault();
+  backHome();
+});
