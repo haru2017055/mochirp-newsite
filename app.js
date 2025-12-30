@@ -159,6 +159,7 @@ function setBasics(){
   renderCards("lifeCards", cfg.life);
   renderCards("industryCards", cfg.industry);
   renderCards("crimeCards", cfg.crime);
+  renderCards("featureCards", cfg.features);
 
   renderEvents("calendarList", cfg.events);
   renderCards("rhythmCards", cfg.rhythm);
