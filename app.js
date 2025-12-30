@@ -58,16 +58,23 @@ function scrollToId(id){
 }
 
 function renderCards(containerId, items){
-  const host = $(containerId);
+  const host = document.getElementById(containerId);
   if(!host) return;
+
   host.innerHTML = items.map(it => `
     <div class="card feature">
       <div class="icon">${it.icon}</div>
-      <div class="title">${it.title}</div>
-      <div class="text">${it.text}</div>
+
+      <div class="content">
+        <div class="title">${it.title}</div>
+        <div class="text">${it.text}</div>
+
+        ${it.meta ? `<div class="meta">${it.meta}</div>` : ""}
+      </div>
     </div>
   `).join("");
 }
+
 
 function renderPills(containerId, items){
   const host = $(containerId);
