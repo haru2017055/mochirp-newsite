@@ -332,7 +332,7 @@ startAutoRefresh();
 // ===== 分頁顯示控制（最終穩定版）=====
 
 // 首頁會顯示的區塊
-const HOME_SECTIONS = ["about", "calendar", "album"];
+const HOME_SECTIONS = ["about", "calendar", "video", "album"];
 
 // 導覽分頁區塊
 const PAGE_SECTIONS = ["jobs", "life", "industry", "crime", "apply"];
