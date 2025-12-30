@@ -2,6 +2,20 @@ const cfg = window.MOCHI_CONFIG;
 
 function $(id){ return document.getElementById(id); }
 
+function isServerOpenNow() {
+  const now = new Date();
+
+  // 轉成 UTC+8（台灣時間）
+  const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+  const taiwan = new Date(utc + 8 * 60 * 60 * 1000);
+
+  const hour = taiwan.getHours();
+
+  // 開放時間：15:00 ~ 06:00（跨日）
+  return hour >= 15 || hour < 6;
+}
+
+
 function safeText(el, text){
   if(!el) return;
   el.textContent = text ?? "";
@@ -173,8 +187,17 @@ function setBasics(){
 async function fetchFiveMStatus(){
   const serverId = cfg.links?.cfxJoinCode;
   const connectAddr = cfg.links?.connectAddress;
+  const isOpen = isServerOpenNow();
 
-  // 有 FiveM Server ID 就抓官方 API
+  // ❌ 未開放時段
+  if(!isOpen){
+    safeText($("svStatus"), "休息中");
+    safeText($("svPlayers"), "未開放");
+    safeText($("svHint"), "麻糬說 城市正在休息 15:00 再來吧");
+    return;
+  }
+
+  // ✅ 開放時段，有 FiveM Server ID → 抓人數
   if(serverId){
     const url = `https://servers-frontend.fivem.net/api/servers/single/${encodeURIComponent(serverId)}`;
 
@@ -202,14 +225,14 @@ async function fetchFiveMStatus(){
       return;
 
     }catch(e){
-      safeText($("svStatus"), "讀取失敗");
+      safeText($("svStatus"), "開放中");
       safeText($("svPlayers"), "讀取失敗");
-      safeText($("svHint"), "麻糬說 我抓不到伺服器人數");
+      safeText($("svHint"), "麻糬說 我抓不到人數 但城市有開");
       return;
     }
   }
 
-  // 沒有 server id 但有 IP
+  // ✅ 開放時段，但沒 Server ID（備用）
   if(connectAddr){
     safeText($("svStatus"), "開放中");
     safeText($("svPlayers"), "IP 直連");
@@ -217,11 +240,12 @@ async function fetchFiveMStatus(){
     return;
   }
 
-  // 真的什麼都沒有
+  // ❓ 真的什麼都沒設
   safeText($("svStatus"), "未設定");
   safeText($("svPlayers"), "未設定");
   safeText($("svHint"), "麻糬說 還沒設定伺服器資訊");
 }
+
 
 
 
