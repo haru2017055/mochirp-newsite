@@ -13,7 +13,7 @@ window.MOCHI_CONFIG = {
     applyDiscordChannel: "",
 
     // 不用 join code 直接用 IP
-    cfxJoinCode: "",
+    cfxJoinCode: "bjl6vb",
 
     // ✅ 一鍵進城用這個
     connectAddress: "162.222.17.19:30120",
