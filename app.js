@@ -2,17 +2,39 @@ const cfg = window.MOCHI_CONFIG;
 
 function $(id){ return document.getElementById(id); }
 
-function isServerOpenNow() {
+function getTaiwanNow() {
   const now = new Date();
-
-  // 轉成 UTC+8（台灣時間）
   const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-  const taiwan = new Date(utc + 8 * 60 * 60 * 1000);
+  return new Date(utc + 8 * 60 * 60 * 1000);
+}
 
-  const hour = taiwan.getHours();
+function isServerOpenNow() {
+  const t = getTaiwanNow();
+  const h = t.getHours();
+  return h >= 15 || h < 6;
+}
 
-  // 開放時間：15:00 ~ 06:00（跨日）
-  return hour >= 15 || hour < 6;
+function getCountdownToOpen() {
+  const now = getTaiwanNow();
+  const openTime = new Date(now);
+
+  if (now.getHours() < 15) {
+    // 今天 15:00
+    openTime.setHours(15, 0, 0, 0);
+  } else {
+    // 明天 15:00
+    openTime.setDate(openTime.getDate() + 1);
+    openTime.setHours(15, 0, 0, 0);
+  }
+
+  const diff = openTime - now;
+  if (diff <= 0) return null;
+
+  const totalMinutes = Math.floor(diff / 60000);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  return { hours, minutes };
 }
 
 
@@ -189,15 +211,24 @@ async function fetchFiveMStatus(){
   const connectAddr = cfg.links?.connectAddress;
   const isOpen = isServerOpenNow();
 
-  // ❌ 未開放時段
+  // 🔴 休息時段 → 顯示倒數
   if(!isOpen){
     safeText($("svStatus"), "休息中");
     safeText($("svPlayers"), "未開放");
-    safeText($("svHint"), "麻糬說 城市正在休息 15:00 再來吧");
+
+    const cd = getCountdownToOpen();
+    if(cd){
+      safeText(
+        $("svHint"),
+        `麻糬說 距離開城還有 ${cd.hours} 小時 ${cd.minutes} 分鐘`
+      );
+    }else{
+      safeText($("svHint"), "麻糬說 城市正在休息");
+    }
     return;
   }
 
-  // ✅ 開放時段，有 FiveM Server ID → 抓人數
+  // 🟢 開放時段，有 FiveM Server ID → 抓人數
   if(serverId){
     const url = `https://servers-frontend.fivem.net/api/servers/single/${encodeURIComponent(serverId)}`;
 
@@ -232,7 +263,7 @@ async function fetchFiveMStatus(){
     }
   }
 
-  // ✅ 開放時段，但沒 Server ID（備用）
+  // 🟢 開放時段但沒 Server ID
   if(connectAddr){
     safeText($("svStatus"), "開放中");
     safeText($("svPlayers"), "IP 直連");
@@ -240,11 +271,11 @@ async function fetchFiveMStatus(){
     return;
   }
 
-  // ❓ 真的什麼都沒設
   safeText($("svStatus"), "未設定");
   safeText($("svPlayers"), "未設定");
   safeText($("svHint"), "麻糬說 還沒設定伺服器資訊");
 }
+
 
 
 
