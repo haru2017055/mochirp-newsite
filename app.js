@@ -281,34 +281,41 @@ async function fetchFiveMStatus(){
 
 
 async function fetchDiscordMembers(){
-  const guildId = cfg.links?.discordGuildId;
-  if(!guildId){
+  const invite = cfg.links?.discordInvite;
+  if(!invite){
     safeText($("dcMembers"), "未設定");
+    safeText($("dcHint"), "麻糬說 還沒設定 Discord 邀請");
     return;
   }
 
-  const url = `https://discord.com/api/guilds/${encodeURIComponent(guildId)}/widget.json`;
+  // 從邀請連結取 code
+  const code = invite.split("/").pop();
+
+  const url = `https://discord.com/api/v10/invites/${encodeURIComponent(code)}?with_counts=true`;
 
   try{
     const res = await fetch(url, { cache:"no-store" });
     if(!res.ok) throw new Error(`http ${res.status}`);
     const data = await res.json();
 
-    const count = data?.presence_count;
-    if(typeof count !== "number"){
-      safeText($("dcMembers"), "讀取失敗");
-      safeText($("dcHint"), "麻糬說 需要在 Discord 開啟 Server Widget");
-      return;
+    const approx =
+      data.approximate_member_count ??
+      data.approximate_presence_count;
+
+    safeText($("dcMembers"), "已開放加入");
+
+    if(typeof approx === "number"){
+      safeText($("dcHint"), `目前有 ${approx.toLocaleString()} 位成員`);
+    }else{
+      safeText($("dcHint"), "麻糬說 城裡的人都在 Discord 聊天");
     }
 
-    safeText($("dcMembers"), `${count} 線上`);
-    safeText($("dcHint"), "麻糬說 也可以點加入和大家聊天");
-
   }catch(e){
-    safeText($("dcMembers"), "讀取失敗");
-    safeText($("dcHint"), "麻糬說 可能沒開 Server Widget 或被跨網域限制");
+    safeText($("dcMembers"), "已開放加入");
+    safeText($("dcHint"), "麻糬說 城裡的人都在 Discord 聊天");
   }
 }
+
 
 function startAutoRefresh(){
   fetchFiveMStatus();
