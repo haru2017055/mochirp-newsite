@@ -171,12 +171,12 @@ function setBasics(){
 }
 
 async function fetchFiveMStatus(){
-  const join = cfg.links?.cfxJoinCode;
+  const serverId = cfg.links?.cfxJoinCode;
   const connectAddr = cfg.links?.connectAddress;
 
-  // 情況一：有 cfxJoinCode，用官方 API
-  if(join){
-    const url = `https://servers-frontend.fivem.net/api/servers/single/${encodeURIComponent(join)}`;
+  // 有 FiveM Server ID 就抓官方 API
+  if(serverId){
+    const url = `https://servers-frontend.fivem.net/api/servers/single/${encodeURIComponent(serverId)}`;
 
     try{
       const res = await fetch(url, { cache:"no-store" });
@@ -186,8 +186,8 @@ async function fetchFiveMStatus(){
       const sv = data?.Data;
       if(!sv) throw new Error("no data");
 
-      const online = sv?.clients ?? 0;
-      const max = sv?.sv_maxclients ?? sv?.vars?.sv_maxclients ?? "?";
+      const online = sv.clients ?? 0;
+      const max = sv.sv_maxclients ?? sv.vars?.sv_maxclients ?? "?";
 
       safeText($("svStatus"), "開放中");
       safeText($("svPlayers"), `${online} / ${max}`);
@@ -204,12 +204,12 @@ async function fetchFiveMStatus(){
     }catch(e){
       safeText($("svStatus"), "讀取失敗");
       safeText($("svPlayers"), "讀取失敗");
-      safeText($("svHint"), "麻糬說 我抓不到伺服器狀態");
+      safeText($("svHint"), "麻糬說 我抓不到伺服器人數");
       return;
     }
   }
 
-  // 情況二：沒有 join code，但有 IP 直連
+  // 沒有 server id 但有 IP
   if(connectAddr){
     safeText($("svStatus"), "開放中");
     safeText($("svPlayers"), "IP 直連");
@@ -217,11 +217,12 @@ async function fetchFiveMStatus(){
     return;
   }
 
-  // 情況三：真的什麼都沒有
+  // 真的什麼都沒有
   safeText($("svStatus"), "未設定");
   safeText($("svPlayers"), "未設定");
   safeText($("svHint"), "麻糬說 還沒設定伺服器資訊");
 }
+
 
 
 async function fetchDiscordMembers(){
