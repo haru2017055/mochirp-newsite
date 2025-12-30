@@ -402,16 +402,11 @@ body{
 }
 .small{ font-size: 12px; }
 
-/* 右邊申請條件列表修正：避免貼邊 */
-
-#apply .checklist {
-  padding-left: 32px;      /* 拉開圓點與卡片邊緣 */
-  padding-right: 12px;
-}
-
-#apply .checklist li {
-  margin-bottom: 10px;
-  line-height: 1.7;
+.checklist{
+  margin: 10px 0 0;
+  padding-left: 18px;
+  color: rgba(59,47,56,.78);
+  line-height:1.8;
 }
 .mini-cards{
   margin-top: 10px;
@@ -523,3 +518,24 @@ body {
   background: #fffafa;
 }
 
+/* ===== 職業申請區塊：視覺重心修正 ===== */
+
+/* 左卡底部加一點呼吸，避免太空 */
+#apply .card:first-child {
+  padding-bottom: 28px;
+}
+
+/* 左卡內 pill 區塊整體往下移一點 */
+#apply .pill-list {
+  margin-top: 12px;
+}
+
+/* 在左卡底部製造「隱形重心」 */
+#apply .card:first-child::after {
+  content: "選擇你感興趣的職業，不急著決定也沒關係";
+  display: block;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #9b7b88;
+  text-align: center;
+}
