@@ -371,15 +371,22 @@ body{
 }
 .album-cap{
   position:absolute;
-  left:10px; right:10px; bottom:10px;
-  padding: 10px 10px;
-  border-radius: 16px;
-  background: rgba(255,255,255,.78);
-  border:1px solid rgba(59,47,56,.10);
-  backdrop-filter: blur(10px);
-  font-size: 13px;
-  color: rgba(59,47,56,.80);
+  left:8px;
+  right:8px;
+  bottom:8px;
+
+  padding: 4px 8px;          /* 關鍵：上下縮小 */
+  border-radius: 10px;       /* 比較像標籤 */
+  
+  background: rgba(255,255,255,.7);
+  border:1px solid rgba(59,47,56,.08);
+  backdrop-filter: blur(6px);
+
+  font-size: 12.5px;         /* 微縮 */
+  line-height: 1.35;         /* 關鍵：行距收緊 */
+  color: rgba(59,47,56,.82);
 }
+
 
 .pill-list{
   display:flex;
