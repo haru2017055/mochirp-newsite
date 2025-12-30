@@ -8,10 +8,6 @@ window.MOCHI_CONFIG = {
   links: {
     discordInvite: "https://discord.gg/mochirp",
 
-    // 如果你之後有申請表單再補
-    applyForm: "",
-    applyDiscordChannel: "",
-
     // 不用 join code 直接用 IP
     cfxJoinCode: "bjl6vb",
 

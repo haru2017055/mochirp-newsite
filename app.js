@@ -180,7 +180,6 @@ function setBasics(){
   setButtonLink($("btnApplyDiscord"), cfg.links?.applyDiscordChannel || dc);
 
   setButtonLink($("btnApplyForm"), cfg.links?.applyForm);
-  $("btnApplyJump")?.addEventListener("click", () => scrollToId("#apply"));
   $("btnScrollFAQ")?.addEventListener("click", () => scrollToId("#about"));
   $("btnScrollCalendar")?.addEventListener("click", () => scrollToId("#calendar"));
   $("btnScrollCalendar")?.addEventListener("click", () => scrollToId("#calendar"));
