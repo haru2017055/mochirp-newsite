@@ -11,7 +11,6 @@
 </head>
 
 <body>
-  <div class="bg-sparkles" aria-hidden="true"></div>
 
   <!-- ====== Top Bar ====== -->
   <header class="topbar">
@@ -30,6 +29,8 @@
         <a href="#" data-target="industry">工業玩法</a>
         <a href="#" data-target="crime">犯罪玩法</a>
         <a href="#" data-target="features">特色玩法</a>
+        <a href="#" data-target="organization">創業 / 黑幫</a>
+        <a href="#" data-target="help">新手 / 排解</a>
       </nav>
 
       <div class="topbar-cta">
@@ -90,9 +91,9 @@
             </div>
             <div class="card-body">
               <ol class="steps">
-                <li>加入 Discord 看新手頻道</li>
-                <li>一鍵連線直接進城</li>
-                <li>生活 工業 或故事路線都可以</li>
+                <li>先加入 Discord，看看新手 QA 頻道和 DC 內的相關資訊</li>
+                <li>用一鍵連線進城就好</li>
+                <li>想生活、想工作、想去哪裡，都沒有標準答案輕鬆探索就好</li>
               </ol>
             </div>
           </div>
@@ -210,7 +211,6 @@
       </div>
     </section>
 
-
     <section class="section page-section" id="crime">
       <div class="container">
         <div class="section-head">
@@ -220,6 +220,43 @@
         <div class="grid-3" id="crimeCards"></div>
       </div>
     </section>
+
+    <section class="section page-section" id="organization">
+      <div class="container">
+        <div class="section-head">
+          <h2>🏢 創業與勢力</h2>
+          <p class="muted">從一個人開始，慢慢經營成一個名字</p>
+        </div>
+
+        <div class="grid-3" id="organizationCards"></div>
+      </div>
+    </section>
+
+    <section class="section page-section" id="help">
+      <div class="container">
+        <div class="section-head">
+          <h2>🧸 新手 / 疑難排解</h2>
+          <p class="muted">第一次進城先看新手準備，卡住再看疑難排解</p>
+        </div>
+
+        <!-- 切換按鈕 -->
+        <div class="pill-list" id="helpTabs">
+          <span class="pill active" data-tab="start">🧸 首次進城準備</span>
+          <span class="pill" data-tab="support">🛠️ FiveM 疑難排解</span>
+        </div>
+
+        <!-- 新手內容 -->
+        <div id="help-start" class="help-panel">
+          <div class="grid-2" id="gettingStartedCards"></div>
+        </div>
+
+        <!-- 排解內容 -->
+        <div id="help-support" class="help-panel" style="display:none;">
+          <div class="grid-2" id="supportCards"></div>
+        </div>
+      </div>
+    </section>
+
 
   </main>
 

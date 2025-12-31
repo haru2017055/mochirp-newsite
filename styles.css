@@ -402,6 +402,39 @@ body{
   font-weight:800;
   font-size: 13px;
 }
+
+/* ===============================
+   🧸 幫助中心 Tab（專用）
+   =============================== */
+
+/* 讓 pill 看起來可以點 */
+#helpTabs .pill {
+  cursor: pointer;
+  transition: 
+    background .15s ease,
+    color .15s ease,
+    box-shadow .15s ease,
+    transform .08s ease;
+}
+
+/* Hover（滑過去有回饋，但不搶戲） */
+#helpTabs .pill:hover {
+  background: rgba(255, 220, 235, 0.9);
+}
+
+/* 目前選中的 Tab */
+#helpTabs .pill.active {
+  background: linear-gradient(135deg, #ff7fb0, #ff9fc4);
+  color: #fff;
+  border-color: rgba(255,255,255,.6);
+  box-shadow: 0 10px 24px rgba(255,127,176,.35);
+}
+
+/* 點擊的小回饋（很 Mochi） */
+#helpTabs .pill:active {
+  transform: translateY(1px);
+}
+
 .divider{
   height:1px;
   background: var(--line);
@@ -663,6 +696,17 @@ body {
     padding-top: 12px;
   }
 
+}
+
+/* ===== 幫助中心：超淡切換 ===== */
+
+.help-panel {
+  opacity: 1;
+  transition: opacity 0.14s ease;
+}
+
+.help-panel.is-hiding {
+  opacity: 0;
 }
 
 

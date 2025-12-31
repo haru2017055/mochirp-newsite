@@ -167,6 +167,11 @@ function setBasics(){
   renderCards("industryCards", cfg.industry);
   renderCards("crimeCards", cfg.crime);
   renderCards("featureCards", cfg.features);
+  renderCards("organizationCards", cfg.organization);
+  renderCards("gettingStartedCards", cfg.gettingStarted);
+  renderCards("supportCards", cfg.support);
+
+
 
   renderEvents("calendarList", cfg.events);
   renderCards("rhythmCards", cfg.rhythm);
@@ -343,7 +348,8 @@ startAutoRefresh();
 const HOME_SECTIONS = ["about", "calendar", "video", "album"];
 
 // 導覽分頁區塊
-const PAGE_SECTIONS = ["jobs", "life", "industry", "crime", "features"];
+const PAGE_SECTIONS = ["jobs", "life", "industry", "crime", "features", "organization", "help"];
+
 
 // 進入首頁模式
 function showHome() {
@@ -401,3 +407,32 @@ document.querySelector(".brand")?.addEventListener("click", e => {
 document.addEventListener("DOMContentLoaded", () => {
   showHome();
 });
+
+// ===== 幫助中心 Tab 切換（必須補）=====
+document.addEventListener("DOMContentLoaded", () => {
+  const tabs = document.querySelectorAll("#helpTabs .pill");
+  const panels = {
+    start: document.getElementById("help-start"),
+    support: document.getElementById("help-support")
+  };
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      // 切換 active 樣式
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      // 顯示對應內容
+      Object.values(panels).forEach(p => {
+        if (p) p.style.display = "none";
+      });
+
+      const target = panels[tab.dataset.tab];
+      if (target) target.style.display = "block";
+
+      // 回到內容頂部（體感很好）
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+});
+
