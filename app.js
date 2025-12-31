@@ -69,7 +69,7 @@ function renderCards(containerId, items){
         <div class="title">${it.title}</div>
         <div class="text">${it.text}</div>
 
-        ${it.meta ? `<div class="meta">${it.meta}</div>` : ""}
+        ${it.meta ? `<div class="meta"><span class="meta-icon">⏰</span>${it.meta}</div>` : ""}
       </div>
     </div>
   `).join("");

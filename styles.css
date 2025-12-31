@@ -583,9 +583,19 @@ body {
   border: 0;
 }
 
+/* 特色玩法時間 meta */
 .card.feature .meta{
   margin-top: 10px;
   font-size: 13px;
   color: rgba(59,47,56,.55);
   line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card.feature .meta-icon{
+  font-size: 14px;
+  line-height: 1;
+  opacity: .85;
 }
