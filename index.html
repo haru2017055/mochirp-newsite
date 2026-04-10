@@ -2,265 +2,358 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MochiRP 官網</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MochiRP - 麻糬陪你慢慢進城</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #fff7fb;
+      --ink: #3b2f38;
+      --pink: #ff6fb0;
+      --shadow: 0 10px 40px rgba(255, 111, 176, 0.12);
+      --radius: 24px;
+    }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", sans-serif;
+      background: radial-gradient(1200px 600px at 15% 10%, #ffe7f2, transparent 55%),
+                  radial-gradient(900px 540px at 85% 12%, #e8fff7, transparent 55%),
+                  radial-gradient(900px 600px at 50% 90%, #fff0f7, transparent 55%),
+                  var(--bg);
+      color: var(--ink);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(255, 111, 176, 0.2);
+    }
+    .page-section { display: none; }
+    .active-section { display: block; }
+    .btn-primary {
+      background: var(--pink);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .btn-primary:hover { transform: scale(1.05); }
+    
+    .event-past { opacity: 0.4; filter: grayscale(1); }
+    
+    .section-title {
+      font-size: 1.875rem;
+      font-weight: 900;
+      margin-bottom: 2rem;
+      border-left: 6px solid var(--pink);
+      padding-left: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card-meta {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: var(--pink);
+      background: rgba(255, 111, 176, 0.1);
+      padding: 4px 12px;
+      border-radius: 8px;
+    }
+    .hero-highlight {
+      position: relative;
+      display: inline-block;
+      z-index: 1;
+    }
+    .hero-highlight::after {
+      content: "";
+      position: absolute;
+      left: -5%;
+      bottom: 5px;
+      width: 110%;
+      height: 30%;
+      background: rgba(255, 111, 176, 0.2);
+      z-index: -1;
+      border-radius: 4px;
+    }
+  </style>
 </head>
-
 <body>
 
-  <!-- ====== Top Bar ====== -->
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <a class="brand" href="#">
-        <img class="brand-logo" src="./assets/logo.png" alt="MochiRP Logo">
-        <div class="brand-text">
-          <div class="brand-title" id="siteName">MochiRP</div>
-          <div class="brand-sub" id="siteTagline">麻糬陪你慢慢進城</div>
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-pink-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
+        <span class="text-3xl">🍡</span>
+        <div>
+          <h1 class="font-black text-lg leading-tight">MochiRP</h1>
+          <p class="text-xs opacity-60">麻糬陪你慢慢進城</p>
         </div>
-      </a>
-
-      <nav class="nav">
-        <a href="#" data-target="jobs">職業</a>
-        <a href="#" data-target="life">市民生活</a>
-        <a href="#" data-target="industry">工業玩法</a>
-        <a href="#" data-target="crime">犯罪玩法</a>
-        <a href="#" data-target="features">特色玩法</a>
-        <a href="#" data-target="organization">創業 / 黑幫</a>
-        <a href="#" data-target="help">新手 / 排解</a>
-      </nav>
-
-      <div class="topbar-cta">
-        <button class="btn btn-ghost" id="btnSponsor" type="button">♡ 贊助我們</button>
-        <button class="btn btn-soft" id="btnDiscord" type="button">加入 Discord</button>
-        <button class="btn btn-primary" id="btnConnect" type="button">一鍵連線進城</button>
       </div>
+      <nav class="hidden md:flex gap-8 font-medium">
+        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('features')">麻糬特色</a>
+        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('crime')">非法玩法</a>
+        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('jobs')">生活職業</a>
+        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('help')">新手指南</a>
+      </nav>
+      <a href="#" class="btn-primary text-sm">一鍵進城</a>
     </div>
   </header>
 
-  <main id="top">
-
-    <!-- ====== HERO（首頁）====== -->
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-left">
-          <div class="badge" id="mochiLine">🍡 麻糬說 今天也要溫柔地玩</div>
-          <h1 class="hero-title">
-            <span id="heroTitle">MochiRP</span>
-            <span class="hero-title-soft" id="heroTitle2">可愛溫柔的生活工業城</span>
-          </h1>
-          <p class="hero-desc" id="heroDesc">
-            想慢慢生活也可以 想努力賺錢也可以 想走城市的另一面也可以
-            麻糬會在你需要的時候陪著你
-          </p>
-
-          <div class="stats">
-            <div class="stat">
-              <div class="stat-k">伺服器狀態</div>
-              <div class="stat-v" id="svStatus">讀取中</div>
-              <div class="stat-s" id="svHint">麻糬正在偷看城裡有沒有熱鬧</div>
-            </div>
-            <div class="stat">
-              <div class="stat-k">目前在線</div>
-              <div class="stat-v" id="svPlayers">讀取中</div>
-              <div class="stat-s">在線人數會自動更新</div>
-            </div>
-            <div class="stat">
-              <div class="stat-k">Discord 群組</div>
-              <div class="stat-v" id="dcMembers">讀取中</div>
-              <div class="stat-s" id="dcHint">需要先在 Discord 開啟 Server Widget</div>
-            </div>
+  <!-- 首頁 -->
+  <main id="page-home" class="page-section active-section pt-16 pb-32">
+    <div class="container mx-auto max-w-5xl px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+          可愛溫柔的<br><span class="hero-highlight text-pink-500">MochiRP</span>
+        </h2>
+        <p class="text-lg opacity-70 mb-10">想慢慢生活也可以，想努力賺錢也可以，想走城市的另一面也可以。</p>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-16">
+          <div class="glass-card p-6 cursor-pointer" onclick="showPage('features')">
+            <div class="text-3xl mb-2">✨</div>
+            <div class="font-bold">麻糬特色</div>
           </div>
-
-          <div class="hero-actions">
-            <button class="btn btn-primary btn-lg" id="btnConnect2">🍭 進城玩</button>
+          <div class="glass-card p-6 cursor-pointer" onclick="showPage('crime')">
+            <div class="text-3xl mb-2">🕶️</div>
+            <div class="font-bold">非法玩法</div>
           </div>
-        </div>
-
-        <div class="hero-right">
-          <div class="card mochi-card">
-            <div class="card-head">
-              <div class="mochi-face">🍡</div>
-              <div>
-                <div class="card-title">麻糬小提醒</div>
-                <div class="card-sub" id="mochiTip">慢慢來就好 你不需要急著成為誰</div>
-              </div>
-            </div>
-            <div class="card-body">
-              <ol class="steps">
-                <li>先加入 Discord，看看新手 QA 頻道和 DC 內的相關資訊</li>
-                <li>用一鍵連線進城就好</li>
-                <li>想生活、想工作、想去哪裡，都沒有標準答案輕鬆探索就好</li>
-              </ol>
-            </div>
+          <div class="glass-card p-6 cursor-pointer" onclick="showPage('album')">
+            <div class="text-3xl mb-2">📸</div>
+            <div class="font-bold">城市相簿</div>
+          </div>
+          <div class="glass-card p-6 cursor-pointer" onclick="showPage('help')">
+            <div class="text-3xl mb-2">🧸</div>
+            <div class="font-bold">新手指南</div>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- ====== 首頁內容 ====== -->
-    <section class="section" id="about">
-      <div class="container">
-        <div class="section-head">
-          <h2>🏙️ 城市介紹</h2>
-          <p class="muted">這裡是一座以生活與工業為核心的城市</p>
+      <!-- 每月活動區塊 (首頁摘要) -->
+      <div class="max-w-2xl mx-auto">
+        <div class="flex items-center gap-2 mb-6">
+          <span class="text-2xl">📅</span>
+          <h3 class="text-2xl font-black">四月活動行事曆</h3>
         </div>
-        <div class="grid-3" id="aboutCards"></div>
+        <div class="space-y-4" id="eventList"></div>
       </div>
-    </section>
-
-    <section class="section" id="calendar">
-      <div class="container">
-        <div class="section-head">
-          <h2>📅 活動日曆</h2>
-          <p class="muted">城市會有節奏 也會有驚喜</p>
-        </div>
-        <div class="calendar-wrap">
-          <div class="calendar-left">
-            <div class="calendar-box">
-              <div class="calendar-box-head">
-                <div class="calendar-title">近期活動</div>
-              </div>
-              <div class="calendar-list" id="calendarList"></div>
-            </div>
-          </div>
-          <div class="calendar-right">
-            <div class="calendar-box">
-              <div class="calendar-box-head">
-                <div class="calendar-title">固定節奏</div>
-              </div>
-              <div class="grid-2" id="rhythmCards"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="video">
-      <div class="container">
-        <div class="section-head">
-          <h2>🎥 城市片段</h2>
-          <p class="muted">有些畫面，比文字更溫柔</p>
-        </div>
-
-        <div class="video-wrap">
-        <iframe
-          src="https://www.youtube.com/embed/66BsbZfdem4"
-          title="MochiRP 城市影片"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-      </div>
-    </section>
-
-
-    <section class="section" id="album">
-      <div class="container">
-        <div class="section-head">
-          <h2>📸 回憶相簿</h2>
-          <p class="muted">麻糬把快樂裝進回憶罐</p>
-        </div>
-        <div class="album-grid" id="albumGrid"></div>
-      </div>
-    </section>
-
-    <!-- ====== 分頁內容（預設隱藏）====== -->
-    <section class="section page-section" id="jobs">
-      <div class="container">
-        <div class="section-head">
-          <h2>✨ 職業介紹</h2>
-          <p class="muted">每一份工作都是城市的一部分</p>
-        </div>
-        <div class="grid-3" id="jobCards"></div>
-      </div>
-    </section>
-
-    <section class="section page-section" id="life">
-      <div class="container">
-        <div class="section-head">
-          <h2>🏠 市民生活</h2>
-          <p class="muted">就算不想上班 也可以好好生活</p>
-        </div>
-        <div class="grid-2" id="lifeCards"></div>
-      </div>
-    </section>
-
-    <section class="section page-section" id="industry">
-      <div class="container">
-        <div class="section-head">
-          <h2>🏭 工業玩法</h2>
-          <p class="muted">採集 合成 種植 把日常慢慢累積</p>
-        </div>
-        <div class="grid-3" id="industryCards"></div>
-      </div>
-    </section>
-
-    <section class="section page-section" id="features">
-      <div class="container">
-        <div class="section-head">
-          <h2>✨ 特色玩法</h2>
-          <p class="muted">這座城市，有一些慢慢走出來的特色。</p>
-        </div>
-
-        <div id="featureCards" class="card-grid"></div>
-      </div>
-    </section>
-
-    <section class="section page-section" id="crime">
-      <div class="container">
-        <div class="section-head">
-          <h2>🕶️ 城市的另一面</h2>
-          <p class="muted">犯罪是一種角色選擇 而不是壓力</p>
-        </div>
-        <div class="grid-3" id="crimeCards"></div>
-      </div>
-    </section>
-
-    <section class="section page-section" id="organization">
-      <div class="container">
-        <div class="section-head">
-          <h2>🏢 創業與勢力</h2>
-          <p class="muted">從一個人開始，慢慢經營成一個名字</p>
-        </div>
-
-        <div class="grid-3" id="organizationCards"></div>
-      </div>
-    </section>
-
-    <section class="section page-section" id="help">
-      <div class="container">
-        <div class="section-head">
-          <h2>🧸 新手 / 疑難排解</h2>
-          <p class="muted">第一次進城先看新手準備，卡住再看疑難排解</p>
-        </div>
-
-        <!-- 切換按鈕 -->
-        <div class="pill-list" id="helpTabs">
-          <span class="pill active" data-tab="start">🧸 首次進城準備</span>
-          <span class="pill" data-tab="support">🛠️ FiveM 疑難排解</span>
-        </div>
-
-        <!-- 新手內容 -->
-        <div id="help-start" class="help-panel">
-          <div class="grid-2" id="gettingStartedCards"></div>
-        </div>
-
-        <!-- 排解內容 -->
-        <div id="help-support" class="help-panel" style="display:none;">
-          <div class="grid-2" id="supportCards"></div>
-        </div>
-      </div>
-    </section>
-
-
+    </div>
   </main>
 
-  <script src="./config.js"></script>
-  <script src="./app.js"></script>
+  <!-- 麻糬特色專頁 -->
+  <section id="page-features" class="page-section container mx-auto px-6 py-20 max-w-6xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-black mb-4 italic">✨ 這些，只有在麻糬城看得到</h2>
+      <p class="opacity-60 text-lg">豐富的生活驚喜，讓每一天進城都充滿期待</p>
+    </div>
+
+    <!-- 1. 特色內容完整呈現 -->
+    <div class="mb-24">
+      <h3 class="section-title">🌈 麻糬專屬特色</h3>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="featuresGrid">
+        <!-- JS 渲染 -->
+      </div>
+    </div>
+
+    <!-- 2. 創業與幫派系統 -->
+    <div class="mb-24">
+      <h3 class="section-title">🏢 自由創業與幫派</h3>
+      <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-8" id="orgGrid">
+        <!-- JS 渲染 -->
+      </div>
+    </div>
+
+    <!-- 3. 生活節奏 (Rhythm) -->
+    <div class="mb-24">
+      <h3 class="section-title">⏳ 城市生活節奏</h3>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="rhythmList">
+        <!-- JS 渲染 -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 其餘頁面... -->
+  <section id="page-crime" class="page-section container mx-auto px-6 py-20"><div class="text-center"><h2 class="text-4xl font-black">🕶️ 非法玩法</h2><div class="grid md:grid-cols-3 gap-8 mt-10" id="crimeCards"></div></div></section>
+  <section id="page-jobs" class="page-section container mx-auto px-6 py-20"><div class="text-center"><h2 class="text-4xl font-black">💼 生活職業</h2><div class="grid md:grid-cols-2 gap-8 mt-10" id="jobGrid"></div></div></section>
+  <section id="page-help" class="page-section container mx-auto px-6 py-20"><div class="text-center"><h2 class="text-4xl font-black">🧸 新手指南</h2></div></section>
+
+  <script>
+    const cfg = {
+      features: [
+        {
+          icon: "🎇",
+          title: "麻糬法拍日",
+          text: "這是城市裡的大日子！警察局與法院會不定期整理沒收的違章財產，從稀有車輛到高級地段房屋，全體市民都能參與競標，是翻身做主的好機會。",
+          meta: "活動性質：不定期舉辦（留意公告）"
+        },
+        {
+          icon: "🎆",
+          title: "麻糬煙火秀",
+          text: "每天晚上，城市都會為你準備一場煙火。提前三個小時會有全服廣播，告訴大家今天的煙火秀地點，只要到現場一起看煙火，就能獲得小禮物。",
+          meta: "進行時間：每日 20:00–00:00"
+        },
+        {
+          icon: "🧳",
+          title: "神秘商人",
+          text: "神秘商人會販賣各種稀有商品，但每一次出現的商品都不一樣，想買到心頭好，只能碰碰運氣。",
+          meta: "出現時段：星期一、星期三 18:00–23:00"
+        },
+        {
+          icon: "📝",
+          title: "迷你小活動",
+          text: "系統會隨機發放小任務給所有市民，任務內容全服相同，完成後就能獲得小獎勵，輕鬆又沒有壓力。",
+          meta: "進行時段：星期二 晚上（時間不固定）"
+        },
+        {
+          icon: "🎤",
+          title: "街頭藝人",
+          text: "在某些隨機的日子，城市角落會出現街頭藝人演出。遇到他們時可以進行打賞，也許會有意想不到的小驚喜。",
+          meta: "出現時段：20:00–22:00｜每日僅可打賞一次"
+        },
+        {
+          icon: "🎲",
+          title: "麻糬比大小",
+          text: "一個輕鬆的小賭盤活動，用一點點運氣參與就好。不用拚、不用壓力，更多是大家一起等開獎的期待感。",
+          meta: "開獎時間：每週日、二、四、六 晚上 21:00"
+        },
+        {
+          icon: "🎁",
+          title: "隱藏材料",
+          text: "城市中存在一些無法自行取得的特殊材料，平時不會出現在任何採集或合成流程中，僅能透過特定活動或節日獲得。",
+          meta: "取得方式：限定活動 / 節慶機會"
+        },
+        {
+          icon: "📖",
+          title: "收藏冊系統",
+          text: "城市中有各式各樣可以收集的事物，從活動紀念到特殊道具，慢慢填滿屬於你的收藏冊，把走過的時間留下來。",
+          meta: "長期收集 / 非強制進度"
+        }
+      ],
+      organization: [
+        {
+          icon: "🏪",
+          title: "便利商店加盟",
+          text: "地圖上會標記可加盟的便利商店，只要購買該店即可成為店長。你可以販賣自己選擇的合法商品，經營內容與整體風格皆由你自由決定。"
+        },
+        {
+          icon: "📄",
+          title: "創業開設職業",
+          text: "只要你有想法，即可向管理組提交創業計劃書，由管理組評估是否成立公司。目前可申請成立的產業包含賭場、餐廳、夜生活及娛樂事業，申請者需配合準備地圖與相關插件後方可成立。"
+        },
+        {
+          icon: "🏴",
+          title: "創立幫派",
+          text: "需在城內收集 500 個比特幣，並可於遊戲介面自行成立幫派。每個幫派最多可容納 10 名成員，成立後即可參與幫派專屬的勢力玩法。"
+        }
+      ],
+      rhythm: [
+        { icon: "📅", title: "每週活動", text: "城市每週都會安排不同主題的活動，讓生活有節奏，也讓你每週都有回城的理由。" },
+        { icon: "🗓️", title: "每月活動", text: "每個月的第二及第四個星期六都會規劃大型或特色活動，適合慢慢參與。" },
+        { icon: "❄️", title: "每月最後一天下雪天", text: "在每個月的最後一天，城市會下起雪，不為任務，只為讓大家一起看看風景。" },
+        { icon: "🎉", title: "節慶活動", text: "依照現實節日調整城市氛圍，搭配限定活動與佈置，讓時間真的在城市裡留下痕跡。" }
+      ],
+      events: [
+        { date: "2026-04-01", name: "🤡 愚人節", meta: "聽說很多人喜歡挑今天告白" },
+        { date: "2026-04-05", name: "🐰 復活節", meta: "全服復活節活動：撲兔兔、撿蛋蛋" },
+        { date: "2026-04-11", name: "🦞 海鮮餐廳活動日", meta: "腕力無極限" },
+        { date: "2026-04-25", name: "💫 七星會活動日", meta: "極限逃之夭夭" },
+        { date: "2026-04-29", name: "🔨 法拍日", meta: "大G一台，請留意DC法拍資訊" }
+      ],
+      crime: [
+        { icon: "🌿", title: "大麻種植", text: "找到園藝店，開啟你的綠色事業。" },
+        { icon: "🧍‍♂️", title: "搶劫原住民", text: "基礎犯罪玩法，獲取啟動資金。" }
+      ],
+      jobs: [
+        { icon: "🏥", title: "醫療人員", text: "救死扶傷，城市的守護天使。" }
+      ]
+    };
+
+    function showPage(id) {
+      document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
+      const target = document.getElementById('page-' + id);
+      if (target) target.classList.add('active-section');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function render() {
+      // 渲染特色
+      const fg = document.getElementById('featuresGrid');
+      if (fg) {
+        fg.innerHTML = '';
+        cfg.features.forEach(f => {
+          fg.innerHTML += `
+            <div class="glass-card p-8 border-t-4 border-pink-400">
+              <div class="text-4xl mb-4">${f.icon}</div>
+              <h4 class="font-black text-xl mb-3">${f.title}</h4>
+              <p class="text-sm opacity-70 leading-relaxed">${f.text}</p>
+              <div class="card-meta">✨ ${f.meta}</div>
+            </div>`;
+        });
+      }
+
+      // 渲染創業幫派
+      const og = document.getElementById('orgGrid');
+      if (og) {
+        og.innerHTML = '';
+        cfg.organization.forEach(o => {
+          og.innerHTML += `
+            <div class="glass-card p-8 border-l-4 border-pink-500">
+              <div class="text-4xl mb-4">${o.icon}</div>
+              <h4 class="font-black text-xl mb-3">${o.title}</h4>
+              <p class="text-sm opacity-70 leading-relaxed">${o.text}</p>
+            </div>`;
+        });
+      }
+
+      // 渲染節奏
+      const rl = document.getElementById('rhythmList');
+      if (rl) {
+        rl.innerHTML = '';
+        cfg.rhythm.forEach(r => {
+          rl.innerHTML += `
+            <div class="glass-card p-6 h-full flex flex-col">
+              <div class="text-3xl mb-4">${r.icon}</div>
+              <h4 class="font-black text-lg mb-2 text-pink-500">${r.title}</h4>
+              <p class="text-sm opacity-60 leading-relaxed">${r.text}</p>
+            </div>`;
+        });
+      }
+
+      // 渲染行事曆
+      const el = document.getElementById('eventList');
+      if (el) {
+        el.innerHTML = '';
+        cfg.events.forEach(ev => {
+          const isPast = ev.date < new Date().toISOString().split('T')[0];
+          el.innerHTML += `
+            <div class="glass-card p-5 flex items-center justify-between ${isPast ? 'event-past' : ''}">
+              <div class="flex items-center gap-4">
+                <div class="bg-pink-100 text-pink-500 font-black px-3 py-1 rounded-lg text-sm">${ev.date.split('-').slice(1).join('/')}</div>
+                <div class="font-bold">${ev.name}</div>
+              </div>
+              <div class="text-xs opacity-40">${isPast ? '已結束' : ev.meta}</div>
+            </div>`;
+        });
+      }
+
+      // 渲染犯罪與職業
+      const cc = document.getElementById('crimeCards');
+      if (cc) cfg.crime.forEach(c => cc.innerHTML += `<div class="glass-card p-8"><div class="text-3xl mb-4">${c.icon}</div><h4 class="font-bold text-lg mb-2 text-pink-600">${c.title}</h4><p class="text-sm opacity-60">${c.text}</p></div>`);
+      const jg = document.getElementById('jobGrid');
+      if (jg) cfg.jobs.forEach(j => jg.innerHTML += `<div class="glass-card p-8"><div class="text-3xl mb-4">${j.icon}</div><h4 class="font-bold text-lg mb-2">${j.title}</h4><p class="text-sm opacity-60">${j.text}</p></div>`);
+    }
+
+    window.onload = render;
+  </script>
 </body>
 </html>
