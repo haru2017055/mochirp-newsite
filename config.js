@@ -425,5 +425,11 @@ window.MOCHI_CONFIG = {
     { src: "./assets/album/52.png", "caption": "故事還沒結束 只是翻到下一頁" },
     { src: "./assets/album/53.png", "caption": "今天的笑容 已經被收藏" },
     { src: "./assets/album/54.png", "caption": "回憶會留下 麻糬也會一直在這裡" },
+    { src: "./assets/album/55.png", "caption": "看著泛黃的照片 還是會心跳加快" },
+    { src: "./assets/album/56.png", "caption": "在城市的一隅 寫下我們的約定" },
+    { src: "./assets/album/57.png", "caption": "時光會流逝 但溫暖的感覺不會變" },
+    { src: "./assets/album/58.png", "caption": "漫步在街道 捕捉轉瞬即逝的美好" },
+    { src: "./assets/album/59.png", "caption": "每一次按下快門 都是因為你在" },
+    { src: "./assets/album/60.png", "caption": "未完待續 我們還有好長的故事要講" },
   ]
 };
