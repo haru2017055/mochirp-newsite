@@ -103,7 +103,7 @@
       <nav class="hidden md:flex gap-8 font-medium">
         <a href="#" class="hover:text-pink-500 transition" onclick="showPage('features')">麻糬特色</a>
         <a href="#" class="hover:text-pink-500 transition" onclick="showPage('crime')">非法玩法</a>
-        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('jobs')">生活職業</a>
+        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('jobs')">城市企業</a>
         <a href="#" class="hover:text-pink-500 transition" onclick="showPage('help')">新手指南</a>
       </nav>
       <a href="#" class="btn-primary text-sm">一鍵進城</a>
@@ -147,6 +147,13 @@
         </div>
         <div class="space-y-4" id="eventList"></div>
       </div>
+      <!-- 管理方針區塊 -->
+      <div class="max-w-4xl mx-auto">
+        <h3 class="section-title">🤝 管理方針與承諾</h3>
+        <div class="grid md:grid-cols-2 gap-4" id="policyGrid">
+          <!-- JS 渲染 -->
+        </div>
+      </div>
     </div>
   </main>
 
@@ -184,11 +191,57 @@
 
   <!-- 其餘頁面... -->
   <section id="page-crime" class="page-section container mx-auto px-6 py-20"><div class="text-center"><h2 class="text-4xl font-black">🕶️ 非法玩法</h2><div class="grid md:grid-cols-3 gap-8 mt-10" id="crimeCards"></div></div></section>
-  <section id="page-jobs" class="page-section container mx-auto px-6 py-20"><div class="text-center"><h2 class="text-4xl font-black">💼 生活職業</h2><div class="grid md:grid-cols-2 gap-8 mt-10" id="jobGrid"></div></div></section>
-  <section id="page-help" class="page-section container mx-auto px-6 py-20"><div class="text-center"><h2 class="text-4xl font-black">🧸 新手指南</h2></div></section>
+  <section id="page-jobs" class="page-section container mx-auto px-6 py-20"><div class="text-center"><h2 class="text-4xl font-black">💼 城市企業</h2><div class="grid md:grid-cols-2 gap-8 mt-10" id="jobGrid"></div></div></section>
+   <!-- 新手指南專頁 -->
+    <section id="page-help" class="page-section container mx-auto px-6 py-20 max-w-5xl">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-black mb-4 italic">🧸 新手進城指南</h2>
+        <p class="opacity-60 text-lg">準備好這些，開啟你的第二人生</p>
+      </div>
+      
+      <div class="glass-card p-10 mb-16">
+        <div class="grid md:grid-cols-2 gap-10">
+          <div>
+            <h4 class="font-black text-xl mb-4 text-pink-500">基本要求</h4>
+            <ul class="space-y-4 opacity-70">
+              <li>• 必須擁有合法 Steam 或 Rockstar 遊戲帳號</li>
+              <li>• 必須加入官方 Discord 頻道進行驗證</li>
+              <li>• 請確認電腦已安裝 FiveM 連線程式</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-black text-xl mb-4 text-pink-500">溫馨提醒</h4>
+            <p class="opacity-70 leading-relaxed">麻糬RP是一個溫柔的地方，我們希望每一位市民都能互相尊重。進城前請詳閱 Discord 中的規則頻道，讓我們一起維護良好的故事氛圍。</p>
+          </div>
+        </div>
+      </div>
 
+    </section>
+
+    <!-- 城市相簿專頁 -->
+    <section id="page-album" class="page-section container mx-auto px-6 py-20 max-w-7xl">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-black mb-4">📸 城市相簿</h2>
+        <p class="opacity-60 text-lg">收藏那些在城市裡閃閃發亮的瞬間</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="albumGrid">
+        <!-- JS 渲染 -->
+      </div>
+    </section>
   <script>
     const cfg = {
+      policy: [
+          { title: "公平", desc: "不看身分、不偏袒，用一致標準處理" },
+          { title: "溝通", desc: "先理解再處理，不用吵架也能解決" },
+          { title: "透明", desc: "能公開說明的就公開，避免私下爭議" },
+          { title: "保護新手", desc: "讓第一次進城的人，也能安心玩" },
+          { title: "尊重角色", desc: "每個人選擇的生活與路線，都值得被尊重" },
+          { title: "適度介入", desc: "管理存在是為了守護體驗，而不是干預故事" },
+          { title: "陪伴處理", desc: "遇到問題時，會陪著你一起把事情處理完" },
+          { title: "不急著判定", desc: "先聽完整故事，再做出合適的判斷" },
+          { title: "保護體驗", desc: "避免任何破壞他人體驗的行為發生" },
+          { title: "鼓勵回報", desc: "有疑慮就說出來，城市會認真傾聽" }
+        ],
       features: [
         {
           icon: "🎇",
@@ -270,11 +323,136 @@
         { date: "2026-04-29", name: "🔨 法拍日", meta: "大G一台，請留意DC法拍資訊" }
       ],
       crime: [
-        { icon: "🌿", title: "大麻種植", text: "找到園藝店，開啟你的綠色事業。" },
-        { icon: "🧍‍♂️", title: "搶劫原住民", text: "基礎犯罪玩法，獲取啟動資金。" }
+        {
+          icon: "🌿",
+          title: "大麻種植",
+          text: "取得大麻種子並找到園藝店後即可開始種植\n可種植品種包含 原味 香蕉 紫霧霾 藍夢\n取得方式需自行探索"
+        },
+        {
+          icon: "🧍‍♂️",
+          title: "搶劫原住民",
+          text: "手持武器靠近原住民即可進行搶劫\n屬於入門型犯罪玩法"
+        },
+        {
+          icon: "🚗",
+          title: "走私車任務",
+          text: "找到發放任務的 NPC 接取走私車任務\n前往指定地點翻開閘門後開始逃逸\n警報會在逃逸時才觸發"
+        },
+        {
+          icon: "🏪",
+          title: "商店與五金店搶劫",
+          text: "需要撬鎖工具\n可在便利商店與五金店撬開收銀機與保險櫃"
+        },
+        {
+          icon: "💎",
+          title: "珠寶店搶劫",
+          text: "使用鋁熱劑燒毀珠寶店附近電箱後開始行動\n每次取得的名貴物品不一定相同"
+        },
+        {
+          icon: "🏦",
+          title: "銀行搶劫",
+          text: "搶劫小型銀行或大型銀行\n需準備鑽孔機、槍械、鋁熱劑、等離子切割機、C4 等設備"
+        },
+        {
+          icon: "🏧",
+          title: "ATM 撬取",
+          text: "使用鐵撬靠近 ATM 即可嘗試撬取"
+        },
+        {
+          icon: "💰",
+          title: "販賣非法物品",
+          text: "可販賣犯罪時取得的贓物（不含黑錢）與毒品\n對指定 NPC 使用互動即可進行販賣\n等級會影響可販賣品項、販賣價格，以及原住民報警機率"
+        },
+        {
+          icon: "🧩",
+          title: "非法任務版",
+          text: "找到非法任務發放人即可接取任務\n包含毒品運送、運鈔車、搶 ATM、刺殺與偷車任務\n完成任務可累積聲望，提升等級與報酬，並可組隊進行"
+        },
+        {
+          icon: "🗺️",
+          title: "幫派地盤戰",
+          text: "需成立幫派後才可參與\n每日晚間 20:00 至 凌晨 00:00 可進行地盤爭奪\n透過佔領據點擴張勢力範圍"
+        },
+        {
+          icon: "⚙️",
+          title: "非法合成台",
+          text:
+            "並非所有合成都能在陽光下完成\n" +
+            "城市暗處藏著不同用途的非法合成台\n" +
+            "包含槍械零件、槍械、毒品與藥劑\n" +
+            "能不能找到，全看你的運氣和耐心"
+        }
       ],
       jobs: [
-        { icon: "🏥", title: "醫療人員", text: "救死扶傷，城市的守護天使。" }
+        { icon: "🚓", title: "警政署", text: "維護城市秩序，保護市民，也保護故事的公平" },
+        { icon: "🚑", title: "醫護局", text: "救治、協助與照顧，把溫柔留在每一次相遇" },
+        { icon: "🔧", title: "修車廠（獵鷹極速）", text: "維修、道路救援，讓每台車都能好好出門" },
+        { icon: "🦐", title: "海鮮餐廳（海巡鼠）", text: "捕撈、料理與分享，把海的味道端上每一張餐桌" },
+        { icon: "🐾", title: "貓咪咖啡廳（喵喵喵）", text: "咖啡、甜點與貓咪陪伴，讓忙碌的心慢慢安靜下來" },
+        { icon: "🍸", title: "Bahama Mamas（霞落之境）", text: "霓虹下的微醺派對，讓節奏與酒精治癒城市的失眠" },
+        { icon: "🥃", title: "Tequila La（鐵騎酒吧）", text: "七星會經營的硬派據點，在引擎聲與烈酒中譜寫江湖情義" },
+      ],
+      album: [
+        { src: "./assets/album/01.jpg", caption: "麻糬把今天的快樂裝進回憶罐" },
+        { src: "./assets/album/02.jpg", caption: "第一次參加活動的人 也笑得很可愛" },
+        { src: "./assets/album/03.jpg", caption: "城市的燈亮著 就像有人在等你" },
+        { src: "./assets/album/04.jpg", caption: "今天的風景也很溫柔" },
+        { src: "./assets/album/05.png", "caption": "有人聊天 有人發呆 這也是生活" },
+        { src: "./assets/album/06.png", "caption": "路燈下的影子 拉得很長很長" },
+        { src: "./assets/album/07.png", "caption": "不知不覺 就走過了好多地方" },
+        { src: "./assets/album/08.png", "caption": "有些瞬間 平凡得剛剛好" },
+        { src: "./assets/album/09.png", "caption": "城市裡總有屬於你的角落" },
+        { src: "./assets/album/10.png", "caption": "晚風輕輕吹過 心也慢慢安靜" },
+        { src: "./assets/album/11.png", "caption": "笑聲有時候比音樂還好聽" },
+        { src: "./assets/album/12.png", "caption": "有人陪伴的地方 就是風景" },
+        { src: "./assets/album/13.png", "caption": "今天也留下了一點點故事" },
+        { src: "./assets/album/14.png", "caption": "城市很大 但緣分剛好遇見" },
+        { src: "./assets/album/15.png", "caption": "某個瞬間 就想把畫面記住" },
+        { src: "./assets/album/16.png", "caption": "在這裡 每天都有新的回憶" },
+        { src: "./assets/album/17.png", "caption": "有些笑容 只屬於今天" },
+        { src: "./assets/album/18.png", "caption": "慢慢走 也能走到很遠的地方" },
+        { src: "./assets/album/19.png", "caption": "那些不經意的瞬間 最值得收藏" },
+        { src: "./assets/album/20.png", "caption": "今天的天空 也剛剛好" },
+        { src: "./assets/album/21.png", "caption": "朋友在旁邊 就不會覺得孤單" },
+        { src: "./assets/album/22.png", "caption": "原來平凡的日子也會發光" },
+        { src: "./assets/album/23.png", "caption": "有些故事 不用說也能懂" },
+        { src: "./assets/album/24.png", "caption": "笑著笑著 就過了一整晚" },
+        { src: "./assets/album/25.png", "caption": "這裡的夜晚 總是特別溫柔" },
+        { src: "./assets/album/26.png", "caption": "有人記得你來過 這就夠了" },
+        { src: "./assets/album/27.png", "caption": "偶爾停下來看看風景" },
+        { src: "./assets/album/28.png", "caption": "今天的城市 也很熱鬧" },
+        { src: "./assets/album/29.png", "caption": "每個角落 都藏著小故事" },
+        { src: "./assets/album/30.png", "caption": "時間慢慢走 回憶慢慢多" },
+        { src: "./assets/album/31.png", "caption": "有時候只是一個笑容" },
+        { src: "./assets/album/32.png", "caption": "這個瞬間 值得被記住" },
+        { src: "./assets/album/33.png", "caption": "今天的相遇 也是緣分" },
+        { src: "./assets/album/34.png", "caption": "城市的光 照亮了回憶" },
+        { src: "./assets/album/35.png", "caption": "有些日子 就該好好生活" },
+        { src: "./assets/album/36.png", "caption": "夜色裡的城市 特別安靜" },
+        { src: "./assets/album/37.png", "caption": "每個畫面 都有自己的故事" },
+        { src: "./assets/album/38.png", "caption": "某些回憶 會一直留下來" },
+        { src: "./assets/album/39.png", "caption": "今天的笑聲 還在耳邊" },
+        { src: "./assets/album/40.png", "caption": "這座城市 也在慢慢長大" },
+        { src: "./assets/album/41.png", "caption": "那些瞬間 都變成了紀念" },
+        { src: "./assets/album/42.png", "caption": "一起走過的路 最值得回頭看" },
+        { src: "./assets/album/43.png", "caption": "有些照片 是時間留下的痕跡" },
+        { src: "./assets/album/44.png", "caption": "平凡的日子 也能閃閃發亮" },
+        { src: "./assets/album/45.png", "caption": "有人在笑 就覺得很安心" },
+        { src: "./assets/album/46.png", "caption": "這一刻 就讓它停在回憶裡" },
+        { src: "./assets/album/47.png", "caption": "城市裡的故事 還在繼續" },
+        { src: "./assets/album/48.png", "caption": "今天的回憶 又多了一頁" },
+        { src: "./assets/album/49.png", "caption": "或許未來 還會想起今天" },
+        { src: "./assets/album/50.png", "caption": "回憶慢慢堆成一整本相簿" },
+        { src: "./assets/album/51.png", "caption": "有些瞬間 永遠不會過期" },
+        { src: "./assets/album/52.png", "caption": "故事還沒結束 只是翻到下一頁" },
+        { src: "./assets/album/53.png", "caption": "今天的笑容 已經被收藏" },
+        { src: "./assets/album/54.png", "caption": "回憶會留下 麻糬也會一直在這裡" },
+        { src: "./assets/album/55.png", "caption": "看著泛黃的照片 還是會心跳加快" },
+        { src: "./assets/album/56.png", "caption": "在城市的一隅 寫下我們的約定" },
+        { src: "./assets/album/57.png", "caption": "時光會流逝 但溫暖的感覺不會變" },
+        { src: "./assets/album/58.png", "caption": "漫步在街道 捕捉轉瞬即逝的美好" },
+        { src: "./assets/album/59.png", "caption": "每一次按下快門 都是因為你在" },
+        { src: "./assets/album/60.png", "caption": "未完待續 我們還有好長的故事要講" },
       ]
     };
 
@@ -329,6 +507,22 @@
         });
       }
 
+      // 管理方針渲染
+      const pg = document.getElementById('policyGrid');
+      if (pg && cfg.policy) {
+        pg.innerHTML = '';
+        cfg.policy.forEach(p => {
+          pg.innerHTML += `
+            <div class="bg-white/50 p-6 rounded-2xl border border-pink-100 hover:border-pink-300 transition-colors shadow-sm">
+              <div class="font-black text-pink-600 mb-2 flex items-center gap-3">
+                <span class="w-2.5 h-2.5 bg-pink-400 rounded-full animate-pulse"></span>
+                <span class="text-lg">${p.title}</span>
+              </div>
+              <p class="text-sm opacity-70 leading-relaxed">${p.desc}</p>
+            </div>`;
+        });
+      }
+
       // 渲染行事曆
       const el = document.getElementById('eventList');
       if (el) {
@@ -342,6 +536,23 @@
                 <div class="font-bold">${ev.name}</div>
               </div>
               <div class="text-xs opacity-40">${isPast ? '已結束' : ev.meta}</div>
+            </div>`;
+        });
+      }
+
+      // 相簿渲染
+      const ag = document.getElementById('albumGrid');
+      if (ag) {
+        ag.innerHTML = '';
+        cfg.album.forEach(item => {
+          ag.innerHTML += `
+            <div class="glass-card overflow-hidden group">
+              <div class="aspect-video bg-pink-50 overflow-hidden">
+                <img src="${item.src}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" onerror="this.src='https://via.placeholder.com/800x450?text=MochiRP+Memory'">
+              </div>
+              <div class="p-4 bg-white/50">
+                <p class="text-sm opacity-60 italic text-center">"${item.caption}"</p>
+              </div>
             </div>`;
         });
       }
