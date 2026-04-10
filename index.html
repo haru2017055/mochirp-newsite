@@ -87,6 +87,15 @@
       z-index: -1;
       border-radius: 4px;
     }
+    .hardware-badge {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      background: #3b2f38;
+      color: white;
+      margin-right: 4px;
+    }
   </style>
 </head>
 <body>
@@ -204,9 +213,10 @@
           <div>
             <h4 class="font-black text-xl mb-4 text-pink-500">基本要求</h4>
             <ul class="space-y-4 opacity-70">
-              <li>• 必須擁有合法 Steam 或 Rockstar 遊戲帳號</li>
-              <li>• 必須加入官方 Discord 頻道進行驗證</li>
+              <li>• 必須擁有 Steam 或 Rockstar 遊戲帳號</li>
+              <li>• 必須加入MOCHIRP 官方 Discord 頻道進行驗證</li>
               <li>• 請確認電腦已安裝 FiveM 連線程式</li>
+              <li>• 請確認電腦已安裝 GTAV 傳承版並且有開過遊戲</li>
             </ul>
           </div>
           <div>
@@ -216,6 +226,38 @@
         </div>
       </div>
 
+      <!-- 硬體要求 -->
+      <div class="mb-16">
+        <h3 class="section-title">💻 硬體配備要求</h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-white/40 p-6 rounded-2xl border border-pink-100">
+            <h4 class="font-black mb-4 flex items-center gap-2"><span class="hardware-badge">MINIMUM</span> 最低配置</h4>
+            <ul class="text-sm space-y-2 opacity-70">
+              <li><span class="font-bold">CPU:</span> Intel Core i5 3470 / AMD X8 FX-8350</li>
+              <li><span class="font-bold">GPU:</span> NVIDIA GTX 660 2GB / AMD HD 7870 2GB</li>
+              <li><span class="font-bold">RAM:</span> 8 GB</li>
+              <li><span class="font-bold">Storage:</span> 72 GB + FiveM 緩存空間</li>
+            </ul>
+          </div>
+          <div class="bg-white/40 p-6 rounded-2xl border border-pink-100">
+            <h4 class="font-black mb-4 flex items-center gap-2 text-pink-600"><span class="hardware-badge bg-pink-500">RECOMMENDED</span> 推薦配置</h4>
+            <ul class="text-sm space-y-2 opacity-70">
+              <li><span class="font-bold">CPU:</span> Intel Core i7 10700 / AMD Ryzen 5 5600X</li>
+              <li><span class="font-bold">GPU:</span> NVIDIA RTX 2060 6GB 以上</li>
+              <li><span class="font-bold">RAM:</span> 16 GB 以上 (雙通道佳)</li>
+              <li><span class="font-bold">Storage:</span> SSD 固態硬碟 (必備)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 疑難排解 -->
+      <div class="mb-16">
+        <h3 class="section-title">🔧 常見問題疑難排解</h3>
+        <div class="space-y-4" id="troubleList">
+          <!-- JS 渲染 FAQ -->
+        </div>
+      </div>
     </section>
 
     <!-- 城市相簿專頁 -->
@@ -392,6 +434,33 @@
         { icon: "🍸", title: "Bahama Mamas（霞落之境）", text: "霓虹下的微醺派對，讓節奏與酒精治癒城市的失眠" },
         { icon: "🥃", title: "Tequila La（鐵騎酒吧）", text: "七星會經營的硬派據點，在引擎聲與烈酒中譜寫江湖情義" },
       ],
+      support: [
+        {
+          icon: "🚫",
+          title: "FiveM 打不開 / 一直閃退",
+          text: "• 請嘗試以系統管理員身分啟動 FiveM<br>• 關閉防毒軟體或防火牆後再試<br>• 顯卡驅動過舊也可能造成閃退"
+        },
+        {
+          icon: "🌐",
+          title: "連不上伺服器",
+          text: "• 請確認 FiveM 已登入 Rockstar 帳號<br>• 建議使用一鍵連線進城<br>• VPN 可能會影響連線品質"
+        },
+        {
+          icon: "⏳",
+          title: "卡在 Loading / 讀取很久",
+          text: "• 首次或更新後載入時間較長屬正常<br>• 請耐心等待 5–10 分鐘<br>• 若超過 15 分鐘仍未完成可重新啟動"
+        },
+        {
+          icon: "🔊",
+          title: "沒有聲音 / 麥克風無法使用",
+          text: "• 請確認 FiveM 語音設定內的裝置<br>• 檢查 Windows 預設輸入輸出裝置<br>• Discord 語音不會影響 FiveM 語音"
+        },
+        {
+          icon: "🧹",
+          title: "清除 FiveM 快取（進階）",
+          text: "• 請完全關閉 FiveM<br>• 右鍵 FiveM → 開啟檔案位置<br>• 進入 FiveM Application Data → data<br>• 刪除整個 server-cache-priv 資料夾<br>• 重新啟動 FiveM 後再嘗試進城"
+        }
+      ],
       album: [
         { src: "./assets/album/01.jpg", caption: "麻糬把今天的快樂裝進回憶罐" },
         { src: "./assets/album/02.jpg", caption: "第一次參加活動的人 也笑得很可愛" },
@@ -540,6 +609,8 @@
         });
       }
 
+      
+
       // 相簿渲染
       const ag = document.getElementById('albumGrid');
       if (ag) {
@@ -556,6 +627,18 @@
             </div>`;
         });
       }
+
+      // 疑難排解 (Support)
+      const tl = document.getElementById('troubleList');
+      if (tl) tl.innerHTML = cfg.support.map(s => `
+        <div class="bg-white/60 p-6 rounded-2xl border-l-4 border-pink-300 hover:bg-white/80 transition-colors">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="text-2xl">${s.icon}</span>
+            <p class="font-bold text-pink-600 font-black">${s.title}</p>
+          </div>
+          <p class="text-sm opacity-70 leading-relaxed pl-9">${s.text}</p>
+        </div>
+      `).join('');
 
       // 渲染犯罪與職業
       const cc = document.getElementById('crimeCards');
