@@ -49,6 +49,35 @@
     }
     .btn-primary:hover { transform: scale(1.05); }
     
+     /* 新增按鈕樣式 */
+    .btn-outline {
+      border: 2px solid var(--pink);
+      color: var(--pink);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .btn-outline:hover {
+      background: rgba(255, 111, 176, 0.05);
+      transform: scale(1.05);
+    }
+
+    .btn-secondary {
+      background: #5865F2; /* Discord 顏色 */
+      color: white;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .btn-secondary:hover {
+      filter: brightness(1.1);
+      transform: scale(1.05);
+    }
+    
     .event-past { opacity: 0.4; filter: grayscale(1); }
     
     .section-title {
@@ -156,7 +185,12 @@
         <a href="#" class="hover:text-pink-500 transition" onclick="showPage('jobs')">城市企業</a>
         <a href="#" class="hover:text-pink-500 transition" onclick="showPage('help')">新手指南</a>
       </nav>
-      <button onclick="openConnectModal()" class="btn-primary text-sm">一鍵進城</button>
+      <!-- 按鈕組 -->
+      <div class="flex items-center gap-3">
+        <a href="https://discord.gg/mochirp" target="_blank" class="hidden sm:block btn-secondary text-sm">加入 Discord</a>
+        <a href="https://www.paypal.com/paypalme/strawberrytown" class="hidden sm:block btn-outline text-sm">贊助我們</a>
+        <button onclick="openConnectModal()" class="btn-primary text-sm">一鍵進城</button>
+      </div>
     </div>
   </header>
 
