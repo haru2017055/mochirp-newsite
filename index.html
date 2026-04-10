@@ -12,7 +12,6 @@
 
 <body>
 
-  <!-- ====== Top Bar ====== -->
   <header class="topbar">
     <div class="container topbar-inner">
       <a class="brand" href="#">
@@ -24,13 +23,10 @@
       </a>
 
       <nav class="nav">
-        <a href="#" data-target="jobs">職業</a>
-        <a href="#" data-target="life">市民生活</a>
-        <a href="#" data-target="industry">工業玩法</a>
-        <a href="#" data-target="crime">犯罪玩法</a>
-        <a href="#" data-target="features">特色玩法</a>
-        <a href="#" data-target="organization">創業 / 黑幫</a>
-        <a href="#" data-target="help">新手 / 排解</a>
+        <a href="#" data-target="guide">城市指南</a>
+        <a href="#" data-target="underworld">地下玩法</a>
+        <a href="#" data-target="album">生活記錄</a>
+        <a href="#" data-target="help">新手幫助</a>
       </nav>
 
       <div class="topbar-cta">
@@ -43,8 +39,7 @@
 
   <main id="top">
 
-    <!-- ====== HERO（首頁）====== -->
-    <section class="hero">
+    <section class="hero" id="hero-section">
       <div class="container hero-grid">
         <div class="hero-left">
           <div class="badge" id="mochiLine">🍡 麻糬說 今天也要溫柔地玩</div>
@@ -71,7 +66,7 @@
             <div class="stat">
               <div class="stat-k">Discord 群組</div>
               <div class="stat-v" id="dcMembers">讀取中</div>
-              <div class="stat-s" id="dcHint">需要先在 Discord 開啟 Server Widget</div>
+              <div class="stat-s" id="dcHint">需在 Discord 開啟 Widget</div>
             </div>
           </div>
 
@@ -91,9 +86,9 @@
             </div>
             <div class="card-body">
               <ol class="steps">
-                <li>先加入 Discord，看看新手 QA 頻道和 DC 內的相關資訊</li>
-                <li>用一鍵連線進城就好</li>
-                <li>想生活、想工作、想去哪裡，都沒有標準答案輕鬆探索就好</li>
+                <li>加入 Discord 查看新手資訊</li>
+                <li>點擊一鍵連線即可進城</li>
+                <li>任何玩法都沒有標準答案</li>
               </ol>
             </div>
           </div>
@@ -101,162 +96,113 @@
       </div>
     </section>
 
-    <!-- ====== 首頁內容 ====== -->
-    <section class="section" id="about">
-      <div class="container">
-        <div class="section-head">
-          <h2>🏙️ 城市介紹</h2>
-          <p class="muted">這裡是一座以生活與工業為核心的城市</p>
-        </div>
-        <div class="grid-3" id="aboutCards"></div>
-      </div>
-    </section>
-
-    <section class="section" id="calendar">
-      <div class="container">
-        <div class="section-head">
-          <h2>📅 活動日曆</h2>
-          <p class="muted">城市會有節奏 也會有驚喜</p>
-        </div>
-        <div class="calendar-wrap">
-          <div class="calendar-left">
-            <div class="calendar-box">
-              <div class="calendar-box-head">
-                <div class="calendar-title">近期活動</div>
-              </div>
-              <div class="calendar-list" id="calendarList"></div>
-            </div>
+    <div id="page-guide" class="page-group" style="display:none;">
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>✨ 職業與生活</h2>
+            <p class="muted">在 MochiRP，每個人都有屬於自己的步調</p>
           </div>
-          <div class="calendar-right">
-            <div class="calendar-box">
-              <div class="calendar-box-head">
-                <div class="calendar-title">固定節奏</div>
-              </div>
-              <div class="grid-2" id="rhythmCards"></div>
-            </div>
+          <div class="grid-3" id="jobCards"></div>
+          <div class="grid-2" id="lifeCards" style="margin-top: 40px;"></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>🏭 工業與特色</h2>
+            <p class="muted">採集、合成、種植，體驗最純粹的經營樂趣</p>
+          </div>
+          <div class="grid-3" id="industryCards"></div>
+          <div id="featureCards" class="card-grid" style="margin-top: 40px;"></div>
+        </div>
+      </section>
+    </div>
+
+    <div id="page-underworld" class="page-group" style="display:none;">
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>🕶️ 城市的另一面</h2>
+            <p class="muted">犯罪是一種角色選擇，而不是生存壓力</p>
+          </div>
+          <div class="grid-3" id="crimeCards"></div>
+        </div>
+      </section>
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>🏢 創業與勢力</h2>
+            <p class="muted">從一個人開始，慢慢經營成一個響亮的名字</p>
+          </div>
+          <div class="grid-3" id="organizationCards"></div>
+        </div>
+      </section>
+    </div>
+
+    <div id="page-album" class="page-group" style="display:none;">
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>📸 回憶相簿</h2>
+            <p class="muted">麻糬把快樂裝進回憶罐，記錄城裡的每一刻</p>
+          </div>
+          <div class="album-grid" id="albumGrid"></div>
+        </div>
+      </section>
+    </div>
+
+    <div id="page-help" class="page-group" style="display:none;">
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>🧸 新手 / 疑難排解</h2>
+            <p class="muted">第一次進城先看準備，遇到問題再看排解</p>
+          </div>
+          <div class="pill-list" id="helpTabs">
+            <span class="pill active" data-tab="start">🧸 首次進城準備</span>
+            <span class="pill" data-tab="support">🛠️ FiveM 疑難排解</span>
+          </div>
+          <div id="help-start" class="help-panel">
+            <div class="grid-2" id="gettingStartedCards"></div>
+          </div>
+          <div id="help-support" class="help-panel" style="display:none;">
+            <div class="grid-2" id="supportCards"></div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
-    <section class="section" id="video">
-      <div class="container">
-        <div class="section-head">
-          <h2>🎥 城市片段</h2>
-          <p class="muted">有些畫面，比文字更溫柔</p>
+    <div id="page-home-content">
+      <section class="section" id="about">
+        <div class="container">
+          <div class="section-head">
+            <h2>🏙️ 關於城市</h2>
+            <div class="grid-3" id="aboutCards"></div>
+          </div>
         </div>
-
-        <div class="video-wrap">
-        <iframe
-          src="https://www.youtube.com/embed/66BsbZfdem4"
-          title="MochiRP 城市影片"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-      </div>
-    </section>
-
-
-    <section class="section" id="album">
-      <div class="container">
-        <div class="section-head">
-          <h2>📸 回憶相簿</h2>
-          <p class="muted">麻糬把快樂裝進回憶罐</p>
+      </section>
+      
+      <section class="section" id="calendar">
+        <div class="container">
+          <div class="section-head"><h2>📅 活動日曆</h2></div>
+          <div class="calendar-wrap">
+            <div class="calendar-left"><div class="calendar-list" id="calendarList"></div></div>
+            <div class="calendar-right"><div class="grid-2" id="rhythmCards"></div></div>
+          </div>
         </div>
-        <div class="album-grid" id="albumGrid"></div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ====== 分頁內容（預設隱藏）====== -->
-    <section class="section page-section" id="jobs">
-      <div class="container">
-        <div class="section-head">
-          <h2>✨ 職業介紹</h2>
-          <p class="muted">每一份工作都是城市的一部分</p>
+      <section class="section">
+        <div class="container">
+          <div class="section-head"><h2>🎥 城市片段</h2></div>
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/66BsbZfdem4" frameborder="0" allowfullscreen></iframe>
+          </div>
         </div>
-        <div class="grid-3" id="jobCards"></div>
-      </div>
-    </section>
-
-    <section class="section page-section" id="life">
-      <div class="container">
-        <div class="section-head">
-          <h2>🏠 市民生活</h2>
-          <p class="muted">就算不想上班 也可以好好生活</p>
-        </div>
-        <div class="grid-2" id="lifeCards"></div>
-      </div>
-    </section>
-
-    <section class="section page-section" id="industry">
-      <div class="container">
-        <div class="section-head">
-          <h2>🏭 工業玩法</h2>
-          <p class="muted">採集 合成 種植 把日常慢慢累積</p>
-        </div>
-        <div class="grid-3" id="industryCards"></div>
-      </div>
-    </section>
-
-    <section class="section page-section" id="features">
-      <div class="container">
-        <div class="section-head">
-          <h2>✨ 特色玩法</h2>
-          <p class="muted">這座城市，有一些慢慢走出來的特色。</p>
-        </div>
-
-        <div id="featureCards" class="card-grid"></div>
-      </div>
-    </section>
-
-    <section class="section page-section" id="crime">
-      <div class="container">
-        <div class="section-head">
-          <h2>🕶️ 城市的另一面</h2>
-          <p class="muted">犯罪是一種角色選擇 而不是壓力</p>
-        </div>
-        <div class="grid-3" id="crimeCards"></div>
-      </div>
-    </section>
-
-    <section class="section page-section" id="organization">
-      <div class="container">
-        <div class="section-head">
-          <h2>🏢 創業與勢力</h2>
-          <p class="muted">從一個人開始，慢慢經營成一個名字</p>
-        </div>
-
-        <div class="grid-3" id="organizationCards"></div>
-      </div>
-    </section>
-
-    <section class="section page-section" id="help">
-      <div class="container">
-        <div class="section-head">
-          <h2>🧸 新手 / 疑難排解</h2>
-          <p class="muted">第一次進城先看新手準備，卡住再看疑難排解</p>
-        </div>
-
-        <!-- 切換按鈕 -->
-        <div class="pill-list" id="helpTabs">
-          <span class="pill active" data-tab="start">🧸 首次進城準備</span>
-          <span class="pill" data-tab="support">🛠️ FiveM 疑難排解</span>
-        </div>
-
-        <!-- 新手內容 -->
-        <div id="help-start" class="help-panel">
-          <div class="grid-2" id="gettingStartedCards"></div>
-        </div>
-
-        <!-- 排解內容 -->
-        <div id="help-support" class="help-panel" style="display:none;">
-          <div class="grid-2" id="supportCards"></div>
-        </div>
-      </div>
-    </section>
-
+      </section>
+    </div>
 
   </main>
 
