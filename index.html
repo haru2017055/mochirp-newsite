@@ -191,7 +191,6 @@
         <a href="#" class="hover:text-pink-500 transition" onclick="showPage('features')">麻糬特色</a>
         <a href="#" class="hover:text-pink-500 transition" onclick="showPage('crime')">非法玩法</a>
         <a href="#" class="hover:text-pink-500 transition" onclick="showPage('jobs')">城市企業</a>
-        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('videos')">影音專區</a>
         <a href="#" class="hover:text-pink-500 transition" onclick="showPage('help')">新手指南</a>
       </nav>
       <!-- 按鈕組 -->
@@ -285,17 +284,7 @@
   <!-- 其餘頁面... -->
   <section id="page-crime" class="page-section container mx-auto px-6 py-20"><div class="text-center"><h2 class="text-4xl font-black">🕶️ 非法玩法</h2><div class="grid md:grid-cols-3 gap-8 mt-10" id="crimeCards"></div></div></section>
   <section id="page-jobs" class="page-section container mx-auto px-6 py-20"><div class="text-center"><h2 class="text-4xl font-black">💼 城市企業</h2><div class="grid md:grid-cols-2 gap-8 mt-10" id="jobGrid"></div></div></section>
-  <!-- 影音專區 (新增分頁) -->
-  <section id="page-videos" class="page-section container mx-auto px-6 py-20 max-w-6xl">
-    <div class="text-center mb-16">
-      <h2 class="text-4xl font-black mb-4">🎬 影音專區</h2>
-      <p class="opacity-60 text-lg">精選城市紀錄與玩家創作影片</p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10" id="videoGrid">
-      <!-- JS 渲染 -->
-    </div>
-  </section> 
-  <!-- 新手指南專頁 -->
+   <!-- 新手指南專頁 -->
     <section id="page-help" class="page-section container mx-auto px-6 py-20 max-w-5xl">
       <div class="text-center mb-16">
         <h2 class="text-4xl font-black mb-4 italic">🧸 新手進城指南</h2>
@@ -379,10 +368,7 @@
           { title: "不急著判定", desc: "先聽完整故事，再做出合適的判斷" },
           { title: "保護體驗", desc: "避免任何破壞他人體驗的行為發生" },
           { title: "鼓勵回報", desc: "有疑慮就說出來，城市會認真傾聽" }
-      ],
-      videos: [
-        { id: "66BsbZfdem4", title: "麻糬RP 宣傳影片", author: "管理組", isShorts: true },
-      ],
+        ],
       features: [
         {
           icon: "🎇",
@@ -685,26 +671,6 @@
     }
 
     function render() {
-      // 影音專區
-      const vg = document.getElementById('videoGrid');
-      if (vg) vg.innerHTML = cfg.videos.map(v => {
-        // 自動轉換 Shorts ID 到 Embed 路徑
-        const embedUrl = `https://www.youtube.com/embed/${v.id}`;
-        return `
-          <div class="glass-card overflow-hidden">
-            <div class="video-container">
-              <iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <div class="p-6">
-              <div class="flex items-center gap-2 mb-1">
-                ${v.isShorts ? '<span class="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">SHORTS</span>' : ''}
-                <h4 class="font-black text-xl">${v.title}</h4>
-              </div>
-              <p class="text-xs opacity-50">投稿者：${v.author}</p>
-            </div>
-          </div>
-        `;
-      }).join('');
       // 渲染特色
       const fg = document.getElementById('featuresGrid');
       if (fg) {
