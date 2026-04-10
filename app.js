@@ -403,33 +403,6 @@ document.querySelector(".brand")?.addEventListener("click", e => {
   showHome();
 });
 
-// ===== 幫助中心 Tab 切換（補全版）=====
-document.addEventListener("DOMContentLoaded", () => {
-  const tabs = document.querySelectorAll("#helpTabs .pill");
-  const panels = {
-    start: document.getElementById("help-start"),
-    support: document.getElementById("help-support")
-  };
-
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      // 1. 切換分頁按鈕的 active 樣式
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-
-      // 2. 隱藏所有面板，顯示對應面板
-      const targetTab = tab.dataset.tab; // 取得 data-tab="start" 或 "support"
-      
-      if (panels.start) panels.start.style.display = "none";
-      if (panels.support) panels.support.style.display = "none";
-
-      if (panels[targetTab]) {
-        panels[targetTab].style.display = "block";
-      }
-    });
-  });
-});
-
 // ⭐ 關鍵：頁面載入完成後，強制進首頁模式
 document.addEventListener("DOMContentLoaded", () => {
   showHome();
