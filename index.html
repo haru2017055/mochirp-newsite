@@ -124,14 +124,19 @@
     <div class="glass-card p-8 max-w-sm w-full mx-4 text-center" onclick="event.stopPropagation()">
       <div class="text-5xl mb-4">🛸</div>
       <h3 class="text-xl font-black mb-4">即將前往 MochiRP</h3>
-      <p class="text-sm opacity-70 mb-6 leading-relaxed">
+      <p id="modalStatus" class="text-sm opacity-70 mb-6 leading-relaxed">
         正在嘗試啟動 FiveM 連線協議...<br>
         如果沒有反應，請確認已安裝 FiveM，<br>
-        或前往 Discord 獲取一鍵連線網址。
+        或是手動輸入 IP 連線。
       </p>
       <div class="flex flex-col gap-2">
-        <button class="btn-primary w-full" onclick="connectToFiveM()">立即啟動連線</button>
-        <button class="text-sm opacity-50 hover:opacity-100 py-2" onclick="closeModal()">關閉窗口</button>
+        <button id="mainConnectBtn" class="btn-primary w-full" onclick="connectToFiveM()">立即啟動連線</button>
+        <div class="mt-4">
+          <p class="text-[10px] uppercase tracking-widest opacity-40 mb-1">手動連線指令 (F8)</p>
+          <button class="text-xs w-full opacity-60 select-all font-mono bg-pink-50 p-2 rounded border border-pink-100" onclick="copyIP()">connect mochirp2025.zapto.org</button>
+          <p id="copyHint" class="text-[10px] text-pink-400 mt-1 h-2 opacity-0 transition-opacity">已複製連線指令！</p>
+        </div>
+        <button class="text-sm opacity-50 hover:opacity-100 py-2 mt-2" onclick="closeModal()">關閉窗口</button>
       </div>
     </div>
   </div>
@@ -308,6 +313,8 @@
     </section>
   <script>
     const cfg = {
+      connectUrl: "fivem://connect/162.222.17.19:30120",
+      ipAddress: "mochirp2025.zapto.org",
       policy: [
           { title: "公平", desc: "不看身分、不偏袒，用一致標準處理" },
           { title: "溝通", desc: "先理解再處理，不用吵架也能解決" },
@@ -577,6 +584,19 @@
     }
     function connectToFiveM() {
       window.location.href = cfg.connectUrl;
+    }
+
+    function copyIP() {
+      const el = document.createElement('textarea');
+      el.value = "connect " + cfg.ipAddress;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      
+      const hint = document.getElementById('copyHint');
+      hint.style.opacity = "1";
+      setTimeout(() => { hint.style.opacity = "0"; }, 2000);
     }
 
     // Lightbox 功能
