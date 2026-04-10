@@ -136,6 +136,14 @@
       align-items: center;
       justify-content: center;
     }
+    /* LOGO 樣式 */
+    .site-logo {
+      width: 52px;
+      height: 52px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(255, 111, 176, 0.2);
+    }
   </style>
 </head>
 <body>
@@ -173,7 +181,7 @@
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-pink-50">
     <div class="container mx-auto px-6 py-4 flex justify-between items-center">
       <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
-        <span class="text-3xl">🍡</span>
+        <img src="./assets/logo.png" alt="MochiRP Logo" class="site-logo" onerror="this.src='https://via.placeholder.com/42?text=M'">
         <div>
           <h1 class="font-black text-lg leading-tight">MochiRP</h1>
           <p class="text-xs opacity-60">麻糬陪你慢慢生活</p>
@@ -503,7 +511,7 @@
         }
       ],
       jobs: [
-        { icon: "🚓", title: "警政署", text: "維護城市秩序，保護市民，也保護故事的公平" },
+        { icon: "🚓", title: "警政署", text: "稀有雙警局玩法，維護城市秩序、保護市民" },
         { icon: "🚑", title: "醫護局", text: "救治、協助與照顧，把溫柔留在每一次相遇" },
         { icon: "🔧", title: "修車廠（獵鷹極速）", text: "維修、道路救援，讓每台車都能好好出門" },
         { icon: "🦐", title: "海鮮餐廳（海巡鼠）", text: "捕撈、料理與分享，把海的味道端上每一張餐桌" },
