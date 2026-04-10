@@ -119,21 +119,20 @@ function renderEvents(containerId, events){
   `).join("");
 }
 
-function renderAlbum(containerId, photos){
-  const host = $(containerId);
-  if(!host) return;
+function renderAlbum() {
+    const albumGrid = document.getElementById('albumGrid');
+    if (!albumGrid) return;
 
-  if(!photos || photos.length === 0){
-    host.innerHTML = `<div class="muted">相簿還沒有照片 麻糬先把相機擦亮亮</div>`;
-    return;
-  }
-
-  host.innerHTML = photos.map(p => `
-    <div class="album-item">
-      <img src="${p.src}" alt="活動照片">
-      <div class="album-cap">${escapeHtml(p.caption || "")}</div>
-    </div>
-  `).join("");
+    // 移除過濾邏輯，直接顯示所有在 config.js 定義的照片
+    albumData.forEach(photo => {
+        const item = document.createElement('div');
+        item.className = 'album-item';
+        item.innerHTML = `
+            <img src="${photo.src}" alt="活動照片" onerror="this.src='./assets/album/default.png'">
+            <div class="album-caption">${photo.caption}</div>
+        `;
+        albumGrid.appendChild(item);
+    });
 }
 
 function escapeHtml(str){
