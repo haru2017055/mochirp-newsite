@@ -144,86 +144,6 @@
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(255, 111, 176, 0.2);
     }
-    /* 1. 定義顏色變數 */
-    :root {
-      --bg: #fff7fb;
-      --ink: #3b2f38;
-      --pink: #ff6fb0;
-      --card-bg: rgba(255, 255, 255, 0.7);
-      --card-border: rgba(255, 255, 255, 0.4);
-      --header-bg: rgba(255, 255, 255, 0.8);
-      --shadow: 0 10px 40px rgba(255, 111, 176, 0.12);
-      --radius: 24px;
-      
-      /* 光暈變數：淺色模式下較亮 */
-      --glow-1: rgba(255, 111, 176, 0.15);
-      --glow-2: rgba(74, 58, 68, 0.1);
-    }
-
-    /* 2. 暗黑模式顏色覆蓋 */
-    .dark {
-      --bg: #151214; /* 更深邃的黑色背景 */
-      --ink: #f5f0f3;
-      --pink: #ff8dc0; 
-      --card-bg: rgba(45, 38, 43, 0.8);
-      --card-border: rgba(255, 255, 255, 0.05);
-      --header-bg: rgba(26, 22, 25, 0.9);
-      --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-      
-      /* 解決粉色印：大幅降低黑暗模式下的光暈亮度與不透明度 */
-      --glow-1: rgba(255, 141, 192, 0.08); /* 極淡的粉色霓虹感 */
-      --glow-2: rgba(0, 0, 0, 0); /* 底部光暈在黑夜模式下設為全透明 */
-    }
-
-    body {
-      margin: 0;
-      font-family: "Noto Sans TC", sans-serif;
-      background-color: var(--bg);
-      /* 使用變數控制的光暈，解決邊緣死板的問題 */
-      background-image: 
-        radial-gradient(1000px 600px at 15% 15%, var(--glow-1), transparent 80%),
-        radial-gradient(800px 600px at 50% 90%, var(--glow-2), transparent 80%);
-      color: var(--ink);
-      transition: background 0.5s ease, color 0.5s ease;
-      min-height: 100vh;
-    }
-
-    .glass-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      backdrop-filter: blur(12px); /* 增加磨砂感，讓黑暗模式更有質感 */
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
-
-    header {
-      background: var(--header-bg) !important;
-      backdrop-filter: blur(8px);
-    }
-
-    /* 修正暗黑模式下的細節細節 */
-    .dark .opacity-70, 
-    .dark .opacity-60 { 
-      opacity: 0.85; 
-    }
-
-    .dark .bg-pink-50 { 
-      background: rgba(255, 111, 176, 0.15) !important; 
-    }
-
-    /* 針對 Tailwind 的常用白色背景在黑暗模式下進行優化 */
-    .dark .bg-white\/40, 
-    .dark .bg-white\/50, 
-    .dark .bg-white\/60 { 
-      background: rgba(255, 255, 255, 0.03) !important;
-      border-color: rgba(255, 255, 255, 0.05) !important;
-    }
-
-    /* 讓圖片在暗色模式下稍微降低亮度，不刺眼 */
-    .dark img {
-      filter: brightness(0.9);
-    }
   </style>
 </head>
 <body>
@@ -278,9 +198,6 @@
         <a href="https://discord.gg/mochirp" target="_blank" class="hidden sm:block btn-secondary text-sm">加入 Discord</a>
         <a href="https://www.paypal.com/paypalme/strawberrytown" class="hidden sm:block btn-outline text-sm">贊助我們</a>
         <button onclick="openConnectModal()" class="btn-primary text-sm">一鍵進城</button>
-        <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-pink-100 dark:hover:bg-gray-800 transition">
-          <span id="theme-icon" class="text-xl">🌙</span>
-        </button>
       </div>
     </div>
   </header>
@@ -437,25 +354,6 @@
       </div>
     </section>
   <script>
-    // 檢查本地存儲或系統偏好
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-      updateThemeIcon(true);
-    } else {
-      document.documentElement.classList.remove('dark');
-      updateThemeIcon(false);
-    }
-
-    function toggleDarkMode() {
-      const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.theme = isDark ? 'dark' : 'light';
-      updateThemeIcon(isDark);
-    }
-
-    function updateThemeIcon(isDark) {
-      const icon = document.getElementById('theme-icon');
-      if (icon) icon.innerText = isDark ? '☀️' : '🌙';
-    }
     const cfg = {
       connectUrl: "fivem://connect/162.222.17.19:30120",
       ipAddress: "mochirp2025.zapto.org",
