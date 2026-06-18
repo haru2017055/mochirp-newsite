@@ -277,11 +277,27 @@
       <div class="flex items-center gap-3">
         <a href="https://discord.gg/mochirp" target="_blank" class="hidden sm:block btn-secondary text-sm">加入 Discord</a>
         <a href="https://www.paypal.com/paypalme/strawberrytown" class="hidden sm:block btn-outline text-sm">贊助我們</a>
-        <button onclick="openConnectModal()" class="btn-primary text-sm">一鍵進城</button>
+        <button onclick="openConnectModal()" class="hidden sm:block btn-primary text-sm">一鍵進城</button>
         <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-pink-100 dark:hover:bg-gray-800 transition">
           <span id="theme-icon" class="text-xl">🌙</span>
         </button>
+        <button id="mobile-menu-button" type="button" class="md:hidden p-2 rounded-xl hover:bg-pink-100 dark:hover:bg-gray-800 transition" onclick="toggleMobileMenu()" aria-label="開啟導覽選單" aria-controls="mobile-menu" aria-expanded="false">
+          <span id="mobile-menu-icon" class="text-2xl leading-none">☰</span>
+        </button>
       </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-pink-100 bg-white/95 dark:bg-[#1a1619]/95 backdrop-blur-md shadow-lg">
+      <nav class="container mx-auto px-6 py-5 flex flex-col gap-2 font-medium" aria-label="手機版導覽">
+        <a href="#" class="px-4 py-3 rounded-xl hover:bg-pink-50 dark:hover:bg-gray-800 transition" onclick="showPage('home'); return false;">首頁</a>
+        <a href="#" class="px-4 py-3 rounded-xl hover:bg-pink-50 dark:hover:bg-gray-800 transition" onclick="showPage('features'); return false;">麻糬特色</a>
+        <a href="#" class="px-4 py-3 rounded-xl hover:bg-pink-50 dark:hover:bg-gray-800 transition" onclick="showPage('crime'); return false;">非法玩法</a>
+        <a href="#" class="px-4 py-3 rounded-xl hover:bg-pink-50 dark:hover:bg-gray-800 transition" onclick="showPage('jobs'); return false;">城市企業</a>
+        <a href="#" class="px-4 py-3 rounded-xl hover:bg-pink-50 dark:hover:bg-gray-800 transition" onclick="showPage('help'); return false;">新手指南</a>
+        <a href="#" class="px-4 py-3 rounded-xl hover:bg-pink-50 dark:hover:bg-gray-800 transition" onclick="showPage('album'); return false;">城市相簿</a>
+        <div class="pt-3 mt-2 border-t border-pink-100">
+          <a href="https://discord.gg/mochirp" target="_blank" rel="noopener noreferrer" class="btn-secondary block w-full text-sm text-center">加入 Discord</a>
+        </div>
+      </nav>
     </div>
   </header>
 
@@ -436,6 +452,25 @@
         <!-- JS 渲染 -->
       </div>
     </section>
+  <footer class="border-t border-pink-100 bg-white/50 dark:bg-black/10 backdrop-blur-sm">
+    <div class="container mx-auto max-w-6xl px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+      <div class="flex items-center gap-3">
+        <img src="./assets/logo.png" alt="MochiRP Logo" class="site-logo">
+        <div>
+          <p class="font-black text-lg">MochiRP</p>
+          <p class="text-sm opacity-60">麻糬陪你慢慢生活</p>
+        </div>
+      </div>
+      <nav class="flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm font-medium" aria-label="頁尾導覽">
+        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('features'); return false;">麻糬特色</a>
+        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('help'); return false;">新手指南</a>
+        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('album'); return false;">城市相簿</a>
+        <a href="https://discord.gg/mochirp" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition">Discord</a>
+      </nav>
+      <p class="text-xs opacity-50">&copy; <span id="copyright-year"></span> MochiRP</p>
+    </div>
+  </footer>
+
   <script>
     // 檢查本地存儲或系統偏好
     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -456,6 +491,30 @@
       const icon = document.getElementById('theme-icon');
       if (icon) icon.innerText = isDark ? '☀️' : '🌙';
     }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const button = document.getElementById('mobile-menu-button');
+      const icon = document.getElementById('mobile-menu-icon');
+      const isOpening = menu.classList.contains('hidden');
+      menu.classList.toggle('hidden');
+      button.setAttribute('aria-expanded', String(isOpening));
+      button.setAttribute('aria-label', isOpening ? '關閉導覽選單' : '開啟導覽選單');
+      icon.textContent = isOpening ? '✕' : '☰';
+    }
+
+    function closeMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const button = document.getElementById('mobile-menu-button');
+      const icon = document.getElementById('mobile-menu-icon');
+      if (!menu || !button || !icon) return;
+      menu.classList.add('hidden');
+      button.setAttribute('aria-expanded', 'false');
+      button.setAttribute('aria-label', '開啟導覽選單');
+      icon.textContent = '☰';
+    }
+
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
     const cfg = {
       connectUrl: "fivem://connect/162.222.17.19:30120",
       ipAddress: "mochirp2025.zapto.org",
@@ -731,6 +790,7 @@
       document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
       const target = document.getElementById('page-' + id);
       if (target) target.classList.add('active-section');
+      closeMobileMenu();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
