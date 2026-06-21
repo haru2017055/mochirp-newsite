@@ -224,6 +224,113 @@
     .dark img {
       filter: brightness(0.9);
     }
+
+    /* 2026 visual polish */
+    html { scroll-behavior: smooth; }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.32;
+      background-image: radial-gradient(rgba(255, 111, 176, 0.22) 0.7px, transparent 0.7px);
+      background-size: 22px 22px;
+      mask-image: linear-gradient(to bottom, black, transparent 72%);
+    }
+    header { border-bottom-color: rgba(255, 111, 176, 0.12) !important; }
+    header nav a { position: relative; }
+    header nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 100%;
+      bottom: -8px;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--pink);
+      transition: right 0.25s ease;
+    }
+    header nav a:hover::after { right: 0; }
+    .hero-shell {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(2.75rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 4rem);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 36px;
+      background: linear-gradient(145deg, rgba(255,255,255,.82), rgba(255,247,251,.52));
+      box-shadow: 0 30px 90px rgba(83, 51, 70, 0.11);
+      isolation: isolate;
+    }
+    .hero-shell::before,
+    .hero-shell::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(2px);
+      z-index: -1;
+    }
+    .hero-shell::before { width: 260px; height: 260px; right: -75px; top: -105px; background: rgba(255,111,176,.18); }
+    .hero-shell::after { width: 210px; height: 210px; left: -70px; bottom: -110px; background: rgba(124,219,193,.18); }
+    .dark .hero-shell { background: linear-gradient(145deg, rgba(48,40,46,.9), rgba(28,23,27,.76)); border-color: rgba(255,255,255,.07); }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .5rem .9rem;
+      margin-bottom: 1.25rem;
+      border: 1px solid rgba(255,111,176,.2);
+      border-radius: 999px;
+      color: var(--pink);
+      background: rgba(255,111,176,.08);
+      font-size: .75rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+    }
+    .quick-card { position: relative; overflow: hidden; text-align: left; min-height: 132px; }
+    .quick-card::after { content: "↗"; position: absolute; right: 1.1rem; top: 1rem; opacity: .2; font-size: 1.1rem; transition: .25s ease; }
+    .quick-card:hover::after { opacity: .75; transform: translate(2px,-2px); }
+    .quick-card small { display: block; margin-top: .4rem; opacity: .52; font-weight: 600; }
+    .guide-step {
+      position: relative;
+      padding: 1.5rem 1.5rem 1.5rem 4.5rem;
+      border: 1px solid rgba(255,111,176,.14);
+      border-radius: 22px;
+      background: var(--card-bg);
+      box-shadow: 0 12px 32px rgba(83,51,70,.06);
+    }
+    .guide-number {
+      position: absolute;
+      left: 1.25rem;
+      top: 1.35rem;
+      display: grid;
+      place-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 12px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--pink), #ff9dca);
+      box-shadow: 0 8px 18px rgba(255,111,176,.24);
+      font-weight: 900;
+    }
+    .guide-step p, .guide-step li { line-height: 1.8; }
+    .guide-tip {
+      padding: 1rem 1.1rem;
+      border-left: 3px solid var(--pink);
+      border-radius: 0 14px 14px 0;
+      background: rgba(255,111,176,.07);
+      font-size: .875rem;
+    }
+    .check-card { border: 1px solid rgba(255,111,176,.14); transition: transform .25s ease, border-color .25s ease; }
+    .check-card:hover { transform: translateY(-3px); border-color: rgba(255,111,176,.42); }
+    @media (max-width: 640px) {
+      .hero-shell { border-radius: 26px; }
+      .guide-step { padding: 4.25rem 1.25rem 1.3rem; }
+      .guide-number { left: 1.25rem; top: 1.2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
   </style>
 </head>
 <body>
@@ -304,28 +411,38 @@
   <!-- 首頁 -->
   <main id="page-home" class="page-section active-section pt-16 pb-32">
     <div class="container mx-auto max-w-5xl px-6">
-      <div class="text-center mb-12">
+      <div class="hero-shell text-center mb-16">
+        <div class="eyebrow">● 歡迎回到你的第二人生</div>
         <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
           可愛溫柔的<br><span class="hero-highlight text-pink-500">MochiRP</span>
         </h2>
-        <p class="text-lg opacity-70 mb-10">想慢慢生活也可以，想努力賺錢也可以，想走城市的另一面也可以。</p>
+        <p class="text-lg md:text-xl opacity-70 mb-8 max-w-2xl mx-auto leading-relaxed">不用急著成為誰。從一份工作、一段相遇開始，慢慢寫下只屬於你的城市故事。</p>
+
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+          <button onclick="openConnectModal()" class="btn-primary text-sm md:text-base">立即進城</button>
+          <button onclick="showPage('help')" class="btn-outline text-sm md:text-base">先看新手指南</button>
+        </div>
         
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-16">
-          <div class="glass-card p-6 cursor-pointer" onclick="showPage('features')">
+          <div class="glass-card quick-card p-6 cursor-pointer" onclick="showPage('features')">
             <div class="text-3xl mb-2">✨</div>
             <div class="font-bold">麻糬特色</div>
+            <small>看看城市有什麼不同</small>
           </div>
-          <div class="glass-card p-6 cursor-pointer" onclick="showPage('crime')">
+          <div class="glass-card quick-card p-6 cursor-pointer" onclick="showPage('crime')">
             <div class="text-3xl mb-2">🕶️</div>
             <div class="font-bold">非法玩法</div>
+            <small>探索城市的另一面</small>
           </div>
-          <div class="glass-card p-6 cursor-pointer" onclick="showPage('album')">
+          <div class="glass-card quick-card p-6 cursor-pointer" onclick="showPage('album')">
             <div class="text-3xl mb-2">📸</div>
             <div class="font-bold">城市相簿</div>
+            <small>收藏每一段相遇</small>
           </div>
-          <div class="glass-card p-6 cursor-pointer" onclick="showPage('help')">
+          <div class="glass-card quick-card p-6 cursor-pointer" onclick="showPage('help')">
             <div class="text-3xl mb-2">🧸</div>
-            <div class="font-bold">新手指南/疑難排解</div>
+            <div class="font-bold">新手指南</div>
+            <small>第一次進城從這開始</small>
           </div>
         </div>
       </div>
@@ -387,24 +504,73 @@
     <section id="page-help" class="page-section container mx-auto px-6 py-20 max-w-5xl">
       <div class="text-center mb-16">
         <h2 class="text-4xl font-black mb-4 italic">🧸 新手進城指南</h2>
-        <p class="opacity-60 text-lg">準備好這些，開啟你的第二人生</p>
+        <p class="opacity-60 text-lg max-w-2xl mx-auto leading-relaxed">第一次玩 FiveM 也不用怕。照著以下順序準備，大約 15–30 分鐘就能完成進城。</p>
       </div>
       
-      <div class="glass-card p-10 mb-16">
+      <div class="glass-card p-6 md:p-10 mb-12">
         <div class="grid md:grid-cols-2 gap-10">
           <div>
-            <h4 class="font-black text-xl mb-4 text-pink-500">基本要求</h4>
+            <h4 class="font-black text-xl mb-4 text-pink-500">進城前先準備</h4>
             <ul class="space-y-4 opacity-70">
-              <li>• 必須擁有 Steam 或 Rockstar 遊戲帳號</li>
-              <li>• 必須加入MOCHIRP 官方 Discord 頻道進行驗證</li>
-              <li>• 請確認電腦已安裝 FiveM 連線程式</li>
-              <li>• 請確認電腦已安裝 GTAV 傳承版並且有開過遊戲</li>
+              <li>✓ 正版 GTA V 傳承版，並至少成功開啟過一次</li>
+              <li>✓ 可正常登入的 Rockstar Games 帳號</li>
+              <li>✓ Steam 與 Discord 帳號</li>
+              <li>✓ FiveM 連線程式與穩定網路</li>
             </ul>
           </div>
           <div>
             <h4 class="font-black text-xl mb-4 text-pink-500">溫馨提醒</h4>
-            <p class="opacity-70 leading-relaxed">麻糬RP是一個溫柔的地方，我們希望每一位市民都能互相尊重。進城前請詳閱 Discord 中的規則頻道，讓我們一起維護良好的故事氛圍。</p>
+            <p class="opacity-70 leading-relaxed mb-4">麻糬RP重視角色互動與彼此尊重。進城前請先閱讀 Discord 的城市規章，不確定的事情先詢問，不需要硬著頭皮猜。</p>
+            <div class="guide-tip"><strong>小提醒：</strong>註冊資料與角色設定請先想好，建立角色後會更容易自然地開始第一段故事。</div>
           </div>
+        </div>
+      </div>
+
+      <div class="mb-16">
+        <h3 class="section-title">🗺️ 六步完成進城</h3>
+        <div class="grid lg:grid-cols-2 gap-5">
+          <article class="guide-step">
+            <span class="guide-number">1</span>
+            <h4 class="font-black text-lg mb-2">加入官方 Discord</h4>
+            <p class="opacity-70 text-sm">加入 MochiRP Discord，完成伺服器要求的身分驗證，並依序閱讀公告、城市規章與新手資訊。遇到權限尚未開通時，先確認是否漏看驗證步驟。</p>
+            <a href="https://discord.gg/mochirp" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm font-bold text-pink-500 hover:opacity-70">前往 Discord →</a>
+          </article>
+          <article class="guide-step">
+            <span class="guide-number">2</span>
+            <h4 class="font-black text-lg mb-2">確認 GTA V 可以啟動</h4>
+            <p class="opacity-70 text-sm">先從 Rockstar Games Launcher 或 Steam 正常開啟 GTA V 傳承版一次，進到主畫面後再關閉。這一步能讓 FiveM 正確找到遊戲檔案。</p>
+          </article>
+          <article class="guide-step">
+            <span class="guide-number">3</span>
+            <h4 class="font-black text-lg mb-2">安裝並登入 FiveM</h4>
+            <p class="opacity-70 text-sm">從 FiveM 官方網站下載安裝程式，完成安裝後依畫面登入 Rockstar 帳號。首次啟動可能需要更新與下載檔案，請耐心等待。</p>
+          </article>
+          <article class="guide-step">
+            <span class="guide-number">4</span>
+            <h4 class="font-black text-lg mb-2">連線 MochiRP</h4>
+            <p class="opacity-70 text-sm mb-3">點擊網站的「立即進城」即可連線。若瀏覽器沒有反應，開啟 FiveM 後按 <strong>F8</strong>，貼上以下指令並按 Enter：</p>
+            <button class="font-mono text-xs bg-pink-50 dark:bg-white/5 border border-pink-100 rounded-xl px-4 py-3 w-full text-left hover:border-pink-300 transition" onclick="copyIP()">connect mochirp2025.zapto.org <span class="float-right text-pink-500">點擊複製</span></button>
+          </article>
+          <article class="guide-step">
+            <span class="guide-number">5</span>
+            <h4 class="font-black text-lg mb-2">建立你的第一位角色</h4>
+            <p class="opacity-70 text-sm">使用符合城市規章的姓名，設定外觀與基本資料。先想一個簡單的個性、來城理由和想做的工作就夠了；角色故事可以在遊玩中慢慢長出來。</p>
+          </article>
+          <article class="guide-step">
+            <span class="guide-number">6</span>
+            <h4 class="font-black text-lg mb-2">開始第一小時</h4>
+            <p class="opacity-70 text-sm">先熟悉背包、手機、地圖與語音，接著找一份入門工作認識城市。遇到其他市民時以角色身分自然互動；需要協助，可透過 Discord 正規管道詢問。</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="mb-16">
+        <h3 class="section-title">🌱 第一日建議清單</h3>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="check-card rounded-2xl p-5 bg-white/40"><div class="text-2xl mb-3">🎙️</div><h4 class="font-black mb-1">測試語音</h4><p class="text-sm opacity-65 leading-relaxed">確認輸入、輸出裝置與說話音量正常。</p></div>
+          <div class="check-card rounded-2xl p-5 bg-white/40"><div class="text-2xl mb-3">🗺️</div><h4 class="font-black mb-1">認識地圖</h4><p class="text-sm opacity-65 leading-relaxed">先找醫院、警局、車庫與常用商店。</p></div>
+          <div class="check-card rounded-2xl p-5 bg-white/40"><div class="text-2xl mb-3">💼</div><h4 class="font-black mb-1">找份工作</h4><p class="text-sm opacity-65 leading-relaxed">從合法入門工作開始累積第一筆資金。</p></div>
+          <div class="check-card rounded-2xl p-5 bg-white/40"><div class="text-2xl mb-3">🤝</div><h4 class="font-black mb-1">主動互動</h4><p class="text-sm opacity-65 leading-relaxed">禮貌打招呼，故事往往就從一句話開始。</p></div>
         </div>
       </div>
 
@@ -578,6 +744,12 @@
           title: "收藏冊系統",
           text: "城市中有各式各樣可以收集的事物，從活動紀念到特殊道具，慢慢填滿屬於你的收藏冊，把走過的時間留下來。",
           meta: "長期收集 / 非強制進度"
+        },
+        {
+          icon: "💌",
+          title: "好友邀請系統",
+          text: "邀請朋友一起加入 MochiRP，陪他完成進城準備、熟悉城市與展開第一段故事。符合活動條件後，邀請人與新市民都能獲得專屬回饋。",
+          meta: "邀請好友 / 雙方回饋"
         }
       ],
       organization: [
@@ -605,24 +777,22 @@
       ],
       events: [
         {
-            date: "2026-06-08",
-            name: "🎋 粽香飄飄(開始)",
-            meta: "端午節限定活動正式開始"
+            startDate: "2026-06-08",
+            endDate: "2026-06-30",
+            name: "🎋 粽香飄飄",
+            meta: "端午節限定活動"
         },
         {
-            date: "2026-06-19",
+            startDate: "2026-06-19",
+            endDate: "2026-06-19",
             name: "🐉 端午佳節",
             meta: "祝各位市民端午安康"
         },
         {
-            date: "2026-06-27",
+            startDate: "2026-06-27",
+            endDate: "2026-06-27",
             name: "☕ 咖啡廳活動日",
             meta: "佩里克莊園謀殺案"
-        },
-        {
-            date: "2026-06-30",
-            name: "🎋 粽香飄飄(結束)",
-            meta: "端午節限定活動結束"
         }
       ],
       crime: [
@@ -665,11 +835,6 @@
           icon: "💰",
           title: "販賣非法物品",
           text: "可販賣犯罪時取得的贓物（不含黑錢）與毒品\n對指定 NPC 使用互動即可進行販賣\n等級會影響可販賣品項、販賣價格，以及原住民報警機率"
-        },
-        {
-          icon: "🧩",
-          title: "非法任務版",
-          text: "找到非法任務發放人即可接取任務\n包含毒品運送、運鈔車、搶 ATM、刺殺與偷車任務\n完成任務可累積聲望，提升等級與報酬，並可組隊進行"
         },
         {
           icon: "🗺️",
@@ -911,15 +1076,27 @@
       const el = document.getElementById('eventList');
       if (el) {
         el.innerHTML = '';
+        const today = new Date().toISOString().split('T')[0];
+        const formatDate = date => date.split('-').slice(1).join('/');
         cfg.events.forEach(ev => {
-          const isPast = ev.date < new Date().toISOString().split('T')[0];
+          const startDate = ev.startDate || ev.date;
+          const endDate = ev.endDate || startDate;
+          const isPast = endDate < today;
+          const isActive = startDate <= today && today <= endDate;
+          const dateText = startDate === endDate
+            ? formatDate(startDate)
+            : `${formatDate(startDate)} → ${formatDate(endDate)}`;
+          const statusText = isPast ? '已結束' : (isActive ? '進行中' : '即將開始');
           el.innerHTML += `
-            <div class="glass-card p-5 flex items-center justify-between ${isPast ? 'event-past' : ''}">
+            <div class="glass-card p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${isPast ? 'event-past' : ''}">
               <div class="flex items-center gap-4">
-                <div class="bg-pink-100 text-pink-500 font-black px-3 py-1 rounded-lg text-sm">${ev.date.split('-').slice(1).join('/')}</div>
-                <div class="font-bold">${ev.name}</div>
+                <div class="bg-pink-100 text-pink-500 font-black px-3 py-2 rounded-lg text-sm whitespace-nowrap">${dateText}</div>
+                <div>
+                  <div class="font-bold">${ev.name}</div>
+                  <div class="text-xs opacity-50 mt-1">${ev.meta}</div>
+                </div>
               </div>
-              <div class="text-xs opacity-40">${isPast ? '已結束' : ev.meta}</div>
+              <div class="text-xs font-bold ${isActive ? 'text-pink-500' : 'opacity-40'}">${statusText}</div>
             </div>`;
         });
       }
