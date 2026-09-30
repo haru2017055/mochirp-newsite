@@ -1,1143 +1,187 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MochiRP - 麻糬陪你慢慢生活</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="NEW ERA 官方網站｜ARK PROJECT 打造的 FiveM Roleplay 城市。">
+  <meta name="theme-color" content="#100d0f">
+  <title>NEW ERA — Your story starts here.</title>
+  <link rel="icon" type="image/png" href="./assets/mochi-new-era-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #fff7fb;
-      --ink: #3b2f38;
-      --pink: #ff6fb0;
-      --shadow: 0 10px 40px rgba(255, 111, 176, 0.12);
-      --radius: 24px;
+    :root{
+      --bg:#100d0f;--panel:#171216;--panel-2:#21191e;--ink:#f7f2ef;--muted:#aaa0a5;
+      --pink:#f4a7b9;--pink-deep:#d97796;--paper:#f6efec;--line:rgba(247,242,239,.15);
+      --line-strong:rgba(247,242,239,.34);--danger:#ef775f;--max:1460px;--ease:cubic-bezier(.2,.8,.2,1)
     }
-    body {
-      margin: 0;
-      font-family: "Noto Sans TC", sans-serif;
-      background: radial-gradient(1200px 600px at 15% 10%, #ffe7f2, transparent 55%),
-                  radial-gradient(900px 540px at 85% 12%, #e8fff7, transparent 55%),
-                  radial-gradient(900px 600px at 50% 90%, #fff0f7, transparent 55%),
-                  var(--bg);
-      color: var(--ink);
-    }
-    .glass-card {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      transition: all 0.3s ease;
-    }
-    .glass-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 50px rgba(255, 111, 176, 0.2);
-    }
-    .page-section { display: none; }
-    .active-section { display: block; }
-    .btn-primary {
-      background: var(--pink);
-      color: white;
-      padding: 10px 24px;
-      border-radius: 50px;
-      font-weight: 600;
-      transition: 0.3s;
-    }
-    .btn-primary:hover { transform: scale(1.05); }
-    
-     /* 新增按鈕樣式 */
-    .btn-outline {
-      border: 2px solid var(--pink);
-      color: var(--pink);
-      padding: 8px 20px;
-      border-radius: 50px;
-      font-weight: 600;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-    .btn-outline:hover {
-      background: rgba(255, 111, 176, 0.05);
-      transform: scale(1.05);
-    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-width:320px;color:var(--ink);background:var(--bg);font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;line-height:1.65;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}body.locked{overflow:hidden}
+    a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}button,a{-webkit-tap-highlight-color:transparent}img{display:block;width:100%}::selection{color:var(--bg);background:var(--pink)}
+    :focus-visible{outline:2px solid var(--pink);outline-offset:4px}.skip{position:fixed;left:16px;top:16px;z-index:600;padding:10px 14px;color:var(--bg);background:var(--pink);transform:translateY(-160%);transition:.2s}.skip:focus{transform:none}
+    .grain{position:fixed;inset:0;z-index:250;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E")}.progress{position:fixed;inset:0 auto auto 0;z-index:500;width:0;height:2px;background:var(--pink)}
+    .shell{width:min(var(--max),calc(100% - 72px));margin:auto}.page{display:none;min-height:70vh}.page.active{display:block;animation:pageIn .5s var(--ease) both}@keyframes pageIn{from{opacity:0;transform:translateY(12px)}}
 
-    .btn-secondary {
-      background: #5865F2; /* Discord 顏色 */
-      color: white;
-      padding: 10px 24px;
-      border-radius: 50px;
-      font-weight: 600;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-    .btn-secondary:hover {
-      filter: brightness(1.1);
-      transform: scale(1.05);
-    }
-    
-    .event-past { opacity: 0.4; filter: grayscale(1); }
-    
-    .section-title {
-      font-size: 1.875rem;
-      font-weight: 900;
-      margin-bottom: 2rem;
-      border-left: 6px solid var(--pink);
-      padding-left: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .card-meta {
-      display: inline-block;
-      margin-top: 12px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      color: var(--pink);
-      background: rgba(255, 111, 176, 0.1);
-      padding: 4px 12px;
-      border-radius: 8px;
-    }
-    .hero-highlight {
-      position: relative;
-      display: inline-block;
-      z-index: 1;
-    }
-    .hero-highlight::after {
-      content: "";
-      position: absolute;
-      left: -5%;
-      bottom: 5px;
-      width: 110%;
-      height: 30%;
-      background: rgba(255, 111, 176, 0.2);
-      z-index: -1;
-      border-radius: 4px;
-    }
-    .hardware-badge {
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 0.7rem;
-      font-weight: bold;
-      background: #3b2f38;
-      color: white;
-      margin-right: 4px;
-    }
-    /* 自定義 Modal 樣式 */
-    #customModal, #imageLightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: rgba(59, 47, 56, 0.8);
-      backdrop-filter: blur(8px);
-      align-items: center;
-      justify-content: center;
-    }
-    /* LOGO 樣式 */
-    .site-logo {
-      width: 52px;
-      height: 52px;
-      object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(255, 111, 176, 0.2);
-    }
-    /* 1. 定義顏色變數 */
-    :root {
-      --bg: #fff7fb;
-      --ink: #3b2f38;
-      --pink: #ff6fb0;
-      --card-bg: rgba(255, 255, 255, 0.7);
-      --card-border: rgba(255, 255, 255, 0.4);
-      --header-bg: rgba(255, 255, 255, 0.8);
-      --shadow: 0 10px 40px rgba(255, 111, 176, 0.12);
-      --radius: 24px;
-      
-      /* 光暈變數：淺色模式下較亮 */
-      --glow-1: rgba(255, 111, 176, 0.15);
-      --glow-2: rgba(74, 58, 68, 0.1);
-    }
+    /* navigation */
+    .header{position:sticky;top:0;z-index:120;background:rgba(16,13,15,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}.nav{min-height:84px;display:grid;grid-template-columns:260px 1fr auto;align-items:center;gap:24px}
+    .brand{width:max-content;display:inline-flex;align-items:center;gap:12px}.brand img{width:54px;height:54px;object-fit:contain;filter:drop-shadow(0 0 13px rgba(244,167,185,.22))}.brand-type{display:grid;line-height:1}.brand-type b{font-size:21px;letter-spacing:-.07em}.brand-type small{margin-top:7px;color:var(--muted);font-size:8px;font-weight:700;letter-spacing:.22em}
+    .desktop-nav{display:flex;justify-content:center;gap:clamp(16px,2vw,34px)}.nav-link{position:relative;padding:31px 0 28px;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.08em;transition:color .2s}.nav-link:after{content:"";position:absolute;left:0;right:100%;bottom:-1px;height:2px;background:var(--pink);transition:right .3s var(--ease)}.nav-link:hover,.nav-link.current{color:var(--ink)}.nav-link:hover:after,.nav-link.current:after{right:0}
+    .actions{display:flex;align-items:center;gap:10px}.button,.nav-cta{min-height:46px;padding:0 20px;display:inline-flex;align-items:center;justify-content:center;gap:12px;border:0;color:var(--bg);background:var(--pink);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:transform .25s var(--ease),background .25s,color .25s}.button:hover,.nav-cta:hover{transform:translateY(-2px);background:var(--ink)}.button.outline{color:var(--ink);background:transparent;border:1px solid var(--line-strong)}.button.outline:hover{color:var(--bg);background:var(--ink)}.button.dark{color:var(--ink);background:var(--bg)}.button.dark:hover{color:var(--bg);background:var(--pink)}
+    .menu-btn{width:46px;height:46px;display:none;place-items:center;border:1px solid var(--line);background:transparent;cursor:pointer}.menu-lines,.menu-lines:before,.menu-lines:after{width:18px;height:1px;display:block;background:var(--ink);transition:.25s}.menu-lines{position:relative}.menu-lines:before,.menu-lines:after{content:"";position:absolute;left:0}.menu-lines:before{top:-6px}.menu-lines:after{top:6px}
+    .mobile-menu{display:none;position:fixed;inset:84px 0 0;z-index:110;padding:32px 36px 48px;background:var(--bg);overflow:auto}.mobile-menu.open{display:flex;flex-direction:column}.mobile-menu>a{padding:18px 0;border-bottom:1px solid var(--line);font-size:clamp(25px,7vw,40px);font-weight:700;letter-spacing:-.05em}.mobile-menu .menu-foot{margin-top:auto;padding-top:36px}.mobile-menu .button{width:100%}
 
-    /* 2. 暗黑模式顏色覆蓋 */
-    .dark {
-      --bg: #151214; /* 更深邃的黑色背景 */
-      --ink: #f5f0f3;
-      --pink: #ff8dc0; 
-      --card-bg: rgba(45, 38, 43, 0.8);
-      --card-border: rgba(255, 255, 255, 0.05);
-      --header-bg: rgba(26, 22, 25, 0.9);
-      --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-      
-      /* 解決粉色印：大幅降低黑暗模式下的光暈亮度與不透明度 */
-      --glow-1: rgba(255, 141, 192, 0.08); /* 極淡的粉色霓虹感 */
-      --glow-2: rgba(0, 0, 0, 0); /* 底部光暈在黑夜模式下設為全透明 */
-    }
+    /* hero */
+    .hero{position:relative;min-height:calc(100svh - 84px);overflow:hidden;border-bottom:1px solid var(--line)}.hero-media{position:absolute;inset:0}.hero-media:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,7,9,.97),rgba(10,7,9,.7) 43%,rgba(10,7,9,.1) 78%),linear-gradient(0deg,rgba(10,7,9,.75),transparent 45%)}.hero-media img{height:100%;object-fit:cover;object-position:56% 46%;filter:saturate(.68) contrast(1.08);animation:heroZoom 15s ease-out both}@keyframes heroZoom{from{transform:scale(1.07)}to{transform:scale(1)}}
+    .hero-grid{position:relative;z-index:2;min-height:calc(100svh - 84px);padding:76px 0 60px;display:grid;grid-template-columns:minmax(0,1fr) 330px;align-items:end;gap:60px}.eyebrow{display:inline-flex;align-items:center;gap:11px;margin:0 0 27px;font-size:9px;font-weight:800;letter-spacing:.22em;text-transform:uppercase}.eyebrow:before{content:"";width:34px;height:1px;background:var(--pink)}
+    .hero h1{margin:0 0 32px;font-size:clamp(88px,13.4vw,205px);font-weight:800;line-height:.72;letter-spacing:-.1em;white-space:nowrap}.hero h1 span{color:var(--pink)}.hero-copy>p:not(.eyebrow){max-width:680px;margin:0 0 36px;color:rgba(247,242,239,.78);font-size:clamp(16px,1.4vw,21px);line-height:1.8}.hero-buttons{display:flex;flex-wrap:wrap;gap:12px}
+    .live-card{padding:24px;border:1px solid var(--line);background:rgba(16,13,15,.68);backdrop-filter:blur(15px)}.live-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}.live-state{display:flex;align-items:center;gap:9px;font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}.dot{width:7px;height:7px;border-radius:50%;background:#777}.dot.online{background:var(--pink);box-shadow:0 0 0 5px rgba(244,167,185,.12)}.dot.offline{background:var(--danger)}.live-card small{color:var(--muted);font-size:8px;letter-spacing:.12em;text-transform:uppercase}.player{padding:24px 0 12px}.player strong{display:block;font-size:58px;line-height:1;letter-spacing:-.08em}.player span{display:block;margin-top:10px;color:var(--muted);font-size:11px}.mini-data{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.mini-data>div{padding-top:14px;border-top:1px solid var(--line)}.mini-data b{display:block;margin-top:5px;font-size:12px}.side-label{position:absolute;right:0;top:36px;color:rgba(247,242,239,.48);font-size:8px;letter-spacing:.2em;writing-mode:vertical-rl}
+    .ticker{overflow:hidden;color:var(--bg);background:var(--pink)}.ticker-track{width:max-content;display:flex;animation:ticker 26s linear infinite}.ticker span{padding:13px 18px;font-size:9px;font-weight:900;letter-spacing:.18em;white-space:nowrap}@keyframes ticker{to{transform:translateX(-50%)}}
 
-    body {
-      margin: 0;
-      font-family: "Noto Sans TC", sans-serif;
-      background-color: var(--bg);
-      /* 使用變數控制的光暈，解決邊緣死板的問題 */
-      background-image: 
-        radial-gradient(1000px 600px at 15% 15%, var(--glow-1), transparent 80%),
-        radial-gradient(800px 600px at 50% 90%, var(--glow-2), transparent 80%);
-      color: var(--ink);
-      transition: background 0.5s ease, color 0.5s ease;
-      min-height: 100vh;
-    }
+    /* shared */
+    .section{padding:clamp(88px,11vw,165px) 0;border-bottom:1px solid var(--line)}.kicker{margin:0 0 20px;color:var(--pink);font-size:9px;font-weight:800;letter-spacing:.2em;text-transform:uppercase}.display{margin:0;font-size:clamp(46px,7.4vw,112px);line-height:.98;letter-spacing:-.075em;text-wrap:balance}.stroke{color:transparent;-webkit-text-stroke:1px rgba(247,242,239,.58)}.section-head{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);align-items:end;gap:80px;margin-bottom:68px}.section-head>p{margin:0;color:var(--muted);font-size:14px;line-height:1.95}.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s var(--ease),transform .75s var(--ease)}.reveal.in{opacity:1;transform:none}
+    .manifesto{display:grid;grid-template-columns:1.05fr .95fr;gap:1px;background:var(--line);border:1px solid var(--line)}.manifesto-copy{padding:clamp(34px,5vw,72px);background:var(--panel)}.manifesto blockquote{margin:0;font-size:clamp(30px,4vw,60px);font-weight:700;line-height:1.17;letter-spacing:-.055em}.manifesto blockquote em{color:var(--pink);font-style:normal}.manifesto-copy>p{max-width:640px;margin:42px 0 0;color:var(--muted);font-size:14px;line-height:2}.data-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}.data-cell{min-height:205px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;background:var(--bg)}.data-cell small{color:var(--muted);font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}.data-cell strong{font-size:clamp(28px,3.4vw,54px);line-height:1;letter-spacing:-.065em}.data-cell span{color:var(--muted);font-size:11px}
+    .cast-stage{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(330px,.82fr);overflow:hidden;background:var(--panel);border:1px solid var(--line)}.cast-poster{position:relative;min-width:0;aspect-ratio:1/1;padding:0;overflow:hidden;background:#0b080a;border:0;border-right:1px solid var(--line);cursor:zoom-in}.cast-poster img{height:100%;object-fit:cover;transition:transform .8s var(--ease),filter .4s}.cast-poster:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,5,7,.6),transparent 48%)}.cast-poster:hover img{transform:scale(1.025);filter:saturate(1.08)}.cast-poster-mark{position:absolute;z-index:2;left:28px;right:28px;bottom:24px;display:flex;justify-content:space-between;color:#fff;font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}.cast-copy{padding:clamp(34px,5vw,74px);display:flex;flex-direction:column}.cast-copy h3{margin:0 0 28px;font-size:clamp(42px,5.2vw,78px);line-height:.94;letter-spacing:-.07em}.cast-copy h3 em{color:var(--pink);font-style:normal}.cast-copy>p:not(.kicker){margin:0;color:var(--muted);font-size:14px;line-height:2}.cast-tags{margin:34px 0;display:flex;flex-wrap:wrap;gap:8px}.cast-tags span{padding:9px 11px;border:1px solid var(--line);color:var(--ink);font-size:8px;font-weight:800;letter-spacing:.12em}.cast-note{margin-top:auto;padding-top:25px;border-top:1px solid var(--line);color:var(--pink);font-size:12px;line-height:1.8}.cast-grid{margin-top:16px;display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:8px}.cast-card{position:relative;min-width:0;aspect-ratio:3/4;padding:0;overflow:hidden;background:var(--panel);border:1px solid var(--line);cursor:zoom-in}.cast-card img{height:100%;object-fit:cover;object-position:50% 18%;filter:saturate(.82);transition:transform .6s var(--ease),filter .35s}.cast-card:after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(8,5,7,.8))}.cast-card span{position:absolute;z-index:2;left:13px;bottom:12px;color:#fff;font-size:8px;font-weight:800;letter-spacing:.14em}.cast-card:hover img{transform:scale(1.045);filter:saturate(1.05)}
+    .partner-showcase{display:grid;grid-template-columns:minmax(320px,.92fr) minmax(0,1.08fr);gap:1px;overflow:hidden;background:var(--line);border:1px solid var(--line)}.partner-logo-panel{position:relative;min-height:620px;padding:clamp(44px,7vw,100px);display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 25% 20%,rgba(242,132,228,.25),transparent 34%),radial-gradient(circle at 78% 75%,rgba(132,236,216,.2),transparent 36%),#151019}.partner-logo-panel:before{content:"DX";position:absolute;right:-.08em;bottom:-.28em;color:rgba(255,255,255,.025);font-size:420px;font-weight:900;line-height:1;letter-spacing:-.14em}.partner-logo-panel>img{position:relative;z-index:1;width:min(520px,90%);filter:drop-shadow(0 28px 60px rgba(0,0,0,.35))}.partner-copy{padding:clamp(40px,6vw,90px);display:flex;flex-direction:column;justify-content:center;background:var(--panel)}.partner-wordmark{width:130px;height:23px;margin-bottom:38px;object-fit:contain}.partner-copy h2{margin:0 0 30px;font-size:clamp(45px,6vw,88px);line-height:.92;letter-spacing:-.075em}.partner-copy h2 em{color:var(--pink);font-style:normal}.partner-copy>p:not(.kicker){max-width:680px;margin:0;color:var(--muted);font-size:14px;line-height:2}.partner-tags{margin:38px 0;display:flex;flex-wrap:wrap;gap:8px}.partner-tags span{padding:9px 11px;border:1px solid var(--line);font-size:10px;font-weight:700;letter-spacing:.08em}.partner-tags span:first-child{color:var(--bg);background:var(--pink);border-color:var(--pink)}.partner-credit{padding-top:26px;border-top:1px solid var(--line);color:var(--pink);font-size:12px;line-height:1.9}.partner-works{display:grid;grid-template-columns:1.2fr .8fr .8fr;grid-template-rows:330px 330px;gap:12px}.partner-work{position:relative;min-width:0;padding:0;overflow:hidden;background:var(--panel);border:1px solid var(--line);cursor:zoom-in}.partner-work:first-child{grid-row:1/3}.partner-work img{height:100%;object-fit:cover;object-position:50% 20%;filter:saturate(.86);transition:transform .7s var(--ease),filter .35s}.partner-work:first-child img{object-position:center}.partner-work:after{content:"";position:absolute;inset:50% 0 0;background:linear-gradient(transparent,rgba(8,5,7,.88))}.partner-work span{position:absolute;z-index:2;left:20px;right:20px;bottom:17px;display:flex;justify-content:space-between;gap:16px;color:#fff;font-size:8px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}.partner-work:hover img{transform:scale(1.035);filter:saturate(1.08)}
+    .story-grid{display:grid;grid-template-columns:1.15fr .85fr;grid-template-rows:420px 280px;gap:16px}.story-card{position:relative;overflow:hidden;background:var(--panel)}.story-card:first-child{grid-row:1/3}.story-card img{height:100%;object-fit:cover;filter:saturate(.55) contrast(1.08);transition:transform .8s var(--ease),filter .4s}.story-card:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,6,7,.88),transparent 58%)}.story-card:hover img{transform:scale(1.045);filter:saturate(.95)}.story-caption{position:absolute;z-index:2;left:28px;right:28px;bottom:25px;display:flex;justify-content:space-between;align-items:end;gap:20px}.story-caption small{color:var(--pink);font-size:8px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.story-caption h3{margin:7px 0 0;font-size:clamp(20px,2vw,33px);line-height:1.12;letter-spacing:-.045em}.arrow{width:38px;height:38px;display:grid;place-items:center;flex:0 0 auto;border:1px solid var(--line-strong);font-style:normal}
+    .path-list{border-top:1px solid var(--line)}.path{min-height:126px;display:grid;grid-template-columns:86px minmax(180px,.8fr) 1.2fr 40px;align-items:center;gap:30px;border-bottom:1px solid var(--line);transition:background .25s,padding .35s var(--ease)}.path:hover{padding:0 22px;background:var(--panel)}.path>span{color:var(--pink);font-size:10px;font-weight:800}.path h3{margin:0;font-size:clamp(22px,2.2vw,34px);letter-spacing:-.045em}.path p{margin:0;color:var(--muted);font-size:13px}
+    .ark-section{color:#171218;background:var(--paper)}.ark-grid{min-height:620px;display:grid;grid-template-columns:.74fr 1.26fr;align-items:center;gap:clamp(50px,9vw,130px)}.ark-logo-wrap{position:relative;padding:12%;background:#fff;border-radius:50%;box-shadow:0 34px 80px rgba(42,25,35,.12)}.ark-logo-wrap:after{content:"";position:absolute;inset:-18px;border:1px solid rgba(23,18,24,.18);border-radius:50%}.ark-copy .kicker{color:#a44d6b}.ark-copy h2{margin:0 0 28px;font-size:clamp(48px,7vw,100px);line-height:.92;letter-spacing:-.075em}.ark-copy p{max-width:680px;margin:0 0 34px;color:rgba(23,18,24,.68);font-size:15px;line-height:1.9}.ark-values{display:flex;flex-wrap:wrap;gap:8px}.ark-values span{padding:9px 12px;border:1px solid rgba(23,18,24,.22);font-size:8px;font-weight:800;letter-spacing:.14em}.ark-actions{margin-top:28px}.ark-actions .button{width:max-content}
+    .live-band{color:var(--bg);background:var(--pink)}.live-inner{min-height:430px;display:grid;grid-template-columns:1.15fr .85fr}.live-copy{padding:clamp(44px,7vw,92px) 8vw clamp(44px,7vw,92px) 0}.live-copy .kicker{color:#7d3551}.live-copy h2{margin:0 0 26px;font-size:clamp(48px,7vw,98px);line-height:.92;letter-spacing:-.075em}.live-copy>p{max-width:660px;margin:0 0 34px;color:rgba(16,13,15,.68)}.console{display:grid;grid-template-columns:1fr 1fr;color:var(--ink);background:var(--bg)}.console-cell{min-height:215px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;border-left:1px solid var(--line);border-bottom:1px solid var(--line)}.console-cell small{color:var(--muted);font-size:8px;letter-spacing:.17em;text-transform:uppercase}.console-cell strong{font-size:clamp(22px,2.8vw,42px);line-height:1;letter-spacing:-.055em}.console-cell .server{font-size:12px;letter-spacing:0;word-break:break-all}
+    .program-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}.program{min-height:330px;padding:31px;display:flex;flex-direction:column;border-right:1px solid var(--line);border-bottom:1px solid var(--line);transition:background .25s}.program:hover{background:var(--panel)}.program .no{color:var(--pink);font-size:10px;font-weight:800;letter-spacing:.14em}.program h3{margin:auto 0 15px;font-size:28px;line-height:1.1;letter-spacing:-.045em}.program p{margin:0;color:var(--muted);font-size:13px;line-height:1.85}.program small{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);color:var(--ink);font-size:8px;font-weight:700;letter-spacing:.12em}
+    .feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.feature{min-width:0;display:flex;flex-direction:column;overflow:hidden;background:var(--panel);border:1px solid var(--line);transition:transform .35s var(--ease),border-color .35s}.feature:hover{transform:translateY(-5px);border-color:rgba(244,167,185,.55)}.feature-media{width:100%;height:auto;aspect-ratio:1/1;padding:0;display:grid;place-items:center;overflow:hidden;background:#1a1318;border:0;border-bottom:1px solid var(--line);cursor:zoom-in}.feature-media img{width:100%;height:100%;object-fit:contain;transition:transform .55s var(--ease)}.feature:hover .feature-media img{transform:scale(1.018)}.feature-copy{padding:29px;display:flex;flex:1;flex-direction:column}.feature .no{color:var(--pink);font-size:9px;font-weight:800;letter-spacing:.15em}.feature h2{margin:22px 0 13px;font-size:30px;line-height:1.12;letter-spacing:-.045em}.feature p{margin:0;color:var(--muted);font-size:13px;line-height:1.85}.feature-points{margin:22px 0 0;padding:18px 0 0;display:grid;gap:9px;border-top:1px solid var(--line);list-style:none}.feature-points li{position:relative;padding-left:18px;color:var(--ink);font-size:11px;line-height:1.65}.feature-points li:before{content:"";position:absolute;left:0;top:.7em;width:6px;height:6px;background:var(--pink);border-radius:50%}.feature small{margin-top:auto;padding-top:24px;color:var(--pink);font-size:8px;font-weight:800;letter-spacing:.12em}
+    .cta{position:relative;min-height:520px;display:flex;align-items:center;overflow:hidden}.cta>img{position:absolute;inset:0;height:100%;object-fit:cover;object-position:50% 55%;filter:saturate(.65) contrast(1.1)}.cta:after{content:"";position:absolute;inset:0;background:rgba(8,6,7,.68)}.cta-content{position:relative;z-index:2;padding:80px 0;text-align:center}.cta h2{max-width:1100px;margin:0 auto 26px;font-size:clamp(50px,9vw,128px);line-height:.86;letter-spacing:-.085em}.cta p:not(.kicker){max-width:600px;margin:0 auto 34px;color:rgba(247,242,239,.72)}.cta .hero-buttons{justify-content:center}
 
-    .glass-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      backdrop-filter: blur(12px); /* 增加磨砂感，讓黑暗模式更有質感 */
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
+    /* inner pages */
+    .page-hero{padding:100px 0 70px;border-bottom:1px solid var(--line)}.page-meta{display:flex;justify-content:space-between;gap:30px;margin-bottom:68px;color:var(--muted);font-size:8px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.page-hero h1{max-width:1200px;margin:0;font-size:clamp(68px,12vw,176px);line-height:.78;letter-spacing:-.095em}.page-hero h1 span{color:var(--pink)}.page-bottom{display:grid;grid-template-columns:1fr 400px;gap:80px;align-items:end;margin-top:50px}.page-bottom span{color:var(--pink);font-size:12px;font-weight:800}.page-bottom p{margin:0;color:var(--muted);line-height:1.9}
+    .jobs{border-top:1px solid var(--line)}.job{min-height:148px;display:grid;grid-template-columns:86px 1fr 1fr;align-items:center;gap:30px;border-bottom:1px solid var(--line)}.job.has-image{grid-template-columns:86px minmax(220px,.75fr) 1fr 240px;min-height:210px}.job .no{color:var(--pink);font-size:10px;font-weight:800}.job h2{margin:0;font-size:clamp(26px,3vw,44px);letter-spacing:-.05em}.job p{margin:0;color:var(--muted);font-size:13px}.job-logo{width:100%;max-height:150px;object-fit:contain;filter:drop-shadow(0 0 22px rgba(244,167,185,.22))}.job-logo.cover{height:150px;max-height:none;object-fit:cover;border:1px solid var(--line)}.job-logo-group{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}.job-logo-group figure{margin:0;text-align:center}.job-logo-group img{width:100%;height:110px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(244,167,185,.18))}.job-logo-group figcaption{margin-top:8px;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.12em}
+    .crime-overview{width:100%;margin:0 0 18px;padding:0;overflow:hidden;color:var(--ink);text-align:left;background:var(--panel);border:1px solid var(--line);cursor:zoom-in}.crime-overview img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;transition:transform .7s var(--ease),filter .35s}.crime-overview:hover img{transform:scale(1.012);filter:saturate(1.08)}.crime-overview>span{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 18px;border-top:1px solid var(--line)}.crime-overview b,.crime-overview i{font-size:8px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}.crime-overview i{color:var(--danger);font-style:normal;white-space:nowrap}
+    .guide-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:80px}.guide-intro{position:sticky;top:120px;height:max-content}.guide-intro h2{margin:0 0 22px;font-size:clamp(38px,5vw,70px);line-height:1;letter-spacing:-.065em}.guide-intro p{margin:0;color:var(--muted)}.steps{counter-reset:step;border-top:1px solid var(--line)}.step{position:relative;padding:34px 0 34px 80px;border-bottom:1px solid var(--line);counter-increment:step}.step:before{content:"0" counter(step);position:absolute;left:0;top:39px;color:var(--pink);font-size:10px;font-weight:800}.step h3{margin:0 0 12px;font-size:24px;letter-spacing:-.035em}.step p{margin:0;color:var(--muted);font-size:13px}.step a{display:inline-block;margin-top:14px;color:var(--pink);font-size:10px;font-weight:800;letter-spacing:.08em}.command{width:100%;margin-top:16px;padding:14px 15px;display:flex;justify-content:space-between;align-items:center;gap:16px;color:var(--ink);background:var(--panel);border:1px solid var(--line);font:12px ui-monospace,Consolas,monospace;text-align:left;cursor:pointer}.command span{color:var(--pink);font:800 8px "Noto Sans TC","Microsoft JhengHei",sans-serif;letter-spacing:.08em}
+    .specs{display:grid;grid-template-columns:1fr 1fr;gap:16px}.spec{padding:28px;background:var(--panel);border:1px solid var(--line)}.spec b{display:block;margin-bottom:22px;font-size:10px;letter-spacing:.12em}.spec ul{margin:0;padding:0;list-style:none;color:var(--muted);font-size:12px;line-height:2}.faq{border-top:1px solid var(--line)}.faq-item{border-bottom:1px solid var(--line)}.faq-q{width:100%;padding:24px 0;display:flex;justify-content:space-between;gap:24px;border:0;background:transparent;text-align:left;font-weight:700;cursor:pointer}.faq-q span:last-child{color:var(--pink);transition:transform .25s}.faq-a{max-height:0;overflow:hidden;transition:max-height .35s var(--ease)}.faq-a p{max-width:780px;margin:0;padding:0 0 28px;color:var(--muted);font-size:13px;line-height:1.9}.faq-item.open .faq-q span:last-child{transform:rotate(45deg)}.faq-item.open .faq-a{max-height:280px}
+    .gallery-bar{display:flex;justify-content:space-between;gap:24px;margin-bottom:34px;color:var(--muted);font-size:10px}.gallery{columns:3;column-gap:16px}.gallery-item{position:relative;break-inside:avoid;margin:0 0 16px;overflow:hidden;background:var(--panel);cursor:zoom-in}.gallery-item img{min-height:220px;object-fit:cover;filter:saturate(.72);transition:transform .65s var(--ease),filter .35s}.gallery-item:hover img{transform:scale(1.03);filter:saturate(1)}.gallery-item figcaption{position:absolute;inset:auto 0 0;padding:42px 18px 16px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:9px;font-weight:600;letter-spacing:.04em;opacity:0;transform:translateY(10px);transition:.3s}.gallery-item:hover figcaption{opacity:1;transform:none}.more{display:flex;justify-content:center;margin-top:40px}
 
-    header {
-      background: var(--header-bg) !important;
-      backdrop-filter: blur(8px);
-    }
+    /* overlays + footer */
+    .overlay{position:fixed;inset:0;z-index:350;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(7,5,6,.9);backdrop-filter:blur(16px)}.overlay.open{display:flex;animation:fade .25s both}@keyframes fade{from{opacity:0}}.modal{width:min(560px,100%);background:var(--panel);border:1px solid var(--line-strong)}.modal-head{padding:19px 21px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.modal-head small{color:var(--pink);font-size:8px;font-weight:800;letter-spacing:.16em}.close{width:38px;height:38px;border:1px solid var(--line);background:transparent;font-size:18px;cursor:pointer}.modal-body{padding:35px}.modal-body h2{margin:0 0 14px;font-size:36px;letter-spacing:-.05em}.modal-body>p{margin:0 0 27px;color:var(--muted);font-size:13px}.modal-actions{display:grid;gap:10px}.modal-actions .button{width:100%}.copy-hint{min-height:18px!important;margin:11px 0 0!important;color:var(--pink)!important;text-align:center;opacity:0;transition:.2s}.copy-hint.show{opacity:1}.lightbox{padding:34px}.lightbox-inner{position:relative;width:min(1300px,100%)}.lightbox img{max-height:82vh;object-fit:contain}.lightbox p{text-align:center;color:var(--muted);font-size:11px}.lightbox .close{position:absolute;right:0;top:-52px}.toast{position:fixed;right:24px;bottom:24px;z-index:500;padding:14px 18px;color:var(--bg);background:var(--pink);font-size:10px;font-weight:800;transform:translateY(100px);opacity:0;transition:.3s var(--ease)}.toast.show{transform:none;opacity:1}
+    .footer{border-top:1px solid var(--line)}.footer-main{padding:72px 0 44px;display:grid;grid-template-columns:1fr auto;align-items:end;gap:60px}.footer-word{margin:0;font-size:clamp(70px,13vw,185px);line-height:.72;letter-spacing:-.095em;white-space:nowrap}.footer-word span{color:var(--pink)}.footer-links{display:grid;gap:10px;min-width:170px}.footer-links a{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.08em}.footer-links a:hover{color:var(--pink)}.footer-bottom{padding:20px 0;display:flex;justify-content:space-between;gap:30px;border-top:1px solid var(--line);color:var(--muted);font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
 
-    /* 修正暗黑模式下的細節細節 */
-    .dark .opacity-70, 
-    .dark .opacity-60 { 
-      opacity: 0.85; 
-    }
-
-    .dark .bg-pink-50 { 
-      background: rgba(255, 111, 176, 0.15) !important; 
-    }
-
-    /* 針對 Tailwind 的常用白色背景在黑暗模式下進行優化 */
-    .dark .bg-white\/40, 
-    .dark .bg-white\/50, 
-    .dark .bg-white\/60 { 
-      background: rgba(255, 255, 255, 0.03) !important;
-      border-color: rgba(255, 255, 255, 0.05) !important;
-    }
-
-    /* 讓圖片在暗色模式下稍微降低亮度，不刺眼 */
-    .dark img {
-      filter: brightness(0.9);
-    }
-
-    /* 2026 visual polish */
-    html { scroll-behavior: smooth; }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-      opacity: 0.32;
-      background-image: radial-gradient(rgba(255, 111, 176, 0.22) 0.7px, transparent 0.7px);
-      background-size: 22px 22px;
-      mask-image: linear-gradient(to bottom, black, transparent 72%);
-    }
-    header { border-bottom-color: rgba(255, 111, 176, 0.12) !important; }
-    header nav a { position: relative; }
-    header nav a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 100%;
-      bottom: -8px;
-      height: 2px;
-      border-radius: 999px;
-      background: var(--pink);
-      transition: right 0.25s ease;
-    }
-    header nav a:hover::after { right: 0; }
-    .hero-shell {
-      position: relative;
-      overflow: hidden;
-      padding: clamp(2.75rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 4rem);
-      border: 1px solid rgba(255, 255, 255, 0.72);
-      border-radius: 36px;
-      background: linear-gradient(145deg, rgba(255,255,255,.82), rgba(255,247,251,.52));
-      box-shadow: 0 30px 90px rgba(83, 51, 70, 0.11);
-      isolation: isolate;
-    }
-    .hero-shell::before,
-    .hero-shell::after {
-      content: "";
-      position: absolute;
-      border-radius: 999px;
-      filter: blur(2px);
-      z-index: -1;
-    }
-    .hero-shell::before { width: 260px; height: 260px; right: -75px; top: -105px; background: rgba(255,111,176,.18); }
-    .hero-shell::after { width: 210px; height: 210px; left: -70px; bottom: -110px; background: rgba(124,219,193,.18); }
-    .dark .hero-shell { background: linear-gradient(145deg, rgba(48,40,46,.9), rgba(28,23,27,.76)); border-color: rgba(255,255,255,.07); }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .5rem .9rem;
-      margin-bottom: 1.25rem;
-      border: 1px solid rgba(255,111,176,.2);
-      border-radius: 999px;
-      color: var(--pink);
-      background: rgba(255,111,176,.08);
-      font-size: .75rem;
-      font-weight: 800;
-      letter-spacing: .14em;
-    }
-    .quick-card { position: relative; overflow: hidden; text-align: left; min-height: 132px; }
-    .quick-card::after { content: "↗"; position: absolute; right: 1.1rem; top: 1rem; opacity: .2; font-size: 1.1rem; transition: .25s ease; }
-    .quick-card:hover::after { opacity: .75; transform: translate(2px,-2px); }
-    .quick-card small { display: block; margin-top: .4rem; opacity: .52; font-weight: 600; }
-    .guide-step {
-      position: relative;
-      padding: 1.5rem 1.5rem 1.5rem 4.5rem;
-      border: 1px solid rgba(255,111,176,.14);
-      border-radius: 22px;
-      background: var(--card-bg);
-      box-shadow: 0 12px 32px rgba(83,51,70,.06);
-    }
-    .guide-number {
-      position: absolute;
-      left: 1.25rem;
-      top: 1.35rem;
-      display: grid;
-      place-items: center;
-      width: 2.25rem;
-      height: 2.25rem;
-      border-radius: 12px;
-      color: #fff;
-      background: linear-gradient(135deg, var(--pink), #ff9dca);
-      box-shadow: 0 8px 18px rgba(255,111,176,.24);
-      font-weight: 900;
-    }
-    .guide-step p, .guide-step li { line-height: 1.8; }
-    .guide-tip {
-      padding: 1rem 1.1rem;
-      border-left: 3px solid var(--pink);
-      border-radius: 0 14px 14px 0;
-      background: rgba(255,111,176,.07);
-      font-size: .875rem;
-    }
-    .check-card { border: 1px solid rgba(255,111,176,.14); transition: transform .25s ease, border-color .25s ease; }
-    .check-card:hover { transform: translateY(-3px); border-color: rgba(255,111,176,.42); }
-    @media (max-width: 640px) {
-      .hero-shell { border-radius: 26px; }
-      .guide-step { padding: 4.25rem 1.25rem 1.3rem; }
-      .guide-number { left: 1.25rem; top: 1.2rem; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
-    }
+    .partner-service{margin-top:16px;display:grid;grid-template-columns:1.15fr .85fr;gap:1px;background:var(--line);border:1px solid var(--line)}.partner-service-copy{padding:clamp(34px,5vw,70px);background:var(--panel)}.partner-service-copy h3{margin:0 0 22px;font-size:clamp(42px,5.8vw,82px);line-height:.95;letter-spacing:-.075em}.partner-service-copy h3 span{color:var(--pink)}.partner-service-copy>p:not(.kicker){max-width:720px;margin:0;color:var(--muted);font-size:14px;line-height:2}.partner-service-sets{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}.partner-service-set{min-height:260px;padding:32px;display:flex;flex-direction:column;justify-content:space-between;background:var(--bg)}.partner-service-set>span{color:var(--pink);font-size:12px;font-weight:900;letter-spacing:.16em}.partner-service-set strong{font-size:clamp(30px,4vw,56px);line-height:1;letter-spacing:-.06em}.partner-service-set small{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.12em}.partner-service-total{grid-column:1/3;padding:20px 32px;display:flex;justify-content:space-between;align-items:center;gap:20px;color:var(--bg);background:var(--pink);font-size:10px;font-weight:900;letter-spacing:.12em}.partner-service-total b{font-size:20px;letter-spacing:-.03em}
+    .partner-service-mark{min-height:360px;padding:clamp(32px,5vw,64px);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;background:linear-gradient(145deg,#6441a5,#2b1745)}.partner-service-mark span,.partner-service-mark small{font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.partner-service-mark strong{font-size:clamp(54px,7vw,106px);line-height:.78;letter-spacing:-.09em;word-break:break-word}.partner-service-mark small{align-self:flex-end;color:rgba(255,255,255,.65)}
+    .partner-benefit{margin-top:16px;padding:clamp(38px,6vw,86px);display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);align-items:end;gap:clamp(40px,8vw,120px);color:var(--bg);background:var(--pink)}.partner-benefit .kicker{color:#743348}.partner-benefit h3{margin:0;font-size:clamp(50px,7.5vw,112px);line-height:.87;letter-spacing:-.08em}.partner-benefit h3 span{color:transparent;-webkit-text-stroke:1px rgba(16,13,15,.55)}.partner-benefit-copy p{margin:0 0 24px;color:rgba(16,13,15,.7);font-size:14px;line-height:1.95}.partner-benefit-copy strong{display:block;padding-top:22px;border-top:1px solid rgba(16,13,15,.25);font-size:11px;line-height:1.8;letter-spacing:.04em}
+    .partner-portfolio{margin-top:16px;padding:clamp(34px,5vw,70px);background:var(--panel);border:1px solid var(--line)}.partner-portfolio-head{margin-bottom:38px;display:grid;grid-template-columns:1fr minmax(250px,.55fr);align-items:end;gap:50px}.partner-portfolio-head h3{margin:0;font-size:clamp(42px,5vw,76px);line-height:.95;letter-spacing:-.07em}.partner-portfolio-head h3 span{color:var(--pink)}.partner-portfolio-head>p{margin:0;color:var(--muted);font-size:13px;line-height:1.9}.partner-samples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.partner-pair{min-width:0;overflow:hidden;background:var(--bg);border:1px solid var(--line)}.partner-pair-media{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}.partner-sample{min-width:0;aspect-ratio:1/1;padding:0;overflow:hidden;background:#fff;border:0;cursor:zoom-in}.partner-sample img{height:100%;object-fit:contain;transition:transform .45s var(--ease)}.partner-sample:hover img{transform:scale(1.035)}.partner-pair-caption{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:20px}.partner-pair-caption b{font-size:11px;letter-spacing:.06em}.partner-pair-caption span{color:var(--pink);font-size:8px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+    @media(max-width:1100px){.shell{width:min(var(--max),calc(100% - 40px))}.nav{grid-template-columns:220px 1fr auto}.desktop-nav{gap:15px}.nav-link{font-size:9px}.hero-grid{grid-template-columns:1fr 280px;gap:30px}.section-head{gap:40px}.cast-grid{grid-template-columns:repeat(5,1fr)}.program-grid,.feature-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:860px){.desktop-nav,.actions .nav-cta{display:none}.nav{position:relative;grid-template-columns:1fr auto}.actions{display:block}.menu-btn{position:absolute;right:0;top:19px;display:grid!important;border-color:var(--pink)}.hero-grid{grid-template-columns:1fr;align-items:end;padding-top:170px}.live-card{display:none}.hero h1{font-size:clamp(78px,21vw,145px)}.hero-media:after{background:linear-gradient(0deg,rgba(10,7,9,.97),rgba(10,7,9,.62) 62%,rgba(10,7,9,.18))}.section-head,.manifesto,.guide-grid,.page-bottom,.ark-grid,.cast-stage,.partner-showcase{grid-template-columns:1fr;gap:35px}.cast-stage,.partner-showcase{gap:0}.cast-poster{border-right:0;border-bottom:1px solid var(--line)}.cast-grid{grid-template-columns:repeat(3,1fr)}.partner-logo-panel{min-height:470px}.partner-works{grid-template-columns:1fr 1fr;grid-template-rows:460px 300px 300px}.partner-work:first-child{grid-column:1/3;grid-row:auto}.ark-grid{padding:90px 0}.ark-logo-wrap{width:min(390px,80%);margin:auto}.story-grid{grid-template-columns:1fr 1fr;grid-template-rows:500px 280px}.story-card:first-child{grid-column:1/3;grid-row:auto}.path{grid-template-columns:50px 1fr 40px;padding:24px 0}.path p{grid-column:2/4}.live-inner{grid-template-columns:1fr}.live-copy{padding-right:0}.job,.job.has-image{grid-template-columns:60px 1fr;padding:24px 0}.job p,.job.has-image p{grid-column:2}.job-logo{grid-column:2;width:min(320px,100%);max-height:130px}.job-logo.cover{height:130px}.job-logo-group{grid-column:2;width:min(320px,100%)}.guide-intro{position:static}.gallery{columns:2}}
+    @media(max-width:600px){.shell{width:calc(100% - 32px)}.nav{min-height:72px}.menu-btn{top:13px}.mobile-menu{inset:72px 0 0;padding-left:16px;padding-right:16px}.brand img{width:46px;height:46px}.brand-type b{font-size:18px}.hero,.hero-grid{min-height:calc(100svh - 72px)}.hero-grid{padding:120px 0 34px}.hero h1{font-size:clamp(60px,18vw,88px);margin-bottom:24px}.hero-copy>p:not(.eyebrow){font-size:14px}.hero-buttons{display:grid;width:100%}.button{width:100%}.section{padding:76px 0}.section-head{margin-bottom:42px}.display{font-size:47px}.data-grid{grid-template-columns:1fr}.data-cell{min-height:150px}.cast-copy{padding:30px 24px}.cast-copy h3{font-size:43px}.cast-grid{grid-template-columns:repeat(2,1fr)}.partner-logo-panel{min-height:340px;padding:40px 22px}.partner-copy{padding:38px 24px}.partner-copy h2{font-size:43px}.partner-works{grid-template-columns:1fr;grid-template-rows:none}.partner-work,.partner-work:first-child{grid-column:auto;grid-row:auto;height:330px}.story-grid{grid-template-columns:1fr;grid-template-rows:repeat(3,330px)}.story-card:first-child{grid-column:auto}.path{grid-template-columns:38px 1fr 32px;gap:12px}.path:hover{padding-left:8px;padding-right:8px}.console,.specs{grid-template-columns:1fr}.console-cell{min-height:160px}.program-grid,.feature-grid{grid-template-columns:1fr}.program,.feature{min-height:300px}.page-hero{padding:72px 0 50px}.page-meta{margin-bottom:48px}.page-hero h1{font-size:66px}.page-bottom{margin-top:36px}.step{padding-left:50px}.gallery{columns:1}.gallery-item figcaption{opacity:1;transform:none}.footer-main{grid-template-columns:1fr}.footer-bottom{flex-direction:column}.modal-body{padding:26px 21px}.lightbox{padding:16px}}
+    @media(max-width:860px){.partner-service{grid-template-columns:1fr}.partner-service-sets{min-height:0}.partner-service-mark{min-height:300px}.partner-benefit,.partner-portfolio-head{grid-template-columns:1fr;align-items:start}.partner-samples{grid-template-columns:1fr}}
+    @media(max-width:600px){.partner-service-copy{padding:34px 24px}.partner-service-set{min-height:210px;padding:24px}.partner-service-total{padding:18px 24px}.partner-portfolio{padding:34px 24px}.partner-portfolio-head{gap:20px}.partner-samples{gap:7px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
   </style>
 </head>
 <body>
-  <!-- 圖片放大 Lightbox -->
-  <div id="imageLightbox" onclick="closeLightbox()" class="cursor-zoom-out p-4">
-    <div class="relative max-w-5xl w-full flex flex-col items-center">
-      <img id="lightboxImg" src="" class="max-h-[85vh] rounded-xl shadow-2xl object-contain scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
-      <p id="lightboxCaption" class="text-white mt-4 font-bold text-lg text-center drop-shadow-md"></p>
-      <button class="absolute top-0 -right-12 text-white text-4xl hover:scale-110 transition" onclick="closeLightbox()">✕</button>
-    </div>
-  </div>
-
-  <!-- 自定義連線提示 Modal -->
-  <div id="customModal" onclick="closeModal()">
-    <div class="glass-card p-8 max-w-sm w-full mx-4 text-center" onclick="event.stopPropagation()">
-      <div class="text-5xl mb-4">🛸</div>
-      <h3 class="text-xl font-black mb-4">即將前往 MochiRP</h3>
-      <p id="modalStatus" class="text-sm opacity-70 mb-6 leading-relaxed">
-        正在嘗試啟動 FiveM 連線協議...<br>
-        如果沒有反應，請確認已安裝 FiveM，<br>
-        或是手動輸入 IP 連線。
-      </p>
-      <div class="flex flex-col gap-2">
-        <button id="mainConnectBtn" class="btn-primary w-full" onclick="connectToFiveM()">立即啟動連線</button>
-        <div class="mt-4">
-          <p class="text-[10px] uppercase tracking-widest opacity-40 mb-1">手動連線指令 (F8)</p>
-          <button class="text-xs w-full opacity-60 select-all font-mono bg-pink-50 p-2 rounded border border-pink-100" onclick="copyIP()">connect mochirp2025.zapto.org</button>
-          <p id="copyHint" class="text-[10px] text-pink-400 mt-1 h-2 opacity-0 transition-opacity">已複製連線指令！</p>
-        </div>
-        <button class="text-sm opacity-50 hover:opacity-100 py-2 mt-2" onclick="closeModal()">關閉窗口</button>
-      </div>
-    </div>
-  </div>
-
-  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-pink-50">
-    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
-        <img src="./assets/logo.png" alt="MochiRP Logo" class="site-logo" onerror="this.src='https://via.placeholder.com/42?text=M'">
-        <div>
-          <h1 class="font-black text-lg leading-tight">MochiRP</h1>
-          <p class="text-xs opacity-60">麻糬陪你慢慢生活</p>
-        </div>
-      </div>
-      <nav class="hidden md:flex gap-8 font-medium">
-        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('features')">麻糬特色</a>
-        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('crime')">非法玩法</a>
-        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('jobs')">城市企業</a>
-        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('help')">新手指南</a>
-      </nav>
-      <!-- 按鈕組 -->
-      <div class="flex items-center gap-3">
-        <a href="https://discord.gg/mochirp" target="_blank" class="hidden sm:block btn-secondary text-sm">加入 Discord</a>
-        <a href="https://www.paypal.com/paypalme/strawberrytown" class="hidden sm:block btn-outline text-sm">贊助我們</a>
-        <button onclick="openConnectModal()" class="hidden sm:block btn-primary text-sm">一鍵進城</button>
-        <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-pink-100 dark:hover:bg-gray-800 transition">
-          <span id="theme-icon" class="text-xl">🌙</span>
-        </button>
-        <button id="mobile-menu-button" type="button" class="md:hidden p-2 rounded-xl hover:bg-pink-100 dark:hover:bg-gray-800 transition" onclick="toggleMobileMenu()" aria-label="開啟導覽選單" aria-controls="mobile-menu" aria-expanded="false">
-          <span id="mobile-menu-icon" class="text-2xl leading-none">☰</span>
-        </button>
-      </div>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden border-t border-pink-100 bg-white/95 dark:bg-[#1a1619]/95 backdrop-blur-md shadow-lg">
-      <nav class="container mx-auto px-6 py-5 flex flex-col gap-2 font-medium" aria-label="手機版導覽">
-        <a href="#" class="px-4 py-3 rounded-xl hover:bg-pink-50 dark:hover:bg-gray-800 transition" onclick="showPage('home'); return false;">首頁</a>
-        <a href="#" class="px-4 py-3 rounded-xl hover:bg-pink-50 dark:hover:bg-gray-800 transition" onclick="showPage('features'); return false;">麻糬特色</a>
-        <a href="#" class="px-4 py-3 rounded-xl hover:bg-pink-50 dark:hover:bg-gray-800 transition" onclick="showPage('crime'); return false;">非法玩法</a>
-        <a href="#" class="px-4 py-3 rounded-xl hover:bg-pink-50 dark:hover:bg-gray-800 transition" onclick="showPage('jobs'); return false;">城市企業</a>
-        <a href="#" class="px-4 py-3 rounded-xl hover:bg-pink-50 dark:hover:bg-gray-800 transition" onclick="showPage('help'); return false;">新手指南</a>
-        <a href="#" class="px-4 py-3 rounded-xl hover:bg-pink-50 dark:hover:bg-gray-800 transition" onclick="showPage('album'); return false;">城市相簿</a>
-        <div class="pt-3 mt-2 border-t border-pink-100">
-          <a href="https://discord.gg/mochirp" target="_blank" rel="noopener noreferrer" class="btn-secondary block w-full text-sm text-center">加入 Discord</a>
-        </div>
-      </nav>
+  <a class="skip" href="#main">跳到主要內容</a><div class="grain" aria-hidden="true"></div><div class="progress" id="progress"></div>
+  <header class="header">
+    <div class="shell nav">
+      <a class="brand" href="#home" data-route="home" aria-label="MOCHI NEW ERA 首頁"><img src="./assets/mochi-new-era-logo.png" alt="MOCHI NEW ERA"><span class="brand-type"><b>NEW ERA</b><small>BY ARK PROJECT</small></span></a>
+      <nav class="desktop-nav" aria-label="主要導覽"><a class="nav-link" href="#features" data-route="features">城市體驗</a><a class="nav-link" href="#jobs" data-route="jobs">職業人生</a><a class="nav-link" href="#crime" data-route="crime">地下世界</a><a class="nav-link" href="#guide" data-route="guide">新手加入</a><a class="nav-link" href="#gallery" data-route="gallery">城市影像</a><a class="nav-link" href="#partners" data-route="partners">合作夥伴</a></nav>
+      <div class="actions"><a class="nav-cta" href="https://discord.gg/GF54979JNR" target="_blank" rel="noopener">Join Discord ↗</a><button class="menu-btn" id="menuBtn" type="button" aria-label="開啟導覽" aria-expanded="false"><span class="menu-lines"></span></button></div>
     </div>
   </header>
+  <nav class="mobile-menu" id="mobileMenu" aria-hidden="true"><a href="#home" data-route="home">首頁</a><a href="#features" data-route="features">城市體驗</a><a href="#jobs" data-route="jobs">職業人生</a><a href="#crime" data-route="crime">地下世界</a><a href="#guide" data-route="guide">新手加入</a><a href="#gallery" data-route="gallery">城市影像</a><a href="#partners" data-route="partners">合作夥伴</a><div class="menu-foot"><a class="button" href="https://discord.gg/GF54979JNR" target="_blank" rel="noopener">加入 Discord ↗</a></div></nav>
 
-  <!-- 首頁 -->
-  <main id="page-home" class="page-section active-section pt-16 pb-32">
-    <div class="container mx-auto max-w-5xl px-6">
-      <div class="hero-shell text-center mb-16">
-        <div class="eyebrow">● 歡迎回到你的第二人生</div>
-        <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
-          可愛溫柔的<br><span class="hero-highlight text-pink-500">MochiRP</span>
-        </h2>
-        <p class="text-lg md:text-xl opacity-70 mb-8 max-w-2xl mx-auto leading-relaxed">不用急著成為誰。從一份工作、一段相遇開始，慢慢寫下只屬於你的城市故事。</p>
+  <main id="main">
+    <div class="page active" id="page-home" data-page="home">
+      <section class="hero">
+        <div class="hero-media"><img src="./assets/album/01.jpg" alt="NEW ERA 城市居民聚會" fetchpriority="high"></div>
+        <div class="shell hero-grid">
+          <div class="hero-copy"><p class="eyebrow">ARK PROJECT PRESENTS · 100% ROLEPLAY</p><h1>NEW <span>ERA</span></h1><p>不是重來一次，而是活出另一種可能。<br>在一座重視角色、關係與長線故事的城市，寫下你的新世代。</p><div class="hero-buttons"><button class="button" type="button" data-connect>立即進入城市 ↗</button><a class="button outline" href="#features" data-route="features">探索 NEW ERA →</a></div></div>
+          <aside class="live-card"><div class="live-row"><span class="live-state"><i class="dot" data-dot></i><span data-status>讀取中</span></span><small>Live status</small></div><div class="player"><strong data-players>--</strong><span>位市民在線／<span data-max>128</span> 席</span></div><div class="mini-data"><div><small>Open hours</small><b>15:00—06:00</b></div><div><small>Roleplay</small><b>100% RP</b></div></div></aside>
+          <span class="side-label">EST. 2026 · TAIWAN</span>
+        </div>
+      </section>
+      <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>MOCHI PINK ✦</span><span>YOUR STORY ✦</span><span>SLOW LIFE ✦</span><span>100% ROLEPLAY ✦</span><span>BY ARK PROJECT ✦</span><span>MOCHI PINK ✦</span><span>YOUR STORY ✦</span><span>SLOW LIFE ✦</span><span>100% ROLEPLAY ✦</span><span>BY ARK PROJECT ✦</span><span>MOCHI PINK ✦</span><span>YOUR STORY ✦</span><span>SLOW LIFE ✦</span><span>100% ROLEPLAY ✦</span><span>BY ARK PROJECT ✦</span><span>MOCHI PINK ✦</span><span>YOUR STORY ✦</span><span>SLOW LIFE ✦</span><span>100% ROLEPLAY ✦</span><span>BY ARK PROJECT ✦</span></div></div>
 
-        <div class="flex flex-wrap justify-center gap-3 mb-12">
-          <button onclick="openConnectModal()" class="btn-primary text-sm md:text-base">立即進城</button>
-          <button onclick="showPage('help')" class="btn-outline text-sm md:text-base">先看新手指南</button>
-        </div>
-        
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-16">
-          <div class="glass-card quick-card p-6 cursor-pointer" onclick="showPage('features')">
-            <div class="text-3xl mb-2">✨</div>
-            <div class="font-bold">麻糬特色</div>
-            <small>看看城市有什麼不同</small>
-          </div>
-          <div class="glass-card quick-card p-6 cursor-pointer" onclick="showPage('crime')">
-            <div class="text-3xl mb-2">🕶️</div>
-            <div class="font-bold">非法玩法</div>
-            <small>探索城市的另一面</small>
-          </div>
-          <div class="glass-card quick-card p-6 cursor-pointer" onclick="showPage('album')">
-            <div class="text-3xl mb-2">📸</div>
-            <div class="font-bold">城市相簿</div>
-            <small>收藏每一段相遇</small>
-          </div>
-          <div class="glass-card quick-card p-6 cursor-pointer" onclick="showPage('help')">
-            <div class="text-3xl mb-2">🧸</div>
-            <div class="font-bold">新手指南</div>
-            <small>第一次進城從這開始</small>
-          </div>
-        </div>
-      </div>
+      <section class="section"><div class="shell"><div class="section-head reveal"><div><p class="kicker">01 — City manifesto</p><h2 class="display">一座城市，<br><span class="stroke">無數種人生</span></h2></div><p>NEW ERA 是一座以角色扮演為核心的 FiveM 城市。你可以只是普通市民，也可以投入公職、經營企業、建立勢力。沒有預設主角，只有你做過的每個選擇。</p></div><div class="manifesto reveal"><div class="manifesto-copy"><blockquote>你不是來完成任務。<br>你是來<em>留下故事。</em></blockquote><p>最難忘的片段，往往不是劇本安排好的高潮，而是一場臨時的兜風、一段深夜的談話，或某個從陌生人變成夥伴的瞬間。</p></div><div class="data-grid"><div class="data-cell"><small>Roleplay focus</small><strong>100%</strong><span>以人物與關係推動故事</span></div><div class="data-cell"><small>City rhythm</small><strong>Slow</strong><span>不催促的長線生活節奏</span></div><div class="data-cell"><small>Community</small><strong>One</strong><span>共同維護沉浸與尊重</span></div><div class="data-cell"><small>Possibility</small><strong>∞</strong><span>每個選擇都有後續</span></div></div></div></div></section>
 
-      <!-- 每月活動區塊 (首頁摘要) -->
-      <div class="max-w-2xl mx-auto">
-        <div class="flex items-center gap-2 mb-6">
-          <span class="text-2xl">📅</span>
-          <h3 class="text-2xl font-black">六月活動行事曆</h3>
+      <section class="section"><div class="shell"><div class="section-head reveal"><div><p class="kicker">02 — Season cast</p><h2 class="display">本季陣容，<br><span class="stroke">眾星集結</span></h2></div><p>NEW ERA 本季集結多位實況主與內容創作者參與演出。每一位都將帶著鮮明角色走進城市，在直播與角色扮演之間，共同寫下無法預演的篇章。</p></div><div class="cast-stage reveal"><button class="cast-poster" type="button" data-lightbox-src="./assets/streamers/season-cast.jpg" data-lightbox-title="NEW ERA 本季出演陣容"><img src="./assets/streamers/season-cast.jpg" alt="NEW ERA 本季多位主播出演陣容" loading="lazy"><span class="cast-poster-mark"><span>ALL-STAR SEASON</span><span>VIEW CAST ↗</span></span></button><div class="cast-copy"><p class="kicker">Streamers in character</p><h3>多位主播，<br>多種角色，<br><em>同一座城市</em></h3><p>他們不只是來賓，而是會真正走進 NEW ERA、建立關係並推動故事的角色。從第一次相遇到意想不到的合作與衝突，每一次選擇都可能成為本季最難忘的名場面。</p><div class="cast-tags"><span>STREAMERS</span><span>ROLEPLAY</span><span>ORIGINAL CHARACTERS</span></div><div class="cast-note">眾星雲集，共創新的篇章。<br>這一季，故事由所有人一起演下去。</div></div></div><div class="cast-grid reveal" aria-label="本季角色視覺"><button class="cast-card" type="button" data-lightbox-src="./assets/streamers/cast-01.jpg" data-lightbox-title="本季出演角色 01"><img src="./assets/streamers/cast-01.jpg" alt="本季出演角色 01" loading="lazy"><span>CAST 01</span></button><button class="cast-card" type="button" data-lightbox-src="./assets/streamers/cast-02.jpg" data-lightbox-title="本季出演角色 02"><img src="./assets/streamers/cast-02.jpg" alt="本季出演角色 02" loading="lazy"><span>CAST 02</span></button><button class="cast-card" type="button" data-lightbox-src="./assets/streamers/cast-03.png" data-lightbox-title="本季出演角色 03"><img src="./assets/streamers/cast-03.png" alt="本季出演角色 03" loading="lazy"><span>CAST 03</span></button><button class="cast-card" type="button" data-lightbox-src="./assets/streamers/cast-04.jpg" data-lightbox-title="本季出演角色 04"><img src="./assets/streamers/cast-04.jpg" alt="本季出演角色 04" loading="lazy"><span>CAST 04</span></button><button class="cast-card" type="button" data-lightbox-src="./assets/streamers/cast-05.jpg" data-lightbox-title="本季出演角色 05"><img src="./assets/streamers/cast-05.jpg" alt="本季出演角色 05" loading="lazy"><span>CAST 05</span></button><button class="cast-card" type="button" data-lightbox-src="./assets/streamers/cast-06.jpg" data-lightbox-title="本季出演角色 06"><img src="./assets/streamers/cast-06.jpg" alt="本季出演角色 06" loading="lazy"><span>CAST 06</span></button><button class="cast-card" type="button" data-lightbox-src="./assets/streamers/cast-07.jpg" data-lightbox-title="本季出演角色 07"><img src="./assets/streamers/cast-07.jpg" alt="本季出演角色 07" loading="lazy"><span>CAST 07</span></button><button class="cast-card" type="button" data-lightbox-src="./assets/streamers/cast-08.jpg" data-lightbox-title="本季出演角色 08"><img src="./assets/streamers/cast-08.jpg" alt="本季出演角色 08" loading="lazy"><span>CAST 08</span></button><button class="cast-card" type="button" data-lightbox-src="./assets/streamers/cast-09.jpg" data-lightbox-title="本季出演角色 09"><img src="./assets/streamers/cast-09.jpg" alt="本季出演角色 09" loading="lazy"><span>CAST 09</span></button></div></div></section>
+
+      <section class="section"><div class="shell"><div class="section-head reveal"><div><p class="kicker">03 — City frames</p><h2 class="display">城市不只被看見，<br>也被<span class="stroke">記住</span></h2></div><p>每一張照片都是一段曾經發生的故事。聚會、旅行、節慶與沒有特別安排的普通日子，共同組成 NEW ERA 真正的樣子。</p></div><div class="story-grid reveal"><a class="story-card" href="#gallery" data-route="gallery"><img src="./assets/album/40.png" alt="NEW ERA 冬季聚會" loading="lazy"><span class="story-caption"><span><small>Seasonal memory</small><h3>讓季節走進城市</h3></span><i class="arrow">↗</i></span></a><a class="story-card" href="#gallery" data-route="gallery"><img src="./assets/album/08.png" alt="NEW ERA 城市景色" loading="lazy"><span class="story-caption"><span><small>See the city</small><h3>換一個角度生活</h3></span><i class="arrow">↗</i></span></a><a class="story-card" href="#gallery" data-route="gallery"><img src="./assets/site/city-event-plaza.png" alt="NEW ERA 城市活動廣場" loading="lazy"><span class="story-caption"><span><small>City occasions</small><h3>讓重要時刻被城市記住</h3></span><i class="arrow">↗</i></span></a></div></div></section>
+
+      <section class="section"><div class="shell"><div class="section-head reveal"><div><p class="kicker">04 — Choose your path</p><h2 class="display">今天，你想過<br>哪一種<span class="stroke">人生？</span></h2></div><p>NEW ERA 不替你安排答案。選一條路出發，再讓角色的關係、野心與偶然，把你帶到沒想過的地方。</p></div><div class="path-list reveal"><a class="path" href="#features" data-route="features"><span>01</span><h3>普通市民</h3><p>租一間房、找一份工作，把平凡日子過成自己的故事。</p><i class="arrow">↗</i></a><a class="path" href="#jobs" data-route="jobs"><span>02</span><h3>公職生活</h3><p>從巡邏到救援，在城市需要你的時候留下角色片段。</p><i class="arrow">↗</i></a><a class="path" href="#jobs" data-route="jobs"><span>03</span><h3>企業經營</h3><p>開一間想像中的店，讓一盞燈成為街區的固定日常。</p><i class="arrow">↗</i></a><a class="path" href="#crime" data-route="crime"><span>04</span><h3>地下世界</h3><p>在規則、利益與關係之間做選擇，也承擔每個後果。</p><i class="arrow">↗</i></a><a class="path" href="#features" data-route="features"><span>05</span><h3>社交與生活</h3><p>一頓晚餐、一場兜風，都可能成為你留下來的理由。</p><i class="arrow">↗</i></a></div></div></section>
+
+      <section class="ark-section"><div class="shell ark-grid"><a class="ark-logo-wrap reveal" href="https://arkprojecttw.com/" target="_blank" rel="noopener noreferrer" aria-label="前往 ARKPROJECT RP 方舟計劃官方網站"><img src="./assets/ark-project.png" alt="ARK PROJECT — 100% ROLEPLAY"></a><div class="ark-copy reveal"><p class="kicker">The world behind NEW ERA</p><h2>Built by<br>ARK PROJECT</h2><p>NEW ERA 由 ARK PROJECT 團隊企劃與營運。我們把 100% Roleplay 的承諾放進城市規則、內容設計與每一次管理判斷，讓角色的故事有被認真對待的空間。</p><div class="ark-values"><span>100% ROLEPLAY</span><span>PLAYER-FIRST</span><span>LONG-FORM STORY</span><span>MOCHI PINK</span></div><div class="ark-actions"><a class="button dark" href="https://arkprojecttw.com/" target="_blank" rel="noopener noreferrer">ARKPROJECT 官方網站 ↗</a></div></div></div></section>
+
+      <section class="live-band"><div class="shell live-inner"><div class="live-copy reveal"><p class="kicker">City is calling</p><h2>城市正在<br>等待你</h2><p>準備好 FiveM，加入 Discord 完成身分驗證。你的第一段故事不需要完美設定，只需要一個願意開始的角色。</p><div class="hero-buttons"><button class="button dark" type="button" data-connect>連線 NEW ERA ↗</button><a class="button outline" style="border-color:rgba(16,13,15,.35);color:#100d0f" href="#guide" data-route="guide">查看進城指南 →</a></div></div><div class="console"><div class="console-cell"><small>Server status</small><strong data-status>讀取中</strong></div><div class="console-cell"><small>Citizens online</small><strong><span data-players>--</span><small> / <span data-max>128</span></small></strong></div><div class="console-cell"><small>Open hours</small><strong>15:00<br>— 06:00</strong></div><div class="console-cell"><small>Direct connect</small><strong class="server">mochirp2025.zapto.org</strong></div></div></div></section>
+
+      <section class="section"><div class="shell"><div class="section-head reveal"><div><p class="kicker">05 — New gameplay</p><h2 class="display">這次，城市有<br>更多<span class="stroke">生活可能</span></h2></div><p>從角色成長、動態經濟到城市關係，八套新系統讓日常、工作與探索都有更清楚的目標，也留下更多屬於角色的故事。</p></div><div class="program-grid reveal" id="programs"></div></div></section>
+      <section class="cta"><img src="./assets/album/03.jpg" alt="NEW ERA 城市夜景" loading="lazy"><div class="shell cta-content reveal"><p class="kicker">Welcome to your NEW ERA</p><h2>下一段人生，<br>從這裡開始</h2><p>加入 NEW ERA，認識這座城市，也讓這座城市開始認識你。</p><div class="hero-buttons"><a class="button" href="https://discord.gg/GF54979JNR" target="_blank" rel="noopener">加入 Discord ↗</a><a class="button outline" href="#guide" data-route="guide">第一次進城 →</a></div></div></section>
+    </div>
+
+    <div class="page" id="page-features" data-page="features"><section class="page-hero"><div class="shell"><div class="page-meta"><span>Explore / New gameplay</span><span>01 — 08</span></div><h1>Live your<br><span>NEW ERA</span></h1><div class="page-bottom"><span>01</span><p>這次的八套特色玩法，從玩家成長、動態經濟到城市互動，讓每一段日常都有目標，也有意想不到的後續。</p></div></div></section><section class="section"><div class="shell"><div class="feature-grid" id="features"></div></div></section></div>
+    <div class="page" id="page-jobs" data-page="jobs"><section class="page-hero"><div class="shell"><div class="page-meta"><span>City / Current careers</span><span>01 — 04</span></div><h1>Make a<br><span>living</span></h1><div class="page-bottom"><span>02</span><p>本次開放四種職業路線。從公共安全、海岸日常、車輛服務到夜生活舞台，在工作中建立角色的人脈與故事。</p></div></div></section><section class="section"><div class="shell"><div class="jobs" id="jobs"></div></div></section><section class="cta"><img src="./assets/site/peak-towers.png" alt="NEW ERA 城市天際線" loading="lazy"><div class="shell cta-content"><p class="kicker">Start small, build a life</p><h2>第一份薪水，<br>第一段關係</h2><p>選擇適合角色的職業，從每天遇見的人開始，慢慢找到自己在城市的位置。</p><a class="button" href="#guide" data-route="guide">開始第一天 →</a></div></section></div>
+    <div class="page" id="page-crime" data-page="crime"><section class="page-hero"><div class="shell"><div class="page-meta"><span>After dark / Underground</span><span>Restricted area</span></div><h1>After<br><span>dark</span></h1><div class="page-bottom"><span>03</span><p>夜幕之後，城市有另一套秩序。每一次行動都有風險，也都可能改變角色與其他人的關係。</p></div></div></section><section class="section"><div class="shell"><button class="crime-overview reveal" type="button" data-lightbox-src="./assets/site/crime-gameplay-overview.png" data-lightbox-title="NEW ERA 犯罪玩法總覽" aria-label="放大查看 NEW ERA 犯罪玩法總覽"><img src="./assets/site/crime-gameplay-overview.png" alt="NEW ERA 十種犯罪玩法總覽" loading="lazy"><span><b>Crime gameplay overview</b><i>View full size ↗</i></span></button></div></section></div>
+    <div class="page" id="page-guide" data-page="guide"><section class="page-hero"><div class="shell"><div class="page-meta"><span>First day / Join NEW ERA</span><span>15—30 min</span></div><h1>Your first<br><span>day</span></h1><div class="page-bottom"><span>04</span><p>第一次玩 FiveM 也沒關係。照著步驟完成準備，大約 15–30 分鐘，就能走進 NEW ERA 的第一天。</p></div></div></section><section class="section"><div class="shell guide-grid"><aside class="guide-intro"><p class="kicker">Six simple steps</p><h2>準備好，<br>就出發</h2><p>需要正版 GTA V 傳承版、Rockstar Games、Steam、Discord 帳號，以及穩定的網路連線。</p></aside><div class="steps" id="steps"></div></div></section><section class="section"><div class="shell"><div class="section-head"><div><p class="kicker">Hardware</p><h2 class="display">讓故事，<br>跑得<span class="stroke">更順</span></h2></div><p>FiveM 會載入較多自訂資源。建議使用 SSD 與 16 GB 以上記憶體，能讓首次進城與日常遊玩更穩定。</p></div><div class="specs"><div class="spec"><b>MINIMUM / 最低配置</b><ul><li>CPU — Intel Core i5 3470 / AMD FX-8350</li><li>GPU — GTX 660 2GB / AMD HD 7870 2GB</li><li>RAM — 8 GB</li><li>STORAGE — 72 GB + FiveM 快取</li></ul></div><div class="spec"><b style="color:var(--pink)">RECOMMENDED / 推薦配置</b><ul><li>CPU — Intel Core i7 10700 / Ryzen 5 5600X</li><li>GPU — NVIDIA RTX 2060 6GB 以上</li><li>RAM — 16 GB 以上／雙通道</li><li>STORAGE — SSD 固態硬碟</li></ul></div></div></div></section><section class="section"><div class="shell"><div class="section-head"><div><p class="kicker">Troubleshooting</p><h2 class="display">進不去？<br>先從這裡<span class="stroke">排查</span></h2></div><p>常見的啟動、連線、載入與語音問題，多半能透過以下步驟快速解決。</p></div><div class="faq" id="faqs"></div></div></section></div>
+    <div class="page" id="page-gallery" data-page="gallery"><section class="page-hero"><div class="shell"><div class="page-meta"><span>Archive / City frames</span><span>60 memories</span></div><h1>City<br><span>frames</span></h1><div class="page-bottom"><span>05</span><p>那些沒寫進公告、卻被大家記住的畫面。這裡收著 NEW ERA 的活動、日常與每一次剛好按下快門的瞬間。</p></div></div></section><section class="section"><div class="shell"><div class="gallery-bar"><span>NEW ERA VISUAL ARCHIVE / 2026</span><span><b id="galleryCount">12</b> / 60</span></div><div class="gallery" id="gallery"></div><div class="more"><button class="button outline" id="loadMore" type="button">載入更多影像 ＋</button></div></div></section></div>
+    <div class="page" id="page-partners" data-page="partners">
+      <section class="page-hero"><div class="shell"><div class="page-meta"><span>Creative / Official partner</span><span>DAXION STUDIO</span></div><h1>Create the<br><span>unseen</span></h1><div class="page-bottom"><span>06</span><p>專屬合作繪師，提供角色立繪、造型設計、Q版跳跳與 Twitch 貼圖，讓 MOCHI 市民能委託屬於自己的角色視覺。</p></div></div></section>
+      <section class="section"><div class="shell">
+        <div class="partner-showcase reveal"><div class="partner-logo-panel"><img src="./assets/partners/daxion-studio-logo.png" alt="DAXION STUDIO 標誌" loading="lazy"></div><div class="partner-copy"><img class="partner-wordmark" src="./assets/partners/daxion-studio-wordmark.png" alt="DAXION STUDIO" loading="lazy"><p class="kicker">Exclusive illustration partner</p><h2>DAXION STUDIO<br>× <em>NEW ERA</em></h2><p>NEW ERA 與 DAXION STUDIO 建立專屬合作，為 MOCHI 市民提供角色立繪、角色造型、服裝髮型配件設計與細節調整等委託服務。每項創作都以委託角色的個性與需求為核心。</p><div class="partner-tags" aria-label="專屬繪製內容"><span>角色立繪</span><span>角色造型製作</span><span>服裝／髮型／配件設計</span><span>角色細節調整</span></div><div class="partner-credit">專屬合作繪師｜DAXION STUDIO<br>讓角色先被看見，再讓故事被記住。</div></div></div>
+        <div class="partner-service reveal"><div class="partner-service-copy"><p class="kicker">Commission option / Chibi bounce</p><h3><span>Q版</span>跳跳</h3><p>除了完整 V皮，也可以委託較簡單可愛的 Q版歐美系跳跳角色。以俐落、容易辨識的角色造型，保留人物特色與活潑動態感。</p></div><div class="partner-service-sets"><div class="partner-service-set"><span>SET A</span><strong>A 組 × 1</strong><small>角色圖片／1 張</small></div><div class="partner-service-set"><span>SET B</span><strong>B 組 × 1</strong><small>角色圖片／1 張</small></div><div class="partner-service-total"><span>基本製作內容</span><b>合計 2 張角色圖片</b></div></div></div>
+        <div class="partner-service reveal"><div class="partner-service-copy"><p class="kicker">Commission option / Stream assets</p><h3><span>Twitch</span><br>貼圖</h3><p>為實況頻道製作符合角色與品牌風格的聊天室貼圖，將角色表情、招牌動作與頻道梗轉化成觀眾能立即使用的互動素材。</p></div><div class="partner-service-mark" aria-hidden="true"><span>Live chat identity</span><strong>EMOTES.</strong><small>Twitch channel art</small></div></div>
+        <div class="partner-benefit reveal"><div><p class="kicker">Mochi citizen benefit</p><h3>MOCHI 市民<br><span>專屬優惠</span></h3></div><div class="partner-benefit-copy"><p>MOCHI 市民向 DAXION STUDIO 委託角色立繪、Q版跳跳或 Twitch 貼圖，可享市民專屬合作優惠。</p><strong>委託前請先告知 MOCHI 市民身分；實際優惠內容、製作規格與可排檔期由合作繪師確認。</strong></div></div>
+        <div class="partner-portfolio reveal">
+          <div class="partner-portfolio-head"><div><p class="kicker">DAXION STUDIO works</p><h3>Q版跳跳<br><span>差分範例</span></h3></div><p>每組都是同一角色的 A／B 兩張差分。白色小人用來示意同一角色的兩種表情，其餘範例呈現角色完成後的動作與表情變化。</p></div>
+          <div class="partner-samples" aria-label="DAXION STUDIO Q版跳跳差分範例">
+            <article class="partner-pair"><div class="partner-pair-media"><button class="partner-sample" type="button" data-lightbox-src="./assets/partners/daxion/chibi-01.png" data-lightbox-title="基礎表情差分 A"><img src="./assets/partners/daxion/chibi-01.png" alt="Q版跳跳基礎表情差分 A" loading="lazy"></button><button class="partner-sample" type="button" data-lightbox-src="./assets/partners/daxion/chibi-05.png" data-lightbox-title="基礎表情差分 B"><img src="./assets/partners/daxion/chibi-05.png" alt="Q版跳跳基礎表情差分 B" loading="lazy"></button></div><div class="partner-pair-caption"><b>基礎表情差分</b><span>A ＋ B</span></div></article>
+            <article class="partner-pair"><div class="partner-pair-media"><button class="partner-sample" type="button" data-lightbox-src="./assets/partners/daxion/chibi-02.png" data-lightbox-title="角色動作差分 A"><img src="./assets/partners/daxion/chibi-02.png" alt="Q版跳跳角色動作差分 A" loading="lazy"></button><button class="partner-sample" type="button" data-lightbox-src="./assets/partners/daxion/chibi-03.png" data-lightbox-title="角色動作差分 B"><img src="./assets/partners/daxion/chibi-03.png" alt="Q版跳跳角色動作差分 B" loading="lazy"></button></div><div class="partner-pair-caption"><b>動作與表情差分</b><span>A ＋ B</span></div></article>
+            <article class="partner-pair"><div class="partner-pair-media"><button class="partner-sample" type="button" data-lightbox-src="./assets/partners/daxion/chibi-04.png" data-lightbox-title="角色表情差分 A"><img src="./assets/partners/daxion/chibi-04.png" alt="Q版跳跳角色表情差分 A" loading="lazy"></button><button class="partner-sample" type="button" data-lightbox-src="./assets/partners/daxion/chibi-06.png" data-lightbox-title="角色表情差分 B"><img src="./assets/partners/daxion/chibi-06.png" alt="Q版跳跳角色表情差分 B" loading="lazy"></button></div><div class="partner-pair-caption"><b>角色表情差分</b><span>A ＋ B</span></div></article>
+          </div>
         </div>
-        <div class="space-y-4" id="eventList"></div>
-      </div>
-      <!-- 管理方針區塊 -->
-      <div class="max-w-4xl mx-auto">
-        <h3 class="section-title">🤝 管理方針與承諾</h3>
-        <div class="grid md:grid-cols-2 gap-4" id="policyGrid">
-          <!-- JS 渲染 -->
-        </div>
-      </div>
+      </div></section>
     </div>
   </main>
 
-  <!-- 麻糬特色專頁 -->
-  <section id="page-features" class="page-section container mx-auto px-6 py-20 max-w-6xl">
-    <div class="text-center mb-16">
-      <h2 class="text-4xl font-black mb-4 italic">✨ 這些，只有在麻糬RP看得到</h2>
-      <p class="opacity-60 text-lg">豐富的生活驚喜，讓每一天進城都充滿期待</p>
-    </div>
+  <footer class="footer"><div class="shell footer-main"><h2 class="footer-word">NEW <span>ERA</span></h2><nav class="footer-links" aria-label="頁尾導覽"><a href="#features" data-route="features">城市體驗</a><a href="#jobs" data-route="jobs">職業人生</a><a href="#guide" data-route="guide">新手加入</a><a href="#gallery" data-route="gallery">城市影像</a><a href="#partners" data-route="partners">合作夥伴</a><a href="https://arkprojecttw.com/" target="_blank" rel="noopener noreferrer">ARKPROJECT 官網 ↗</a><a href="https://discord.gg/GF54979JNR" target="_blank" rel="noopener">Discord ↗</a></nav></div><div class="shell footer-bottom"><span>© <span id="year"></span> NEW ERA. All stories belong to their players.</span><span>100% Roleplay · A world by ARK PROJECT</span></div></footer>
 
-    <!-- 1. 特色內容完整呈現 -->
-    <div class="mb-24">
-      <h3 class="section-title">🌈 麻糬專屬特色</h3>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="featuresGrid">
-        <!-- JS 渲染 -->
-      </div>
-    </div>
-
-    <!-- 2. 創業與幫派系統 -->
-    <div class="mb-24">
-      <h3 class="section-title">🏢 自由創業與幫派</h3>
-      <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-8" id="orgGrid">
-        <!-- JS 渲染 -->
-      </div>
-    </div>
-
-    <!-- 3. 生活節奏 (Rhythm) -->
-    <div class="mb-24">
-      <h3 class="section-title">⏳ 城市生活節奏</h3>
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="rhythmList">
-        <!-- JS 渲染 -->
-      </div>
-    </div>
-  </section>
-
-  <!-- 其餘頁面... -->
-  <section id="page-crime" class="page-section container mx-auto px-6 py-20"><div class="text-center"><h2 class="text-4xl font-black">🕶️ 非法玩法</h2><div class="grid md:grid-cols-3 gap-8 mt-10" id="crimeCards"></div></div></section>
-  <section id="page-jobs" class="page-section container mx-auto px-6 py-20"><div class="text-center"><h2 class="text-4xl font-black">💼 城市企業</h2><div class="grid md:grid-cols-2 gap-8 mt-10" id="jobGrid"></div></div></section>
-   <!-- 新手指南專頁 -->
-    <section id="page-help" class="page-section container mx-auto px-6 py-20 max-w-5xl">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl font-black mb-4 italic">🧸 新手進城指南</h2>
-        <p class="opacity-60 text-lg max-w-2xl mx-auto leading-relaxed">第一次玩 FiveM 也不用怕。照著以下順序準備，大約 15–30 分鐘就能完成進城。</p>
-      </div>
-      
-      <div class="glass-card p-6 md:p-10 mb-12">
-        <div class="grid md:grid-cols-2 gap-10">
-          <div>
-            <h4 class="font-black text-xl mb-4 text-pink-500">進城前先準備</h4>
-            <ul class="space-y-4 opacity-70">
-              <li>✓ 正版 GTA V 傳承版，並至少成功開啟過一次</li>
-              <li>✓ 可正常登入的 Rockstar Games 帳號</li>
-              <li>✓ Steam 與 Discord 帳號</li>
-              <li>✓ FiveM 連線程式與穩定網路</li>
-            </ul>
-          </div>
-          <div>
-            <h4 class="font-black text-xl mb-4 text-pink-500">溫馨提醒</h4>
-            <p class="opacity-70 leading-relaxed mb-4">麻糬RP重視角色互動與彼此尊重。進城前請先閱讀 Discord 的城市規章，不確定的事情先詢問，不需要硬著頭皮猜。</p>
-            <div class="guide-tip"><strong>小提醒：</strong>註冊資料與角色設定請先想好，建立角色後會更容易自然地開始第一段故事。</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mb-16">
-        <h3 class="section-title">🗺️ 六步完成進城</h3>
-        <div class="grid lg:grid-cols-2 gap-5">
-          <article class="guide-step">
-            <span class="guide-number">1</span>
-            <h4 class="font-black text-lg mb-2">加入官方 Discord</h4>
-            <p class="opacity-70 text-sm">加入 MochiRP Discord，完成伺服器要求的身分驗證，並依序閱讀公告、城市規章與新手資訊。遇到權限尚未開通時，先確認是否漏看驗證步驟。</p>
-            <a href="https://discord.gg/mochirp" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm font-bold text-pink-500 hover:opacity-70">前往 Discord →</a>
-          </article>
-          <article class="guide-step">
-            <span class="guide-number">2</span>
-            <h4 class="font-black text-lg mb-2">確認 GTA V 可以啟動</h4>
-            <p class="opacity-70 text-sm">先從 Rockstar Games Launcher 或 Steam 正常開啟 GTA V 傳承版一次，進到主畫面後再關閉。這一步能讓 FiveM 正確找到遊戲檔案。</p>
-          </article>
-          <article class="guide-step">
-            <span class="guide-number">3</span>
-            <h4 class="font-black text-lg mb-2">安裝並登入 FiveM</h4>
-            <p class="opacity-70 text-sm">從 FiveM 官方網站下載安裝程式，完成安裝後依畫面登入 Rockstar 帳號。首次啟動可能需要更新與下載檔案，請耐心等待。</p>
-          </article>
-          <article class="guide-step">
-            <span class="guide-number">4</span>
-            <h4 class="font-black text-lg mb-2">連線 MochiRP</h4>
-            <p class="opacity-70 text-sm mb-3">點擊網站的「立即進城」即可連線。若瀏覽器沒有反應，開啟 FiveM 後按 <strong>F8</strong>，貼上以下指令並按 Enter：</p>
-            <button class="font-mono text-xs bg-pink-50 dark:bg-white/5 border border-pink-100 rounded-xl px-4 py-3 w-full text-left hover:border-pink-300 transition" onclick="copyIP()">connect mochirp2025.zapto.org <span class="float-right text-pink-500">點擊複製</span></button>
-          </article>
-          <article class="guide-step">
-            <span class="guide-number">5</span>
-            <h4 class="font-black text-lg mb-2">建立你的第一位角色</h4>
-            <p class="opacity-70 text-sm">使用符合城市規章的姓名，設定外觀與基本資料。先想一個簡單的個性、來城理由和想做的工作就夠了；角色故事可以在遊玩中慢慢長出來。</p>
-          </article>
-          <article class="guide-step">
-            <span class="guide-number">6</span>
-            <h4 class="font-black text-lg mb-2">開始第一小時</h4>
-            <p class="opacity-70 text-sm">先熟悉背包、手機、地圖與語音，接著找一份入門工作認識城市。遇到其他市民時以角色身分自然互動；需要協助，可透過 Discord 正規管道詢問。</p>
-          </article>
-        </div>
-      </div>
-
-      <div class="mb-16">
-        <h3 class="section-title">🌱 第一日建議清單</h3>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="check-card rounded-2xl p-5 bg-white/40"><div class="text-2xl mb-3">🎙️</div><h4 class="font-black mb-1">測試語音</h4><p class="text-sm opacity-65 leading-relaxed">確認輸入、輸出裝置與說話音量正常。</p></div>
-          <div class="check-card rounded-2xl p-5 bg-white/40"><div class="text-2xl mb-3">🗺️</div><h4 class="font-black mb-1">認識地圖</h4><p class="text-sm opacity-65 leading-relaxed">先找醫院、警局、車庫與常用商店。</p></div>
-          <div class="check-card rounded-2xl p-5 bg-white/40"><div class="text-2xl mb-3">💼</div><h4 class="font-black mb-1">找份工作</h4><p class="text-sm opacity-65 leading-relaxed">從合法入門工作開始累積第一筆資金。</p></div>
-          <div class="check-card rounded-2xl p-5 bg-white/40"><div class="text-2xl mb-3">🤝</div><h4 class="font-black mb-1">主動互動</h4><p class="text-sm opacity-65 leading-relaxed">禮貌打招呼，故事往往就從一句話開始。</p></div>
-        </div>
-      </div>
-
-      <!-- 硬體要求 -->
-      <div class="mb-16">
-        <h3 class="section-title">💻 硬體配備要求</h3>
-        <div class="grid md:grid-cols-2 gap-6">
-          <div class="bg-white/40 p-6 rounded-2xl border border-pink-100">
-            <h4 class="font-black mb-4 flex items-center gap-2"><span class="hardware-badge">MINIMUM</span> 最低配置</h4>
-            <ul class="text-sm space-y-2 opacity-70">
-              <li><span class="font-bold">CPU:</span> Intel Core i5 3470 / AMD X8 FX-8350</li>
-              <li><span class="font-bold">GPU:</span> NVIDIA GTX 660 2GB / AMD HD 7870 2GB</li>
-              <li><span class="font-bold">RAM:</span> 8 GB</li>
-              <li><span class="font-bold">Storage:</span> 72 GB + FiveM 緩存空間</li>
-            </ul>
-          </div>
-          <div class="bg-white/40 p-6 rounded-2xl border border-pink-100">
-            <h4 class="font-black mb-4 flex items-center gap-2 text-pink-600"><span class="hardware-badge bg-pink-500">RECOMMENDED</span> 推薦配置</h4>
-            <ul class="text-sm space-y-2 opacity-70">
-              <li><span class="font-bold">CPU:</span> Intel Core i7 10700 / AMD Ryzen 5 5600X</li>
-              <li><span class="font-bold">GPU:</span> NVIDIA RTX 2060 6GB 以上</li>
-              <li><span class="font-bold">RAM:</span> 16 GB 以上 (雙通道佳)</li>
-              <li><span class="font-bold">Storage:</span> SSD 固態硬碟 (必備)</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- 疑難排解 -->
-      <div class="mb-16">
-        <h3 class="section-title">🔧 常見問題疑難排解</h3>
-        <div class="space-y-4" id="troubleList">
-          <!-- JS 渲染 FAQ -->
-        </div>
-      </div>
-    </section>
-
-    <!-- 城市相簿專頁 -->
-    <section id="page-album" class="page-section container mx-auto px-6 py-20 max-w-7xl">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl font-black mb-4">📸 城市相簿</h2>
-        <p class="opacity-60 text-lg">收藏那些在城市裡閃閃發亮的瞬間</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="albumGrid">
-        <!-- JS 渲染 -->
-      </div>
-    </section>
-  <footer class="border-t border-pink-100 bg-white/50 dark:bg-black/10 backdrop-blur-sm">
-    <div class="container mx-auto max-w-6xl px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-      <div class="flex items-center gap-3">
-        <img src="./assets/logo.png" alt="MochiRP Logo" class="site-logo">
-        <div>
-          <p class="font-black text-lg">MochiRP</p>
-          <p class="text-sm opacity-60">麻糬陪你慢慢生活</p>
-        </div>
-      </div>
-      <nav class="flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm font-medium" aria-label="頁尾導覽">
-        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('features'); return false;">麻糬特色</a>
-        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('help'); return false;">新手指南</a>
-        <a href="#" class="hover:text-pink-500 transition" onclick="showPage('album'); return false;">城市相簿</a>
-        <a href="https://discord.gg/mochirp" target="_blank" rel="noopener noreferrer" class="hover:text-pink-500 transition">Discord</a>
-      </nav>
-      <p class="text-xs opacity-50">&copy; <span id="copyright-year"></span> MochiRP</p>
-    </div>
-  </footer>
+  <div class="overlay" id="connect" role="dialog" aria-modal="true" aria-labelledby="connectTitle"><div class="modal"><div class="modal-head"><small>DIRECT CONNECTION</small><button class="close" type="button" data-close aria-label="關閉">×</button></div><div class="modal-body"><h2 id="connectTitle">準備進入 NEW ERA？</h2><p>下方按鈕會啟動 FiveM。如果瀏覽器沒有反應，請確認已安裝 FiveM，或複製指令後在 FiveM 按 F8 貼上。</p><div class="modal-actions"><button class="button" type="button" id="launch">啟動 FiveM ↗</button><button class="command" type="button" data-copy>connect mochirp2025.zapto.org <span>複製</span></button></div><p class="copy-hint" id="copyHint">已複製連線指令</p></div></div></div>
+  <div class="overlay lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="影像預覽"><div class="lightbox-inner"><button class="close" type="button" data-close aria-label="關閉">×</button><img id="lightboxImg" src="" alt=""><p id="lightboxCaption"></p></div></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
-    // 檢查本地存儲或系統偏好
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-      updateThemeIcon(true);
-    } else {
-      document.documentElement.classList.remove('dark');
-      updateThemeIcon(false);
-    }
-
-    function toggleDarkMode() {
-      const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.theme = isDark ? 'dark' : 'light';
-      updateThemeIcon(isDark);
-    }
-
-    function updateThemeIcon(isDark) {
-      const icon = document.getElementById('theme-icon');
-      if (icon) icon.innerText = isDark ? '☀️' : '🌙';
-    }
-
-    function toggleMobileMenu() {
-      const menu = document.getElementById('mobile-menu');
-      const button = document.getElementById('mobile-menu-button');
-      const icon = document.getElementById('mobile-menu-icon');
-      const isOpening = menu.classList.contains('hidden');
-      menu.classList.toggle('hidden');
-      button.setAttribute('aria-expanded', String(isOpening));
-      button.setAttribute('aria-label', isOpening ? '關閉導覽選單' : '開啟導覽選單');
-      icon.textContent = isOpening ? '✕' : '☰';
-    }
-
-    function closeMobileMenu() {
-      const menu = document.getElementById('mobile-menu');
-      const button = document.getElementById('mobile-menu-button');
-      const icon = document.getElementById('mobile-menu-icon');
-      if (!menu || !button || !icon) return;
-      menu.classList.add('hidden');
-      button.setAttribute('aria-expanded', 'false');
-      button.setAttribute('aria-label', '開啟導覽選單');
-      icon.textContent = '☰';
-    }
-
-    document.getElementById('copyright-year').textContent = new Date().getFullYear();
-    const cfg = {
-      connectUrl: "fivem://connect/162.222.17.19:30120",
-      ipAddress: "mochirp2025.zapto.org",
-      policy: [
-          { title: "公平", desc: "不看身分、不偏袒，用一致標準處理" },
-          { title: "溝通", desc: "先理解再處理，不用吵架也能解決" },
-          { title: "透明", desc: "能公開說明的就公開，避免私下爭議" },
-          { title: "保護新手", desc: "讓第一次進城的人，也能安心玩" },
-          { title: "尊重角色", desc: "每個人選擇的生活與路線，都值得被尊重" },
-          { title: "適度介入", desc: "管理存在是為了守護體驗，而不是干預故事" },
-          { title: "陪伴處理", desc: "遇到問題時，會陪著你一起把事情處理完" },
-          { title: "不急著判定", desc: "先聽完整故事，再做出合適的判斷" },
-          { title: "保護體驗", desc: "避免任何破壞他人體驗的行為發生" },
-          { title: "鼓勵回報", desc: "有疑慮就說出來，城市會認真傾聽" }
-        ],
-      features: [
-        {
-          icon: "🎇",
-          title: "麻糬法拍日",
-          text: "這是城市裡的大日子！警察局與法院會不定期整理沒收的違章財產，從稀有車輛到高級地段房屋，全體市民都能參與競標，是翻身做主的好機會。",
-          meta: "活動性質：不定期舉辦（留意公告）"
-        },
-        {
-          icon: "🎆",
-          title: "麻糬煙火秀",
-          text: "每天晚上，城市都會為你準備一場煙火。提前三個小時會有全服廣播，告訴大家今天的煙火秀地點，只要到現場一起看煙火，就能獲得小禮物。",
-          meta: "進行時間：每日 20:00–00:00"
-        },
-        {
-          icon: "🧳",
-          title: "神秘商人",
-          text: "神秘商人會販賣各種稀有商品，但每一次出現的商品都不一樣，想買到心頭好，只能碰碰運氣。",
-          meta: "出現時段：星期一、星期三 18:00–23:00"
-        },
-        {
-          icon: "📝",
-          title: "迷你小活動",
-          text: "系統會隨機發放小任務給所有市民，任務內容全服相同，完成後就能獲得小獎勵，輕鬆又沒有壓力。",
-          meta: "進行時段：星期二 晚上（時間不固定）"
-        },
-        {
-          icon: "🎤",
-          title: "街頭藝人",
-          text: "在某些隨機的日子，城市角落會出現街頭藝人演出。遇到他們時可以進行打賞，也許會有意想不到的小驚喜。",
-          meta: "出現時段：20:00–22:00｜每日僅可打賞一次"
-        },
-        {
-          icon: "🎲",
-          title: "麻糬比大小",
-          text: "一個輕鬆的小賭盤活動，用一點點運氣參與就好。不用拚、不用壓力，更多是大家一起等開獎的期待感。",
-          meta: "開獎時間：每週日、二、四、六 晚上 21:00"
-        },
-        {
-          icon: "🎁",
-          title: "隱藏材料",
-          text: "城市中存在一些無法自行取得的特殊材料，平時不會出現在任何採集或合成流程中，僅能透過特定活動或節日獲得。",
-          meta: "取得方式：限定活動 / 節慶機會"
-        },
-        {
-          icon: "📖",
-          title: "收藏冊系統",
-          text: "城市中有各式各樣可以收集的事物，從活動紀念到特殊道具，慢慢填滿屬於你的收藏冊，把走過的時間留下來。",
-          meta: "長期收集 / 非強制進度"
-        },
-        {
-          icon: "💌",
-          title: "好友邀請系統",
-          text: "邀請朋友一起加入 MochiRP，陪他完成進城準備、熟悉城市與展開第一段故事。符合活動條件後，邀請人與新市民都能獲得專屬回饋。",
-          meta: "邀請好友 / 雙方回饋"
-        }
-      ],
-      organization: [
-        {
-          icon: "🏪",
-          title: "便利商店加盟",
-          text: "地圖上會標記可加盟的便利商店，只要購買該店即可成為店長。你可以販賣自己選擇的合法商品，經營內容與整體風格皆由你自由決定。"
-        },
-        {
-          icon: "📄",
-          title: "創業開設職業",
-          text: "只要你有想法，即可向管理組提交創業計劃書，由管理組評估是否成立公司。目前可申請成立的產業包含賭場、餐廳、夜生活及娛樂事業，申請者需配合準備地圖與相關插件後方可成立。"
-        },
-        {
-          icon: "🏴",
-          title: "創立幫派",
-          text: "需在城內收集 500 個比特幣，並可於遊戲介面自行成立幫派。每個幫派最多可容納 10 名成員，成立後即可參與幫派專屬的勢力玩法。"
-        }
-      ],
-      rhythm: [
-        { icon: "📅", title: "每週活動", text: "城市每週都會安排不同主題的活動，讓生活有節奏，也讓你每週都有回城的理由。" },
-        { icon: "🗓️", title: "每月活動", text: "每個月的第二及第四個星期六都會規劃大型或特色活動，適合慢慢參與。" },
-        { icon: "❄️", title: "每月最後一天下雪天", text: "在每個月的最後一天，城市會下起雪，不為任務，只為讓大家一起看看風景。" },
-        { icon: "🎉", title: "節慶活動", text: "依照現實節日調整城市氛圍，搭配限定活動與佈置，讓時間真的在城市裡留下痕跡。" }
-      ],
-      events: [
-        {
-            startDate: "2026-06-08",
-            endDate: "2026-06-30",
-            name: "🎋 粽香飄飄",
-            meta: "端午節限定活動"
-        },
-        {
-            startDate: "2026-06-19",
-            endDate: "2026-06-19",
-            name: "🐉 端午佳節",
-            meta: "祝各位市民端午安康"
-        },
-        {
-            startDate: "2026-06-27",
-            endDate: "2026-06-27",
-            name: "☕ 咖啡廳活動日",
-            meta: "佩里克莊園謀殺案"
-        }
-      ],
-      crime: [
-        {
-          icon: "🌿",
-          title: "大麻種植",
-          text: "取得大麻種子並找到園藝店後即可開始種植\n可種植品種包含 原味 香蕉 紫霧霾 藍夢\n取得方式需自行探索"
-        },
-        {
-          icon: "🧍‍♂️",
-          title: "搶劫原住民",
-          text: "手持武器靠近原住民即可進行搶劫\n屬於入門型犯罪玩法"
-        },
-        {
-          icon: "🚗",
-          title: "走私車任務",
-          text: "找到發放任務的 NPC 接取走私車任務\n前往指定地點翻開閘門後開始逃逸\n警報會在逃逸時才觸發"
-        },
-        {
-          icon: "🏪",
-          title: "商店與五金店搶劫",
-          text: "需要撬鎖工具\n可在便利商店與五金店撬開收銀機與保險櫃"
-        },
-        {
-          icon: "💎",
-          title: "珠寶店搶劫",
-          text: "使用鋁熱劑燒毀珠寶店附近電箱後開始行動\n每次取得的名貴物品不一定相同"
-        },
-        {
-          icon: "🏦",
-          title: "銀行搶劫",
-          text: "搶劫小型銀行或大型銀行\n需準備鑽孔機、槍械、鋁熱劑、等離子切割機、C4 等設備"
-        },
-        {
-          icon: "🏧",
-          title: "ATM 撬取",
-          text: "使用鐵撬靠近 ATM 即可嘗試撬取"
-        },
-        {
-          icon: "💰",
-          title: "販賣非法物品",
-          text: "可販賣犯罪時取得的贓物（不含黑錢）與毒品\n對指定 NPC 使用互動即可進行販賣\n等級會影響可販賣品項、販賣價格，以及原住民報警機率"
-        },
-        {
-          icon: "🗺️",
-          title: "幫派地盤戰",
-          text: "需成立幫派後才可參與\n每日晚間 20:00 至 凌晨 00:00 可進行地盤爭奪\n透過佔領據點擴張勢力範圍"
-        },
-        {
-          icon: "⚙️",
-          title: "非法合成台",
-          text:
-            "並非所有合成都能在陽光下完成\n" +
-            "城市暗處藏著不同用途的非法合成台\n" +
-            "包含槍械零件、槍械、毒品與藥劑\n" +
-            "能不能找到，全看你的運氣和耐心"
-        }
-      ],
-      jobs: [
-        { icon: "🚓", title: "警政署", text: "稀有雙警局玩法，維護城市秩序、保護市民" },
-        { icon: "🚑", title: "醫護局", text: "救治、協助與照顧，把溫柔留在每一次相遇" },
-        { icon: "🔧", title: "修車廠（夏氏汽修）", text: "維修、道路救援，讓每台車都能好好出門" },
-        { icon: "🦐", title: "海鮮餐廳（海巡鼠）", text: "捕撈、料理與分享，把海的味道端上每一張餐桌" },
-        { icon: "🐾", title: "貓咪咖啡廳（喵喵喵）", text: "咖啡、甜點與貓咪陪伴，讓忙碌的心慢慢安靜下來" },
-        { icon: "🍸", title: "Bahama Mamas（霞落之境）", text: "霓虹下的微醺派對，讓節奏與酒精治癒城市的失眠" },
-        { icon: "🥃", title: "Tequila La（鐵騎酒吧）", text: "七星會經營的硬派據點，在引擎聲與烈酒中譜寫江湖情義" },
-      ],
-      support: [
-        {
-          icon: "🚫",
-          title: "FiveM 打不開 / 一直閃退",
-          text: "• 請嘗試以系統管理員身分啟動 FiveM<br>• 關閉防毒軟體或防火牆後再試<br>• 顯卡驅動過舊也可能造成閃退"
-        },
-        {
-          icon: "🌐",
-          title: "連不上伺服器",
-          text: "• 請確認 FiveM 已登入 Rockstar 帳號<br>• 建議使用一鍵連線進城<br>• VPN 可能會影響連線品質"
-        },
-        {
-          icon: "⏳",
-          title: "卡在 Loading / 讀取很久",
-          text: "• 首次或更新後載入時間較長屬正常<br>• 請耐心等待 5–10 分鐘<br>• 若超過 15 分鐘仍未完成可重新啟動"
-        },
-        {
-          icon: "🔊",
-          title: "沒有聲音 / 麥克風無法使用",
-          text: "• 請確認 FiveM 語音設定內的裝置<br>• 檢查 Windows 預設輸入輸出裝置<br>• Discord 語音不會影響 FiveM 語音"
-        },
-        {
-          icon: "🧹",
-          title: "清除 FiveM 快取（進階）",
-          text: "• 請完全關閉 FiveM<br>• 右鍵 FiveM → 開啟檔案位置<br>• 進入 FiveM Application Data → data<br>• 刪除整個 server-cache-priv 資料夾<br>• 重新啟動 FiveM 後再嘗試進城"
-        }
-      ],
-      album: [
-        { src: "./assets/album/01.jpg", caption: "麻糬把今天的快樂裝進回憶罐" },
-        { src: "./assets/album/02.jpg", caption: "第一次參加活動的人 也笑得很可愛" },
-        { src: "./assets/album/03.jpg", caption: "城市的燈亮著 就像有人在等你" },
-        { src: "./assets/album/04.jpg", caption: "今天的風景也很溫柔" },
-        { src: "./assets/album/05.png", "caption": "有人聊天 有人發呆 這也是生活" },
-        { src: "./assets/album/06.png", "caption": "路燈下的影子 拉得很長很長" },
-        { src: "./assets/album/07.png", "caption": "不知不覺 就走過了好多地方" },
-        { src: "./assets/album/08.png", "caption": "有些瞬間 平凡得剛剛好" },
-        { src: "./assets/album/09.png", "caption": "城市裡總有屬於你的角落" },
-        { src: "./assets/album/10.png", "caption": "晚風輕輕吹過 心也慢慢安靜" },
-        { src: "./assets/album/11.png", "caption": "笑聲有時候比音樂還好聽" },
-        { src: "./assets/album/12.png", "caption": "有人陪伴的地方 就是風景" },
-        { src: "./assets/album/13.png", "caption": "今天也留下了一點點故事" },
-        { src: "./assets/album/14.png", "caption": "城市很大 但緣分剛好遇見" },
-        { src: "./assets/album/15.png", "caption": "某個瞬間 就想把畫面記住" },
-        { src: "./assets/album/16.png", "caption": "在這裡 每天都有新的回憶" },
-        { src: "./assets/album/17.png", "caption": "有些笑容 只屬於今天" },
-        { src: "./assets/album/18.png", "caption": "慢慢走 也能走到很遠的地方" },
-        { src: "./assets/album/19.png", "caption": "那些不經意的瞬間 最值得收藏" },
-        { src: "./assets/album/20.png", "caption": "今天的天空 也剛剛好" },
-        { src: "./assets/album/21.png", "caption": "朋友在旁邊 就不會覺得孤單" },
-        { src: "./assets/album/22.png", "caption": "原來平凡的日子也會發光" },
-        { src: "./assets/album/23.png", "caption": "有些故事 不用說也能懂" },
-        { src: "./assets/album/24.png", "caption": "笑著笑著 就過了一整晚" },
-        { src: "./assets/album/25.png", "caption": "這裡的夜晚 總是特別溫柔" },
-        { src: "./assets/album/26.png", "caption": "有人記得你來過 這就夠了" },
-        { src: "./assets/album/27.png", "caption": "偶爾停下來看看風景" },
-        { src: "./assets/album/28.png", "caption": "今天的城市 也很熱鬧" },
-        { src: "./assets/album/29.png", "caption": "每個角落 都藏著小故事" },
-        { src: "./assets/album/30.png", "caption": "時間慢慢走 回憶慢慢多" },
-        { src: "./assets/album/31.png", "caption": "有時候只是一個笑容" },
-        { src: "./assets/album/32.png", "caption": "這個瞬間 值得被記住" },
-        { src: "./assets/album/33.png", "caption": "今天的相遇 也是緣分" },
-        { src: "./assets/album/34.png", "caption": "城市的光 照亮了回憶" },
-        { src: "./assets/album/35.png", "caption": "有些日子 就該好好生活" },
-        { src: "./assets/album/36.png", "caption": "夜色裡的城市 特別安靜" },
-        { src: "./assets/album/37.png", "caption": "每個畫面 都有自己的故事" },
-        { src: "./assets/album/38.png", "caption": "某些回憶 會一直留下來" },
-        { src: "./assets/album/39.png", "caption": "今天的笑聲 還在耳邊" },
-        { src: "./assets/album/40.png", "caption": "這座城市 也在慢慢長大" },
-        { src: "./assets/album/41.png", "caption": "那些瞬間 都變成了紀念" },
-        { src: "./assets/album/42.png", "caption": "一起走過的路 最值得回頭看" },
-        { src: "./assets/album/43.png", "caption": "有些照片 是時間留下的痕跡" },
-        { src: "./assets/album/44.png", "caption": "平凡的日子 也能閃閃發亮" },
-        { src: "./assets/album/45.png", "caption": "有人在笑 就覺得很安心" },
-        { src: "./assets/album/46.png", "caption": "這一刻 就讓它停在回憶裡" },
-        { src: "./assets/album/47.png", "caption": "城市裡的故事 還在繼續" },
-        { src: "./assets/album/48.png", "caption": "今天的回憶 又多了一頁" },
-        { src: "./assets/album/49.png", "caption": "或許未來 還會想起今天" },
-        { src: "./assets/album/50.png", "caption": "回憶慢慢堆成一整本相簿" },
-        { src: "./assets/album/51.png", "caption": "有些瞬間 永遠不會過期" },
-        { src: "./assets/album/52.png", "caption": "故事還沒結束 只是翻到下一頁" },
-        { src: "./assets/album/53.png", "caption": "今天的笑容 已經被收藏" },
-        { src: "./assets/album/54.png", "caption": "回憶會留下 麻糬也會一直在這裡" },
-        { src: "./assets/album/55.png", "caption": "看著泛黃的照片 還是會心跳加快" },
-        { src: "./assets/album/56.png", "caption": "在城市的一隅 寫下我們的約定" },
-        { src: "./assets/album/57.png", "caption": "時光會流逝 但溫暖的感覺不會變" },
-        { src: "./assets/album/58.png", "caption": "漫步在街道 捕捉轉瞬即逝的美好" },
-        { src: "./assets/album/59.png", "caption": "每一次按下快門 都是因為你在" },
-        { src: "./assets/album/60.png", "caption": "未完待續 我們還有好長的故事要講" },
-      ]
-    };
-
-    function showPage(id) {
-      document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
-      const target = document.getElementById('page-' + id);
-      if (target) target.classList.add('active-section');
-      closeMobileMenu();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // 連線相關功能
-    function openConnectModal() {
-      document.getElementById('customModal').style.display = 'flex';
-    }
-    function closeModal() {
-      document.getElementById('customModal').style.display = 'none';
-    }
-    function connectToFiveM() {
-      window.location.href = cfg.connectUrl;
-    }
-
-    function copyIP() {
-      const el = document.createElement('textarea');
-      el.value = "connect " + cfg.ipAddress;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand('copy');
-      document.body.removeChild(el);
-      
-      const hint = document.getElementById('copyHint');
-      hint.style.opacity = "1";
-      setTimeout(() => { hint.style.opacity = "0"; }, 2000);
-    }
-
-    // Lightbox 功能
-    function openLightbox(src, caption) {
-      const lb = document.getElementById('imageLightbox');
-      const img = document.getElementById('lightboxImg');
-      const cap = document.getElementById('lightboxCaption');
-      
-      img.src = src;
-      cap.innerText = caption;
-      lb.style.display = 'flex';
-      
-      // 動畫效果
-      setTimeout(() => {
-        img.classList.remove('scale-95');
-        img.classList.add('scale-100');
-      }, 50);
-    }
-
-    function closeLightbox() {
-      const lb = document.getElementById('imageLightbox');
-      const img = document.getElementById('lightboxImg');
-      
-      img.classList.remove('scale-100');
-      img.classList.add('scale-95');
-      
-      setTimeout(() => {
-        lb.style.display = 'none';
-      }, 200);
-    }
-
-    function render() {
-      // 渲染特色
-      const fg = document.getElementById('featuresGrid');
-      if (fg) {
-        fg.innerHTML = '';
-        cfg.features.forEach(f => {
-          fg.innerHTML += `
-            <div class="glass-card p-8 border-t-4 border-pink-400">
-              <div class="text-4xl mb-4">${f.icon}</div>
-              <h4 class="font-black text-xl mb-3">${f.title}</h4>
-              <p class="text-sm opacity-70 leading-relaxed">${f.text}</p>
-              <div class="card-meta">✨ ${f.meta}</div>
-            </div>`;
-        });
-      }
-
-      // 渲染創業幫派
-      const og = document.getElementById('orgGrid');
-      if (og) {
-        og.innerHTML = '';
-        cfg.organization.forEach(o => {
-          og.innerHTML += `
-            <div class="glass-card p-8 border-l-4 border-pink-500">
-              <div class="text-4xl mb-4">${o.icon}</div>
-              <h4 class="font-black text-xl mb-3">${o.title}</h4>
-              <p class="text-sm opacity-70 leading-relaxed">${o.text}</p>
-            </div>`;
-        });
-      }
-
-      // 渲染節奏
-      const rl = document.getElementById('rhythmList');
-      if (rl) {
-        rl.innerHTML = '';
-        cfg.rhythm.forEach(r => {
-          rl.innerHTML += `
-            <div class="glass-card p-6 h-full flex flex-col">
-              <div class="text-3xl mb-4">${r.icon}</div>
-              <h4 class="font-black text-lg mb-2 text-pink-500">${r.title}</h4>
-              <p class="text-sm opacity-60 leading-relaxed">${r.text}</p>
-            </div>`;
-        });
-      }
-
-      // 管理方針渲染
-      const pg = document.getElementById('policyGrid');
-      if (pg && cfg.policy) {
-        pg.innerHTML = '';
-        cfg.policy.forEach(p => {
-          pg.innerHTML += `
-            <div class="bg-white/50 p-6 rounded-2xl border border-pink-100 hover:border-pink-300 transition-colors shadow-sm">
-              <div class="font-black text-pink-600 mb-2 flex items-center gap-3">
-                <span class="w-2.5 h-2.5 bg-pink-400 rounded-full animate-pulse"></span>
-                <span class="text-lg">${p.title}</span>
-              </div>
-              <p class="text-sm opacity-70 leading-relaxed">${p.desc}</p>
-            </div>`;
-        });
-      }
-
-      // 渲染行事曆
-      const el = document.getElementById('eventList');
-      if (el) {
-        el.innerHTML = '';
-        const today = new Date().toISOString().split('T')[0];
-        const formatDate = date => date.split('-').slice(1).join('/');
-        cfg.events.forEach(ev => {
-          const startDate = ev.startDate || ev.date;
-          const endDate = ev.endDate || startDate;
-          const isPast = endDate < today;
-          const isActive = startDate <= today && today <= endDate;
-          const dateText = startDate === endDate
-            ? formatDate(startDate)
-            : `${formatDate(startDate)} → ${formatDate(endDate)}`;
-          const statusText = isPast ? '已結束' : (isActive ? '進行中' : '即將開始');
-          el.innerHTML += `
-            <div class="glass-card p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${isPast ? 'event-past' : ''}">
-              <div class="flex items-center gap-4">
-                <div class="bg-pink-100 text-pink-500 font-black px-3 py-2 rounded-lg text-sm whitespace-nowrap">${dateText}</div>
-                <div>
-                  <div class="font-bold">${ev.name}</div>
-                  <div class="text-xs opacity-50 mt-1">${ev.meta}</div>
-                </div>
-              </div>
-              <div class="text-xs font-bold ${isActive ? 'text-pink-500' : 'opacity-40'}">${statusText}</div>
-            </div>`;
-        });
-      }
-
-      
-
-      // 相簿渲染
-      const ag = document.getElementById('albumGrid');
-      if (ag) {
-        ag.innerHTML = cfg.album.map(item => `
-          <div class="glass-card overflow-hidden group cursor-zoom-in" onclick="openLightbox('${item.src}', '${item.caption}')">
-            <div class="aspect-video bg-pink-50 overflow-hidden">
-              <img src="${item.src}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" onerror="this.src='https://via.placeholder.com/800x450?text=MochiRP+Memory'">
-            </div>
-            <div class="p-4 bg-white/50 text-center">
-              <p class="text-sm opacity-60 italic">"${item.caption}"</p>
-            </div>
-          </div>
-        `).join('');
-      }
-
-      // 疑難排解 (Support)
-      const tl = document.getElementById('troubleList');
-      if (tl) tl.innerHTML = cfg.support.map(s => `
-        <div class="bg-white/60 p-6 rounded-2xl border-l-4 border-pink-300 hover:bg-white/80 transition-colors">
-          <div class="flex items-center gap-3 mb-2">
-            <span class="text-2xl">${s.icon}</span>
-            <p class="font-bold text-pink-600 font-black">${s.title}</p>
-          </div>
-          <p class="text-sm opacity-70 leading-relaxed pl-9">${s.text}</p>
-        </div>
-      `).join('');
-
-      // 渲染犯罪與職業
-      const cc = document.getElementById('crimeCards');
-      if (cc) cfg.crime.forEach(c => cc.innerHTML += `<div class="glass-card p-8"><div class="text-3xl mb-4">${c.icon}</div><h4 class="font-bold text-lg mb-2 text-pink-600">${c.title}</h4><p class="text-sm opacity-60">${c.text}</p></div>`);
-      const jg = document.getElementById('jobGrid');
-      if (jg) cfg.jobs.forEach(j => jg.innerHTML += `<div class="glass-card p-8"><div class="text-3xl mb-4">${j.icon}</div><h4 class="font-bold text-lg mb-2">${j.title}</h4><p class="text-sm opacity-60">${j.text}</p></div>`);
-    }
-
-    window.onload = render;
+  const cfg={connectUrl:'fivem://connect/162.222.17.19:30120',ip:'mochirp2025.zapto.org',cfx:'bjl6vb',discord:'https://discord.gg/GF54979JNR'};
+  const content={
+    programs:[['Mochi 玩家中心','任務、Mochi Point、角色經驗、Pass 與成就，集中在同一個玩家成長中樞。','PLAYER HUB'],['Mochi 賭場','每週五夜晚開放，包含老虎機、二十一點、輪盤、幸運轉盤與專屬商店。','WEEKLY CASINO'],['NEW ERA 市議大會','讓市民、公職與各產業代表在公開會議中交流意見，一起參與城市改變。','CITY COUNCIL'],['動物互動系統','撫摸、餵食、給水與查看項圈，讓城市中的小動物成為療癒日常。','ANIMAL INTERACTION'],['浮動物價系統','維修、收購、物資與地下交易價格隨市場變化，讓每次交易都有策略。','DYNAMIC ECONOMY'],['原住民互動系統','自由對話、收集資訊、送禮與建立關係，從街角居民身上發現更多故事。','NPC RELATION'],['扭蛋機系統','用任務與成就累積 Mochi Point、兌換扭蛋券，轉出屬於日常的小驚喜。','GACHA SYSTEM'],['Mochi 每日賭盤','每天隨機開放大小、單雙或六合彩玩法，使用遊戲貨幣輕鬆參與。','DAILY BETTING']],
+    features:[
+      {title:'Mochi 玩家中心',text:'整合任務、活動與獎勵的成長中樞。無論日常 RP、工作或探索城市，每一步都會累積成角色的長期紀錄。',points:['完成每日、每週與職業任務','累積 Mochi Point 與角色經驗','解鎖 Mochi Pass、成就徽章及專屬商店'],meta:'PLAYER HUB / PROGRESSION',image:'./assets/features/player-center.png'},
+      {title:'Mochi 賭場',text:'每週五夜晚開放的西海岸娛樂空間。可以試手氣、挑戰牌桌，或單純和朋友一起度過週末。',points:['籌碼購買與兌換、老虎機、二十一點','幸運轉盤、輪盤遊戲與賭場商店','每週五 17:00 至週六 06:00 開放'],meta:'FRI 17:00 — SAT 06:00',image:'./assets/features/casino.png'},
+      {title:'NEW ERA 市議大會',text:'讓城市意見被整理、被聽見，也能被公開討論。市民、公職與各行業代表共同參與，讓城市在對話中持續成長。',points:['所有市民皆可參與並自由提問','市政府、職業與犯罪勢力代表發言','Discord 語音會議，會前公開成員名冊'],meta:'MONTHLY / PUBLIC FORUM',image:'./assets/features/city-council.png'},
+      {title:'動物互動系統',text:'城市裡的小動物不只是背景。靠近牠們、理解牠們的狀態，為忙碌的城市生活留下一點療癒。',points:['撫摸互動，協助降低角色壓力','準備合適食物與飲水進行照顧','查看資訊與浪浪揮手等情境選項'],meta:'ANIMAL INTERACTION',image:'./assets/features/animal-interaction.png'},
+      {title:'浮動物價系統',text:'商品與服務價格會隨市場變化，不同時間可能有不同價值。觀察行情、抓準時機，讓每次交易更有策略。',points:['自助修車價格隨市場調整','職業收購商定期浮動收購價格','8231 物資交易所與洗錢點同步波動'],meta:'DYNAMIC CITY ECONOMY',image:'./assets/features/dynamic-economy.png'},
+      {title:'原住民互動系統',text:'城市居民不再只是路過的背景人物。透過自由聊天、送禮與關係累積，從街角對話發現任務外的情報與緣分。',points:['自由聊天與自然對話選擇','收集資訊、贈送物品並建立關係','熟悉度提升後解鎖更多內容與驚喜'],meta:'NPC RELATION SYSTEM',image:'./assets/features/npc-interaction.png'},
+      {title:'扭蛋機系統',text:'完成任務與成就取得 Mochi Point，再兌換扭蛋券。每一次投入，都是角色努力累積而來的小小期待。',points:['玩家中心成就與各類任務皆可累積點數','使用 Mochi Point 兌換扭蛋券','查詢扭蛋券、抽蛋機與歷史紀錄'],meta:'GACHA / REWARD LOOP',image:'./assets/features/gacha.png'},
+      {title:'Mochi 每日賭盤',text:'每天由系統隨機抽選一種玩法，直接使用遊戲貨幣參與。今天輸贏不代表明天，每日都是全新一局。',points:['賭大小：猜下一個結果大小','賭單雙：選擇單數或雙數','六合彩：選擇幸運號碼取得驚喜回報'],meta:'DAILY RANDOM GAME',image:'./assets/features/daily-betting.png'}
+    ],
+    jobs:[['警政署','由中北警局與市區警局共同構成，兩座警局皆隸屬警政署體系。分區守護城市安全，並在案件、秩序與人情之間做出角色選擇。',[['./assets/jobs/north-police-logo.png','中北警局'],['./assets/jobs/city-police-logo.png','市區警局']],'logos'],['西狐海岸','在海岸據點投入接待、餐飲與日常營運，認識來自城市各處的客人，讓工作成為相遇的開始。','./assets/site/west-fox-coast.png','cover','西狐海岸環境外觀'],['夏家汽修','提供車輛維修、改裝與道路支援。用專業處理每一台車，也慢慢累積屬於角色的熟客關係。','./assets/jobs/xia-auto-logo.png','contain','夏家汽修 Logo'],['莉姿脫衣酒吧','走進城市夜生活的舞台，參與演出、接待與現場營運，在霓虹與聚光燈下創造不同的角色故事。','./assets/jobs/lizzy-strip-club.png','contain','莉姿脫衣酒吧霓虹招牌']],
+    steps:[['加入官方 Discord','加入 NEW ERA 社群，完成身分驗證，依序閱讀公告、城市規章與新手資訊。','link'],['確認 GTA V 可以啟動','從 Rockstar Games Launcher 或 Steam 正常開啟 GTA V 傳承版一次，進入主畫面後再關閉。'],['安裝並登入 FiveM','從 FiveM 官方網站下載並安裝，登入 Rockstar 帳號。首次啟動需要更新與下載檔案。'],['連線 NEW ERA','點擊網站的「立即進城」。若瀏覽器沒有反應，開啟 FiveM 後按 F8，貼上連線指令。','command'],['建立第一位角色','使用符合規章的姓名，先想好簡單個性、來城理由與想嘗試的工作，其他故事可以慢慢長出來。'],['開始第一個小時','熟悉背包、手機、地圖與語音，找一份入門工作，並以角色身分和第一位市民打招呼。']],
+    faqs:[['FiveM 打不開或一直閃退','嘗試以系統管理員身分啟動 FiveM。暫時關閉防毒或防火牆後再試，也請確認顯示卡驅動已更新。'],['連不上伺服器','確認 FiveM 已登入 Rockstar 帳號，建議先使用網站的一鍵連線。VPN 可能影響連線品質。'],['卡在 Loading 或讀取很久','首次進城或城市更新後，載入 5–10 分鐘屬正常情況。超過 15 分鐘可重新啟動。'],['沒有聲音或麥克風無法使用','檢查 FiveM 語音設定中的輸入、輸出裝置，並確認 Windows 預設裝置與麥克風權限。'],['如何清除 FiveM 快取','完全關閉 FiveM，開啟 FiveM Application Data → data，刪除 server-cache-priv 資料夾，再重新啟動。']]
+  };
+  const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)],pad=n=>String(n).padStart(2,'0'),esc=s=>String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  function cards(){
+    $('#programs').innerHTML=content.programs.map((x,i)=>`<article class="program"><span class="no">${pad(i+1)}</span><h3>${esc(x[0])}</h3><p>${esc(x[1])}</p><small>${esc(x[2])}</small></article>`).join('');
+    $('#features').innerHTML=content.features.map((x,i)=>`<article class="feature"><button class="feature-media" type="button" data-feature-image="${esc(x.image)}" data-feature-title="${esc(x.title)}" aria-label="放大查看 ${esc(x.title)}"><img src="${esc(x.image)}" alt="${esc(x.title)} 玩法介紹" loading="lazy" decoding="async"></button><div class="feature-copy"><span class="no">FEATURE / ${pad(i+1)}</span><h2>${esc(x.title)}</h2><p>${esc(x.text)}</p><ul class="feature-points">${x.points.map(point=>`<li>${esc(point)}</li>`).join('')}</ul><small>${esc(x.meta)}</small></div></article>`).join('');
+    $('#jobs').innerHTML=content.jobs.map((x,i)=>`<article class="job${x[2]?' has-image':''}"><span class="no">${pad(i+1)}</span><h2>${esc(x[0])}</h2><p>${esc(x[1])}</p>${Array.isArray(x[2])?`<div class="job-logo-group">${x[2].map(logo=>`<figure><img src="${esc(logo[0])}" alt="${esc(logo[1])}徽章" loading="lazy"><figcaption>${esc(logo[1])}</figcaption></figure>`).join('')}</div>`:x[2]?`<img class="job-logo${x[3]==='cover'?' cover':''}" src="${esc(x[2])}" alt="${esc(x[4]||`${x[0]}識別圖片`)}" loading="lazy">`:''}</article>`).join('');
+    $('#steps').innerHTML=content.steps.map(x=>`<article class="step"><h3>${esc(x[0])}</h3><p>${esc(x[1])}</p>${x[2]==='link'?`<a href="${cfg.discord}" target="_blank" rel="noopener">前往 Discord ↗</a>`:''}${x[2]==='command'?`<button class="command" type="button" data-copy>connect ${cfg.ip}<span>點擊複製</span></button>`:''}</article>`).join('');
+    $('#faqs').innerHTML=content.faqs.map(x=>`<article class="faq-item"><button class="faq-q" type="button" aria-expanded="false"><span>${esc(x[0])}</span><span>＋</span></button><div class="faq-a"><p>${esc(x[1])}</p></div></article>`).join('')
+  }
+  const captions=['故事從相遇開始','把今天留在城市裡','換一個角度看生活','夜色亮起以後','平凡日子的光','和熟悉的人一起','城市偶然發生的事','角色正在長大','新的一頁','某個值得記住的晚上'];let visible=12;
+  const galleryPath=i=>`./assets/album/${pad(i)}.${i<=4?'jpg':'png'}`;
+  function gallery(){let html='';for(let i=1;i<=visible;i++){const c=captions[(i-1)%captions.length];html+=`<figure class="gallery-item" tabindex="0" data-src="${galleryPath(i)}" data-caption="${esc(c)}"><img src="${galleryPath(i)}" alt="NEW ERA 城市影像 ${pad(i)}" loading="lazy" decoding="async"><figcaption>${pad(i)} / ${esc(c)}</figcaption></figure>`}$('#gallery').innerHTML=html;$('#galleryCount').textContent=visible;$('#loadMore').hidden=visible>=60;$$('.gallery-item').forEach(el=>{const open=()=>{$('#lightboxImg').src=el.dataset.src;$('#lightboxImg').alt=el.dataset.caption;$('#lightboxCaption').textContent=el.dataset.caption;overlay('lightbox')};el.onclick=open;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}}})}
+  function route(name,push=true){const allowed=['home','features','jobs','crime','guide','gallery','partners'];name=allowed.includes(name)?name:'home';$$('.page').forEach(x=>x.classList.toggle('active',x.dataset.page===name));$$('.nav-link').forEach(x=>x.classList.toggle('current',x.dataset.route===name));closeMenu();closeOverlays();if(push&&location.hash!==`#${name}`)history.pushState(null,'',`#${name}`);scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});document.title=name==='home'?'NEW ERA — Your story starts here.':`${({features:'城市體驗',jobs:'職業人生',crime:'地下世界',guide:'新手加入',gallery:'城市影像',partners:'合作夥伴'})[name]} — NEW ERA`;requestAnimationFrame(reveals)}
+  function menu(){const m=$('#mobileMenu'),open=!m.classList.contains('open');m.classList.toggle('open',open);m.setAttribute('aria-hidden',String(!open));$('#menuBtn').setAttribute('aria-expanded',String(open));document.body.classList.toggle('locked',open)}function closeMenu(){$('#mobileMenu').classList.remove('open');$('#mobileMenu').setAttribute('aria-hidden','true');$('#menuBtn').setAttribute('aria-expanded','false');document.body.classList.remove('locked')}
+  let lastFocus=null;function overlay(id){lastFocus=document.activeElement;const el=$('#'+id);el.classList.add('open');document.body.classList.add('locked');$('.close',el)?.focus()}function closeOverlays(){$$('.overlay').forEach(x=>x.classList.remove('open'));document.body.classList.remove('locked');if(lastFocus&&document.contains(lastFocus))lastFocus.focus({preventScroll:true})}
+  let toastTimer;function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),1800)}async function copy(){const v=`connect ${cfg.ip}`;try{await navigator.clipboard.writeText(v)}catch{const t=document.createElement('textarea');t.value=v;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}$('#copyHint').classList.add('show');toast('已複製連線指令');setTimeout(()=>$('#copyHint').classList.remove('show'),1700)}
+  async function status(){try{const r=await fetch(`https://frontend.cfx-services.net/api/servers/single/${cfg.cfx}`,{cache:'no-store'});if(!r.ok)throw 0;const j=await r.json(),d=j.Data;if(!d)throw 0;$$('[data-status]').forEach(x=>x.textContent='城市開放中');$$('[data-players]').forEach(x=>x.textContent=Number(d.clients??0));$$('[data-max]').forEach(x=>x.textContent=Number(d.sv_maxclients??d.svMaxclients??128));$$('[data-dot]').forEach(x=>x.className='dot online')}catch{$$('[data-status]').forEach(x=>x.textContent='狀態待確認');$$('[data-players]').forEach(x=>x.textContent='--');$$('[data-dot]').forEach(x=>x.className='dot offline')}}
+  document.addEventListener('click',e=>{const trigger=e.target.closest('[data-feature-image],[data-lightbox-src]');if(!trigger)return;const src=trigger.dataset.featureImage||trigger.dataset.lightboxSrc,title=trigger.dataset.featureTitle||trigger.dataset.lightboxTitle||'NEW ERA 影像';$('#lightboxImg').src=src;$('#lightboxImg').alt=title;$('#lightboxCaption').textContent=title;overlay('lightbox')});
+  let observer;function reveals(){observer?.disconnect();observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');observer.unobserve(e.target)}}),{threshold:.12});$$('.page.active .reveal').forEach(x=>observer.observe(x))}
+  function init(){cards();gallery();$('#year').textContent=new Date().getFullYear();$('#menuBtn').onclick=menu;$$('[data-route]').forEach(a=>a.onclick=e=>{e.preventDefault();route(a.dataset.route)});$$('[data-connect]').forEach(b=>b.onclick=()=>overlay('connect'));$$('[data-close]').forEach(b=>b.onclick=closeOverlays);$$('.overlay').forEach(o=>o.onclick=e=>{if(e.target===o)closeOverlays()});$('#launch').onclick=()=>location.href=cfg.connectUrl;document.addEventListener('click',e=>{if(e.target.closest('[data-copy]'))copy()});$('#loadMore').onclick=()=>{visible=Math.min(60,visible+12);gallery()};$('#faqs').onclick=e=>{const b=e.target.closest('.faq-q');if(!b)return;const item=b.closest('.faq-item'),open=!item.classList.contains('open');item.classList.toggle('open',open);b.setAttribute('aria-expanded',String(open))};addEventListener('hashchange',()=>route(location.hash.slice(1)||'home',false));addEventListener('scroll',()=>{const m=document.documentElement.scrollHeight-innerHeight;$('#progress').style.width=`${m>0?scrollY/m*100:0}%`},{passive:true});document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeOverlays();closeMenu()}});route(location.hash.slice(1)||'home',false);status()}
+  init();
   </script>
 </body>
 </html>
+
+
